@@ -22,9 +22,37 @@
     <text font-size="20" x="730" y="465">{{firmanabywcza.nip}}</text>
     <text font-size="20" x="730" y="500">{{firmanabywcza.ulica}}</text>
     <text font-size="20" x="730" y="535">{{firmanabywcza.addres}}</text>
-    <text font-size="50" x="380" y="650">Faktura Vat</text>
+    <text font-size="50" x="500" y="650">Faktura Vat</text>
     <rect x="20" y="700" width="1200" height="2" style="fill:rgb(150, 150, 150)"></rect>
+    <text font-size="20" x="40" y="740">
+        <tspan>Nazwa</tspan>
+        <tspan x="440">JM</tspan>
+        <tspan x="520">Ilosc</tspan>
+        <tspan x="620">Cena</tspan>
+        <tspan x="620" dy="1em">Netto</tspan>
+        <tspan x="760" dy="-1em">Wartosc</tspan>
+        <tspan x="760" dy="1em">Netto</tspan>
+        <tspan x="890" dy="-1em">Vat</tspan>
+        <tspan x="970">Kwota</tspan>
+        <tspan x="970" dy="1em">Vat</tspan>
+        <tspan x="1110" dy="-1em">Wartosc</tspan>
+        <tspan x="1110" dy="1em">Vat</tspan>
+    </text>
+    <text font-size="20" x="750" y="780">
     {% for x in uslogi%}
-        <text y='720'>{{x}}</text>
+        <tspan x='40' dy='1.2em'>{{x.nazwa}}</tspan>
+        <tspan x='440'>{{x.jm}}</tspan>
+        <tspan x='520'>{{x.ilosc}}</tspan>
+        <tspan x='620'>{{x.cenaN}}</tspan>
+        <tspan x='760'>{{x.wartoscN}}</tspan>
+        <tspan x='890'>23%</tspan>
+        <tspan x='970'>{{x.cenaVat}}</tspan>
+        <tspan x='1110'>{{x.wartoscVat}}</tspan>
     {% endfor %}
+    <tspan x="650" dy='2em'>razem</tspan>
+    <tspan x='760'>{{wartoscN}}</tspan>
+    <tspan x='890'>23%</tspan>
+    <tspan x='970'>{{cenaVat}}</tspan>
+    <tspan x='1110'>{{wartoscVat}}</tspan>
+    </text>
 </svg>

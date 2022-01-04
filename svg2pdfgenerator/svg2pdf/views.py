@@ -16,14 +16,13 @@ class usluga:
         self.jm = jm
         self.ilosc = ilosc
         self.cenaN = cenaN
-        self.wartoscN = wartoscN
-        self.stawkaVat = 1.23
-        self.kwotaVat = round(cenaN * self.stawkaVat)
-        self.WartoscVat = round (wartoscN * self.stawkaVat)
+        self.wartoscN = cenaN
+        self.cenaVat = round(cenaN * .23, 2)
+        self.wartoscVat = round(self.wartoscN + self.cenaVat, 2)
 
 
 
-content = {
+context = {
     "miejsceWystawienia": 'Wesoła',
     "dataWystawienia": "04 - 01 - 2022",
     "dataWykonaniaUslugi": "03 - 01 - 2022",
@@ -33,12 +32,32 @@ content = {
     'uslogi':[
         usluga('sysop', 'usł.', 1, 21.23, 1),
         usluga('sysop', 'usł.', 1, 21.23, 1),
+        usluga('sysoawdawdp', 'usł.', 1123, 231, 1123),
+        usluga('sysop', 'usł.', 1, 21.23, 1),
+        usluga('sysoawdawdp', 'usł.', 1123, 231.23, 1123),
+        usluga('sysop', 'usł.', 1, 21.23, 1),
+        usluga('sysoawdawdp', 'usł.', 1123, 231.23, 1123),
+        usluga('sysop', 'usł.', 1, 21.23, 1),
         usluga('sysop', 'usł.', 1, 21.23, 1),
     ]
 }
 
+i = [0,0,0]
+for x in context['uslogi']:
+    i[0] += x.wartoscN
+    i[1] += x.cenaVat
+    i[2] += x.wartoscVat
+
+
+context.update({
+    'wartoscN': i[0],
+    'cenaVat': round(i[1], 2),
+    'wartoscVat': round(i[1], 2),
+})
+
+
 
 
 def index(request):
-    return render(request, 'index.html', content)
+    return render(request, 'index.html', context)
 
