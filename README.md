@@ -1,2 +1,1 @@
-# svg2pdfgen
-# svg2pdfgen
+# svg 2 pdf generator
