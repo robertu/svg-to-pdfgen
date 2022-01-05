@@ -15,15 +15,15 @@
     <text font-size="20" x="40" y="430">{{firmasprzedawcza.nazwa}}</text>
     <text font-size="20" x="40" y="465">{{firmasprzedawcza.nip}}</text>
     <text font-size="20" x="40" y="500">{{firmasprzedawcza.ulica}}</text>
-    <text font-size="20" x="40" y="535">{{firmasprzedawcza.addres}}</text>
+    <text font-size="20" x="40" y="535">{{firmasprzedawcza.adres}}</text>
     <rect x='710' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
     <text font-size="20" x="912.075" y="395">Nabywca</text>
     <text font-size="20" x="730" y="430">{{firmanabywcza.nazwa}}</text>
     <text font-size="20" x="730" y="465">{{firmanabywcza.nip}}</text>
     <text font-size="20" x="730" y="500">{{firmanabywcza.ulica}}</text>
-    <text font-size="20" x="730" y="535">{{firmanabywcza.addres}}</text>
+    <text font-size="20" x="730" y="535">{{firmanabywcza.adres}}</text>
     <text font-size="50" x="500" y="650">Faktura Vat</text>
-    <text font-size="15" x="800" y="650">{{datafakturaVat}}</text>
+    <text font-size="50" x="800" y="650">{{datafakturaVat}}</text>
     <rect x="20" y="700" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
     <text font-size="20" x="40" y="740">
         <tspan>Nazwa</tspan>

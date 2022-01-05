@@ -4,11 +4,11 @@ import random
 
 # Create your views here.
 class firma:
-    def __init__(self, nazwa, nip, ulica, addres):
+    def __init__(self, nazwa, nip, ulica, adres):
         self.nazwa = nazwa
         self.nip = nip
         self.ulica = ulica
-        self.addres = addres
+        self.adres = adres
 
 class usluga:
     def __init__(self, nazwa, jm, ilosc, cenaN):
@@ -66,4 +66,3 @@ context.update({
 
 def index(request):
     return render(request, 'index.svg', context)
-
