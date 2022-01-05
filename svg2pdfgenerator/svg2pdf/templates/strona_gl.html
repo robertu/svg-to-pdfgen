@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        body {
+            background-color: #FFF;
+            color: #151515;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        a {
+            text-decoration: none;
+            color: #55B;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wybierz fakturę</h1>
+    {% if faktura_ostatnia != null %}
+        <ul>
+            {% for fakt in faktura_ostatnia%}
+            <li>
+                <a href="/svg2pdf/fakturatemp/{{fakt.numer_faktury}}">Faktura: {{fakt.numer_faktury}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nie ma faktur</p>
+    {% endif %}
+</body>
