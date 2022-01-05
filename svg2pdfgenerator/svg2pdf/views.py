@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import faktura
 import random
 
 # Create your views here.
@@ -21,14 +22,16 @@ class usluga:
         self.wartoscVat = round(self.wartoscN + self.cenaVat, 2)
 
 
+faktura_ostatnia = faktura.objects.order_by('-numer_faktury')[:1]
 
-context = {
-    "miejsceWystawienia": 'Wesoła',
-    "dataWystawienia": "04 - 01 - 2022",
-    "dataWykonaniaUslugi": "03 - 01 - 2022",
+def faktura_temp(request):
+    context = {
+    "miejsceWystawienia": ''.join([q.miejsce_wystawienia for q in faktura_ostatnia]),
+    "dataWystawienia": ''.join(str([q.data_wystawienia for q in faktura_ostatnia])),
+    "dataWykonaniaUslugi": ''.join(str([q.data_wykonania_uslugi for q in faktura_ostatnia])),
     'firmasprzedawcza': firma('firma a', '1234567890', 'xyz 10', '10-100 xyz'),
     'firmanabywcza': firma('firma b', '0987654321', 'xyz 21', '11-111 xyz'),
-    "datafakturaVat": '02/02/2022',
+    "datafakturaVat": ''.join([q.numer_faktury for q in faktura_ostatnia]),
     'uslogi':[
         usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
         usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
@@ -46,23 +49,20 @@ context = {
     'metodaPlatnosci': 'Przelew w terminie 2 dni',
     'terminPlatnosci': '02/02/2022',
     'nrkonta': '6735 7256 7247 7192'
-}
-
-i = [0,0,0]
-for x in context['uslogi']:
-    i[0] += x.wartoscN
-    i[1] += x.cenaVat
-    i[2] += x.wartoscVat
+    }
 
 
-context.update({
-    'wartoscN': round(i[0], 2),
-    'cenaVat': round(i[1], 2),
-    'wartoscVat': round(i[2], 2),
-})
+    i = [0,0,0]
+    for x in context['uslogi']:
+        i[0] += x.wartoscN
+        i[1] += x.cenaVat
+        i[2] += x.wartoscVat
 
 
+    context.update({
+        'wartoscN': round(i[0], 2),
+        'cenaVat': round(i[1], 2),
+        'wartoscVat': round(i[2], 2),
+    })
 
-
-def index(request):
     return render(request, 'index.svg', context)
