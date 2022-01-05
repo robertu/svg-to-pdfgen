@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+import random
 
 # Create your views here.
 class firma:
@@ -11,12 +11,12 @@ class firma:
         self.addres = addres
 
 class usluga:
-    def __init__(self, nazwa, jm, ilosc, cenaN, wartoscN):
+    def __init__(self, nazwa, jm, ilosc, cenaN):
         self.nazwa = nazwa
         self.jm = jm
         self.ilosc = ilosc
         self.cenaN = cenaN
-        self.wartoscN = cenaN
+        self.wartoscN = cenaN * ilosc
         self.cenaVat = round(cenaN * .23, 2)
         self.wartoscVat = round(self.wartoscN + self.cenaVat, 2)
 
@@ -30,16 +30,22 @@ context = {
     'firmanabywcza': firma('firma b', '0987654321', 'xyz 21', '11-111 xyz'),
     "datafakturaVat": '02/02/2022',
     'uslogi':[
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-        usluga('sysoawdawdp', 'usł.', 1123, 231, 1123),
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-        usluga('sysoawdawdp', 'usł.', 1123, 231.23, 1123),
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-        usluga('sysoawdawdp', 'usł.', 1123, 231.23, 1123),
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-        usluga('sysop', 'usł.', 1, 21.23, 1),
-    ]
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+        usluga('sysop', 'usł.', random.randrange(0,10000), round(float(random.randrange(0,10000)), 2)),
+    ],
+    'metodaPlatnosci': 'Przelew w terminie 2 dni',
+    'terminPlatnosci': '02/02/2022',
+    'nrkonta': '6735 7256 7247 7192'
 }
 
 i = [0,0,0]
@@ -50,14 +56,14 @@ for x in context['uslogi']:
 
 
 context.update({
-    'wartoscN': i[0],
+    'wartoscN': round(i[0], 2),
     'cenaVat': round(i[1], 2),
-    'wartoscVat': round(i[1], 2),
+    'wartoscVat': round(i[2], 2),
 })
 
 
 
 
 def index(request):
-    return render(request, 'index.html', context)
+    return render(request, 'index.svg', context)
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg>
+<svg width='1240' height="1748">
+    <rect x="700" y="30" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="720" y="55">miejsce wystawienia</text>
+    <text font-size="20" x="720" y="90">{{miejsceWystawienia}}</text>
+    <rect x="700" y="120" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="720" y="145">Data Wystawienia</text>
+    <text font-size="20" x="720" y="180">{{dataWystawienia}}</text>
+    <rect x="700" y="210" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="720" y="235">Data Wykonania usługi</text>
+    <text font-size="20" x="720" y="270">{{dataWykonaniaUslugi}}</text>
+    <rect x='20' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="207.5" y="395">Sprzedawca</text>
+    <text font-size="20" x="40" y="430">{{firmasprzedawcza.nazwa}}</text>
+    <text font-size="20" x="40" y="465">{{firmasprzedawcza.nip}}</text>
+    <text font-size="20" x="40" y="500">{{firmasprzedawcza.ulica}}</text>
+    <text font-size="20" x="40" y="535">{{firmasprzedawcza.addres}}</text>
+    <rect x='710' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="912.075" y="395">Nabywca</text>
+    <text font-size="20" x="730" y="430">{{firmanabywcza.nazwa}}</text>
+    <text font-size="20" x="730" y="465">{{firmanabywcza.nip}}</text>
+    <text font-size="20" x="730" y="500">{{firmanabywcza.ulica}}</text>
+    <text font-size="20" x="730" y="535">{{firmanabywcza.addres}}</text>
+    <text font-size="50" x="500" y="650">Faktura Vat</text>
+    <text font-size="15" x="800" y="650">{{datafakturaVat}}</text>
+    <rect x="20" y="700" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x="40" y="740">
+        <tspan>Nazwa</tspan>
+        <tspan x="440">JM</tspan>
+        <tspan x="520">Ilosc</tspan>
+        <tspan x="620">Cena</tspan>
+        <tspan x="620" dy="1em">Netto</tspan>
+        <tspan x="740" dy="-1em">Wartosc</tspan>
+        <tspan x="740" dy="1em">Netto</tspan>
+        <tspan x="900" dy="-1em">Vat</tspan>
+        <tspan x="970">Kwota</tspan>
+        <tspan x="970" dy="1em">Vat</tspan>
+        <tspan x="1090" dy="-1em">Wartosc</tspan>
+        <tspan x="1090" dy="1em">Vat</tspan>
+    </text>
+    <text font-size="20" x="750" y="780">
+    {% for x in uslogi%}
+        <tspan x='40' dy='1.2em'>{{x.nazwa}}</tspan>
+        <tspan x='440'>{{x.jm}}</tspan>
+        <tspan x='520'>{{x.ilosc}}</tspan>
+        <tspan x='620'>{{x.cenaN}}</tspan>
+        <tspan x='740'>{{x.wartoscN}}</tspan>
+        <tspan x='900'>23%</tspan>
+        <tspan x='970'>{{x.cenaVat}}</tspan>
+        <tspan x='1090'>{{x.wartoscVat}}</tspan>
+    {% endfor %}
+        <tspan x="620" dy='2em'>razem</tspan>
+        <tspan x='740'>{{wartoscN}}</tspan>
+        <tspan x='900'>23%</tspan>
+        <tspan x='970'>{{cenaVat}}</tspan>
+        <tspan x='1090'>{{wartoscVat}}</tspan>
+    </text>
+    <rect x='20' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x='40' y='1230'>Metoda Płatności: {{metodaPlatnosci}}</text>
+    <rect x='20' y='1240' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x='40' y='1270'>Termin Płatności: {{terminPlatnosci}}</text>
+    <rect x='20' y='1280' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x='40' y='1310'>
+        <tspan x= '40'>Numer konta</tspan>
+        <tspan x ='40' dy='1.3em'>{{nrkonta}}</tspan>
+    </text>
+    <rect x='710' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="20" x='730' y='1230'>Do zapłaty: {{wartoscVat}} zł</text>
+    <rect x='140' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="15" x='173' y='1680'>Podpis osoby upoważnionej do wystawienia</text>
+    <rect x='700' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <text font-size="15" x='750' y='1680'>Podpis osoby upoważnionej do odbioru</text>
+</svg>
