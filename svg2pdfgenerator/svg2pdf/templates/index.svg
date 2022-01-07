@@ -40,21 +40,20 @@
         <tspan x="1090" dy="1em">Vat</tspan>
     </text>
     <text font-size="20" x="750" y="780">
-    {% for x in uslogi%}
+    {% for x in pozycje%}
         <tspan x='40' dy='1.2em'>{{x.nazwa}}</tspan>
-        <tspan x='440'>{{x.jm}}</tspan>
+        <tspan x='440'>{{x.jednostka}}</tspan>
         <tspan x='520'>{{x.ilosc}}</tspan>
-        <tspan x='620'>{{x.cenaN}}</tspan>
-        <tspan x='740'>{{x.wartoscN}}</tspan>
-        <tspan x='900'>23%</tspan>
-        <tspan x='970'>{{x.cenaVat}}</tspan>
-        <tspan x='1090'>{{x.wartoscVat}}</tspan>
+        <tspan x='620'>{{x.cenaN}} zł</tspan>
+        <tspan x='740'>{{x.wartoscN}} zł</tspan>
+        <tspan x='900'>{{x.podatek}}%</tspan>
+        <tspan x='970'>{{x.cenaVat}} zł</tspan>
+        <tspan x='1090'>{{x.wartoscVat}} zł</tspan>
     {% endfor %}
         <tspan x="620" dy='2em'>razem</tspan>
-        <tspan x='740'>{{wartoscN}}</tspan>
-        <tspan x='900'>23%</tspan>
-        <tspan x='970'>{{cenaVat}}</tspan>
-        <tspan x='1090'>{{wartoscVat}}</tspan>
+        <tspan x='740'>{{wartoscN}} zł</tspan>
+        <tspan x='970'>{{cenaVat}} zł</tspan>
+        <tspan x='1090'>{{wartoscVat}} zł</tspan>
     </text>
     <rect x='20' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
     <text font-size="20" x='40' y='1230'>Metoda Płatności: {{metodaPlatnosci}}</text>

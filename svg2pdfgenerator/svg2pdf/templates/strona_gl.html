@@ -18,7 +18,7 @@
         <ul>
             {% for fakt in faktura_ostatnia%}
             <li>
-                <a href="/svg2pdf/fakturatemp/{{fakt.numer_faktury}}">Faktura: {{fakt.numer_faktury}}</a>
+                <a href="/svg2pdf/faktura-{{fakt.id}}">Faktura: {{fakt.numer_faktury}}</a>
             </li>
             {% endfor %}
         </ul>
