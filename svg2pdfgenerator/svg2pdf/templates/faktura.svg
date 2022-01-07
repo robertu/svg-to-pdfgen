@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg>
+<h1 tal:content="context/title">Sample Page Title</h1>
 <svg width='1240' height="1748">
     <rect x="700" y="30" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
     <text font-size="20" x="720" y="55">miejsce wystawienia</text>

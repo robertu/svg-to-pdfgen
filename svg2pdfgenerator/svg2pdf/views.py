@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import faktura, pozycjafaktury
+from django.template import loader
+from .models import faktura
 # Create your views here.
+
 
 class firma:
     def __init__(self, nazwa, nip, ulica, adres):
@@ -25,26 +27,27 @@ class pozycja:
 
 def faktura_context_calc(faktura_ostatinia):
     context = {
-    "miejsceWystawienia": faktura_ostatinia.miejsce_wystawienia,
-    "dataWystawienia": str(faktura_ostatinia.data_wystawienia),
-    "dataWykonaniaUslugi": str(faktura_ostatinia.data_wykonania_uslugi),
-    'firmasprzedawcza': firma(
-        faktura_ostatinia.firmaSprzedawca.name,
-        faktura_ostatinia.firmaSprzedawca.nip,
-        faktura_ostatinia.firmaSprzedawca.ulica,
-        faktura_ostatinia.firmaSprzedawca.adres
-    ),
-    'firmanabywcza': firma(
-        faktura_ostatinia.firmaKlient.name,
-        faktura_ostatinia.firmaKlient.nip,
-        faktura_ostatinia.firmaKlient.ulica,
-        faktura_ostatinia.firmaKlient.adres
-    ),
-    "datafakturaVat": faktura_ostatinia.numer_faktury,
-    'pozycje': list(faktura_ostatinia.pozycje.all()),
-    'metodaPlatnosci': faktura_ostatinia.metoda_platnosci,
-    'terminPlatnosci': str(faktura_ostatinia.termin_platnosci),
-    'nrkonta': faktura_ostatinia.numer_konta
+        "title": 'abc',
+        "miejsceWystawienia": faktura_ostatinia.miejsce_wystawienia,
+        "dataWystawienia": str(faktura_ostatinia.data_wystawienia),
+        "dataWykonaniaUslugi": str(faktura_ostatinia.data_wykonania_uslugi),
+        'firmasprzedawcza': firma(
+            faktura_ostatinia.firmaSprzedawca.name,
+            faktura_ostatinia.firmaSprzedawca.nip,
+            faktura_ostatinia.firmaSprzedawca.ulica,
+            faktura_ostatinia.firmaSprzedawca.adres
+        ),
+        'firmanabywcza': firma(
+            faktura_ostatinia.firmaKlient.name,
+            faktura_ostatinia.firmaKlient.nip,
+            faktura_ostatinia.firmaKlient.ulica,
+            faktura_ostatinia.firmaKlient.adres
+        ),
+        "datafakturaVat": faktura_ostatinia.numer_faktury,
+        'pozycje': list(faktura_ostatinia.pozycje.all()),
+        'metodaPlatnosci': faktura_ostatinia.metoda_platnosci,
+        'terminPlatnosci': str(faktura_ostatinia.termin_platnosci),
+        'nrkonta': faktura_ostatinia.numer_konta
     }
     
     i = []
@@ -81,4 +84,5 @@ def strona_gl(request):
 
 def faktura_temp(request, id=1):
     faktura_ostatnia = faktura.objects.order_by('-id')[id - 1]
-    return render(request, 'index.svg', faktura_context_calc(faktura_ostatnia))
+    faktura_template = loader.get_template('faktura.svg')
+    return HttpResponse(faktura_template.render(faktura_context_calc(faktura_ostatnia), request))
