@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import faktura
+import cairosvg
 # Create your views here.
 
 
@@ -18,10 +19,10 @@ class pozycja:
         self.jednostka = jednostka
         self.ilosc = ilosc
         self.podatek = podatek
-        self.cenaN = cenaN
-        self.wartoscN = self.cenaN * self.ilosc
-        self.cenaVat = round(self.cenaN * (float(podatek)/ 100), 2)
-        self.wartoscVat = round(self.wartoscN * (float(podatek) / 100), 2)
+        self.cenaN = '%.2f' % cenaN
+        self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
+        self.cenaVat = '%.2f' % float(float(self.cenaN) * (float(podatek)/ 100 + 1))
+        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (float(podatek) / 100))
 
 
 
@@ -55,7 +56,7 @@ def faktura_context_calc(faktura_ostatinia):
         i += [pozycja(
             x.nazwa,
             x.jednostka,
-            x.cena_Netto,
+            float(x.cena_Netto),
             x.ilosc,
             x.podatek
         )]
@@ -63,26 +64,34 @@ def faktura_context_calc(faktura_ostatinia):
     context.update({'pozycje': i})
     
     # calculate last entry
-    i = [0,0,0]
+    i = [0.0,0.0,0.0, 85]
     for x in context['pozycje']:
-        i[0] += x.wartoscN
-        i[1] += x.cenaN
-        i[2] += x.wartoscVat
+        i[0] += float(x.wartoscN)
+        i[1] += float(x.cenaVat)
+        i[2] += float(x.wartoscVat)
+        i[3] += 20.4
     
     context.update({
-        'wartoscN': round(i[0], 2),
-        'cenaVat': round(i[1], 2),
-        'wartoscVat': round(i[2], 2),
+        'wartoscN': '%.2f' % i[0],
+        'cenaVat': '%.2f' % i[1],
+        'wartoscVat': '%.2f' % i[2],
+        'rows': str(i[3]),
+        'rowse': str(i[3] + 35)
     })
 
     return context
 
 def strona_gl(request):
-    faktura_ostatnia = faktura.objects.order_by('-id')
-    return render(request, 'strona_gl.html', {"faktura_ostatnia" : faktura_ostatnia})
+    faktury = list(faktura.objects.order_by('-id'))
+    return render(request, 'strona_gl.html', {"faktura_ostatnia" : faktury})
 
 
 def faktura_temp(request, id=1):
-    faktura_ostatnia = faktura.objects.order_by('-id')[id - 1]
-    faktura_template = loader.get_template('faktura.svg')
-    return HttpResponse(faktura_template.render(faktura_context_calc(faktura_ostatnia), request))
+    faktury = faktura.objects.order_by('-id')
+    for x in faktury:
+        if x.id == id:
+            i = x
+    svg = loader.get_template('faktura.svg').render(faktura_context_calc(i), request)
+    cairosvg.svg2pdf(bytestring=svg, write_to='svg2pdf/static/image.pdf')
+    return HttpResponse('static/image.pdf', content_type='svg2pdf/pdf')
+

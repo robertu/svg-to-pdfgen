@@ -1,72 +1,91 @@
-<h1 tal:content="context/title">Sample Page Title</h1>
 <svg width='1240' height="1748">
-    <rect x="700" y="30" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="720" y="55">miejsce wystawienia</text>
-    <text font-size="20" x="720" y="90">{{miejsceWystawienia}}</text>
-    <rect x="700" y="120" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="720" y="145">Data Wystawienia</text>
-    <text font-size="20" x="720" y="180">{{dataWystawienia}}</text>
-    <rect x="700" y="210" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="720" y="235">Data Wykonania usługi</text>
-    <text font-size="20" x="720" y="270">{{dataWykonaniaUslugi}}</text>
-    <rect x='20' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="207.5" y="395">Sprzedawca</text>
-    <text font-size="20" x="40" y="430">{{firmasprzedawcza.nazwa}}</text>
-    <text font-size="20" x="40" y="465">{{firmasprzedawcza.nip}}</text>
-    <text font-size="20" x="40" y="500">{{firmasprzedawcza.ulica}}</text>
-    <text font-size="20" x="40" y="535">{{firmasprzedawcza.adres}}</text>
-    <rect x='710' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="912.075" y="395">Nabywca</text>
-    <text font-size="20" x="730" y="430">{{firmanabywcza.nazwa}}</text>
-    <text font-size="20" x="730" y="465">{{firmanabywcza.nip}}</text>
-    <text font-size="20" x="730" y="500">{{firmanabywcza.ulica}}</text>
-    <text font-size="20" x="730" y="535">{{firmanabywcza.adres}}</text>
-    <text font-size="50" x="300" y="650">Faktura Vat</text>
-    <text font-size="50" x="630" y="650">{{datafakturaVat}}</text>
-    <rect x="20" y="700" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x="40" y="740">
-        <tspan>Nazwa</tspan>
-        <tspan x="440">JM</tspan>
-        <tspan x="520">Ilosc</tspan>
-        <tspan x="620">Cena</tspan>
-        <tspan x="620" dy="1em">Netto</tspan>
-        <tspan x="740" dy="-1em">Wartosc</tspan>
-        <tspan x="740" dy="1em">Netto</tspan>
-        <tspan x="900" dy="-1em">Vat</tspan>
-        <tspan x="970">Kwota</tspan>
-        <tspan x="970" dy="1em">Vat</tspan>
-        <tspan x="1090" dy="-1em">Wartosc</tspan>
-        <tspan x="1090" dy="1em">Vat</tspan>
-    </text>
-    <text font-size="20" x="750" y="780">
-    {% for x in pozycje%}
-        <tspan x='40' dy='1.2em'>{{x.nazwa}}</tspan>
-        <tspan x='440'>{{x.jednostka}}</tspan>
-        <tspan x='520'>{{x.ilosc}}</tspan>
-        <tspan x='620'>{{x.cenaN}} zł</tspan>
-        <tspan x='740'>{{x.wartoscN}} zł</tspan>
-        <tspan x='900'>{{x.podatek}}%</tspan>
-        <tspan x='970'>{{x.cenaVat}} zł</tspan>
-        <tspan x='1090'>{{x.wartoscVat}} zł</tspan>
-    {% endfor %}
-        <tspan x="620" dy='2em'>razem</tspan>
-        <tspan x='740'>{{wartoscN}} zł</tspan>
-        <tspan x='970'>{{cenaVat}} zł</tspan>
-        <tspan x='1090'>{{wartoscVat}} zł</tspan>
-    </text>
-    <rect x='20' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x='40' y='1230'>Metoda Płatności: {{metodaPlatnosci}}</text>
-    <rect x='20' y='1240' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x='40' y='1270'>Termin Płatności: {{terminPlatnosci}}</text>
-    <rect x='20' y='1280' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x='40' y='1310'>
-        <tspan x= '40'>Numer konta</tspan>
-        <tspan x ='40' dy='1.3em'>{{nrkonta}}</tspan>
-    </text>
-    <rect x='710' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="20" x='730' y='1230'>Do zapłaty: {{wartoscVat}} zł</text>
-    <rect x='140' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="15" x='173' y='1680'>Podpis osoby upoważnionej do wystawienia</text>
-    <rect x='700' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <text font-size="15" x='750' y='1680'>Podpis osoby upoważnionej do odbioru</text>
+    <g font-family="Arial, Helvetica, sans-serif">
+    <!--Informacje-->
+    <g font-size="20">
+        <rect x="700" y="30" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+        <text x="970" y="55" text-anchor="middle">miejsce wystawienia</text>
+        <text x="720" y="90">{{miejsceWystawienia}}</text>
+        <rect x="700" y="120" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+        <text x="970" y="145" text-anchor="middle">Data Wystawienia</text>
+        <text x="720" y="180">{{dataWystawienia}}</text>
+        <rect x="700" y="210" width="540" height="35" style="fill:rgb(220, 220, 220)"></rect>
+        <text x="970" y="235" text-anchor="middle">Data Wykonania usługi</text>
+        <text x="720" y="270">{{dataWykonaniaUslugi}}</text>
+    <!--Firma sprzedająca-->
+        <rect x='20' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
+        <text x="260" y="395" text-anchor="middle">Sprzedawca</text>
+        <text x="40" y="430">{{firmasprzedawcza.nazwa}}</text>
+        <text x="40" y="465">{{firmasprzedawcza.nip}}</text>
+        <text x="40" y="500">{{firmasprzedawcza.ulica}}</text>
+        <text x="40" y="535">{{firmasprzedawcza.adres}}</text>
+    <!--Firma kupująca-->
+        <rect x='710' y='370' width="500" height="35" style="fill:rgb(220, 220, 220)"></rect>
+        <text x="960" y="395" text-anchor="middle">Nabywca</text>
+        <text x="730" y="430">{{firmanabywcza.nazwa}}</text>
+        <text x="730" y="465">{{firmanabywcza.nip}}</text>
+        <text x="730" y="500">{{firmanabywcza.ulica}}</text>
+        <text x="730" y="535">{{firmanabywcza.adres}}</text>
+    </g>
+    <!--text nad tabelą-->
+        <text font-size="50" x="620" y="650" text-anchor="middle">Faktura Vat {{datafakturaVat}}</text>
+        <rect x="20" y="698" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <!--Kolor pod tabelą
+        <rect x="440" y="700" width="80" height={{rows}} style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="600" y="700" width="140" height={{rows}} style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="880" y="700" width="80" height={{rowse}} style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="1075" y="700" width="145" height={{rowse}} style="fill:rgb(240, 240, 240)"></rect>-->
+        <rect x="20" y="770" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
+    <!--Tabela-->
+        <text font-size="20" x="40" y="740" text-anchor="middle">
+            <tspan x="40" text-anchor="start">Nazwa</tspan>
+            <tspan x="480">JM</tspan>
+            <tspan x="560">Ilosc</tspan>
+            <tspan x="670" dy="-0.5em">Cena</tspan>
+            <tspan x="670" dy="1em">Netto</tspan>
+            <tspan x="810" dy="-1em">Wartosc</tspan>
+            <tspan x="810" dy="1em">Netto</tspan>
+            <tspan x="920" dy="-0.5em">Vat</tspan>
+            <tspan x="1022.5" dy="-0.5em" >Kwota</tspan>
+            <tspan x="1022.5" dy="1em">Vat</tspan>
+            <tspan x="1147.5" dy="-1em">Wartosc</tspan>
+            <tspan x="1147.5" dy="1em">Vat</tspan>
+        </text>
+        <text font-size="20" x="750" y="775">
+    <!--Pozycje tabeli-->
+        {% for x in pozycje%}
+                <tspan font-size="17" x='40' dy='1.2em'>{{x.nazwa}}</tspan>
+                <tspan font-size="17" x='480' text-anchor="middle">{{x.jednostka}}</tspan>
+                <tspan font-size="17" x='560' text-anchor="middle">{{x.ilosc}}</tspan>
+                <tspan font-size="17" x='735' text-anchor="end">{{x.cenaN}} zł</tspan>
+                <tspan font-size="17" x='875' text-anchor="end">{{x.wartoscN}} zł</tspan>
+                <tspan font-size="17" x='925' text-anchor="middle">{{x.podatek}}%</tspan>
+                <tspan font-size="17" x='1070' text-anchor="end">{{x.cenaVat}} zł</tspan>
+                <tspan font-size="17" x='1215' text-anchor="end">{{x.wartoscVat}} zł</tspan>
+        {% endfor %}
+    <!--Podsumowanie tabeli-->
+            <tspan x="740" dy='2em' text-anchor="end">razem:</tspan>
+            <tspan font-size="17" x='875' text-anchor="end">{{wartoscN}} zł</tspan>
+            <tspan font-size="17" x='1070' text-anchor="end">{{cenaVat}} zł</tspan>
+            <tspan font-size="17" x='1210' text-anchor="end">{{wartoscVat}} zł</tspan>
+        </text>
+    <!--Koniec lewa strona-->
+        <rect x='20' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="20" x='40' y='1230'>Metoda Płatności: {{metodaPlatnosci}}</text>
+        <rect x='20' y='1240' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="20" x='40' y='1270'>Termin Płatności: {{terminPlatnosci}}</text>
+        <rect x='20' y='1280' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="20" x='40' y='1310'>
+            <tspan x= '40'>Numer konta:</tspan>
+            <tspan x ='40' dy='1.3em'>{{nrkonta}}</tspan>
+        </text>
+    <!--Koniec prawa strona-->
+        <rect x='710' y='1200' width="500" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="20" x='730' y='1230'>Do zapłaty:</text>
+        <text font-size="20" x='1200' y='1230' text-anchor="end">{{wartoscVat}} zł</text>
+    <!--Koniec-->
+        <rect x='140' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="15" x='173' y='1680'>Podpis osoby upoważnionej do wystawienia</text>
+        <rect x='700' y='1650' width="400" height="2" style="fill:rgb(220, 220, 220)"></rect>
+        <text font-size="15" x='750' y='1680'>Podpis osoby upoważnionej do odbioru</text>
+    </g>
 </svg>

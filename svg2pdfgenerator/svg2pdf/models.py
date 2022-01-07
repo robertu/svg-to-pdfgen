@@ -22,9 +22,11 @@ class klient(models.Model):
 class pozycjafaktury(models.Model):
     class JM(models.TextChoices):
         SZT = 'Szt.'
+        USL = 'Usł.'
+        OPAK = 'Opak.'
 
     nazwa = models.CharField(max_length=40)
-    jednostka = models.CharField(max_length=4, choices=JM.choices, default=JM.SZT)
+    jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
     ilosc = models.IntegerField()
     cena_Netto = models.FloatField()
     podatek = models.IntegerField()
@@ -39,7 +41,7 @@ class faktura(models.Model):
     firmaSprzedawca = models.ForeignKey(firma, on_delete=models.CASCADE)
     firmaKlient = models.ForeignKey(klient, on_delete=models.CASCADE)
     pozycje = models.ManyToManyField(pozycjafaktury)
-    numer_faktury = models.CharField(max_length=15)
+    numer_faktury = models.CharField(max_length=15, unique=1)
     metoda_platnosci = models.CharField(max_length=30)
     termin_platnosci = models.DateField()
     numer_konta = models.CharField(max_length=12)
