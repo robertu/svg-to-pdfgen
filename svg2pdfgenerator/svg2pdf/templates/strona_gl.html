@@ -5,24 +5,41 @@
             background-color: #FFF;
             color: #151515;
             font-family: Arial, Helvetica, sans-serif;
+            margin-left: 20px;
         }
         a {
             text-decoration: none;
-            color: #55B;
+            color: rgb(255, 91, 91);
+        }
+        a:hover {
+            font-size: 27px;
+            color: blue;
+        }
+        li {
+            font-size: 22px;
+            text-decoration: none;
+        }
+        #title {
+            font-size: 50px;
+        }
+        #not {
+            color: #333;
+            font-size: 20px;
+            margin-left: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Wybierz fakturę</h1>
+    <p id="title">Wybierz fakturę</p>
     {% if faktura_ostatnia%}
         <ul>
             {% for fakt in faktura_ostatnia%}
             <li>
-                <a href="/svg2pdf/faktura-{{fakt.id}}">Faktura: {{fakt.numer_faktury}}</a>
+                <a href="/svg2pdf/faktura-{{fakt.id}}">Faktura: {{fakt.Numer_faktury}}</a>
             </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Nie ma faktur</p>
+        <p id="not">Nie ma faktur</p>
     {% endif %}
 </body>

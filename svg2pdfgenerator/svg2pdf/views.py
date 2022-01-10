@@ -2,6 +2,7 @@ from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from .models import faktura
+import os
 import cairosvg
 from PyPDF2 import PdfFileMerger
 # Create your views here.
@@ -106,7 +107,8 @@ def faktura_temp(request, id=1):
         merger.append(pdf)
 
     merger.write("faktura.pdf")
-    
+    for x in range(1, temp + 1):
+        os.remove(f'faktura{x}.pdf')
 
     return FileResponse(open('faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 

@@ -5,7 +5,7 @@ from django.db.models.fields.related import ForeignKey
 # Create your models here.
 class klient(models.Model):
     Nazwa = models.CharField(max_length=50, primary_key=True)
-    NIP = models.CharField(max_length=10)
+    NIP = models.CharField(max_length=13)
     Ulica = models.CharField(max_length=100)
     Adres = models.CharField(max_length=100)
 
