@@ -25,7 +25,7 @@ class pozycjafaktury(models.Model):
         USL = 'Usł.'
         OPAK = 'Opak.'
 
-    nazwa = models.CharField(max_length=40)
+    nazwa = models.TextField()
     jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
     ilosc = models.IntegerField()
     cena_Netto = models.FloatField()

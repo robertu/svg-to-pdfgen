@@ -3,8 +3,22 @@ from django.shortcuts import render
 from django.template import loader
 from .models import faktura
 import cairosvg
+from PyPDF2 import PdfFileMerger
 # Create your views here.
 
+def name(nazwa):
+    name = []
+    i = 0
+    l = 0
+    for x in nazwa.split():
+        if l + len(x) > 40:
+            i += 1
+            l = 0
+        if l == 0:
+            name += ['']
+        name[i] += f'{x} '
+        l += len(x)
+    return name, i
 
 class firma:
     def __init__(self, nazwa, nip, ulica, adres):
@@ -15,7 +29,7 @@ class firma:
 
 class pozycja:
     def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
-        self.nazwa = nazwa
+        self.nazwa, self.wys = name(nazwa)
         self.jednostka = jednostka
         self.ilosc = ilosc
         self.podatek = podatek
@@ -23,7 +37,6 @@ class pozycja:
         self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
         self.cenaVat = '%.2f' % float(float(self.cenaN) * (float(podatek)/ 100 + 1))
         self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (float(podatek)/ 100 + 1))
-
 
 
 def faktura_context_calc(faktura_ostatinia):
@@ -56,7 +69,7 @@ def faktura_context_calc(faktura_ostatinia):
         i += [pozycja(
             x.nazwa,
             x.jednostka,
-            float(x.cena_Netto),
+            x.cena_Netto,
             x.ilosc,
             x.podatek
         )]
@@ -64,22 +77,30 @@ def faktura_context_calc(faktura_ostatinia):
     context.update({'pozycje': i})
     
     # calculate last entry
-    i = [0.0,0.0,0.0, 85]
+    i = [0.0,0.0,0.0]
     for x in context['pozycje']:
         i[0] += float(x.wartoscN)
         i[1] += float(x.cenaVat)
         i[2] += float(x.wartoscVat)
-        i[3] += 20.4
-    
+
     context.update({
         'wartoscN': '%.2f' % i[0],
         'cenaVat': '%.2f' % i[1],
-        'wartoscVat': '%.2f' % i[2],
-        'rows': i[3],
-        'rowse': i[3] + 35
+        'wartoscVat': '%.2f' % i[2]
     })
+    
+    z = 0 
+    i = [[]]
+    lenght = 0
+    for x in context['pozycje']:
+        if lenght + x.wys > 16:
+            z += 1
+            i += [[]]
+            lenght = 0
+        i[z] += [x]
+        lenght += x.wys + 1
 
-    return context
+    return context ,i
 
 def strona_gl(request):
     faktury = list(faktura.objects.order_by('-id'))
@@ -91,7 +112,26 @@ def faktura_temp(request, id=1):
     for x in faktury:
         if x.id == id:
             i = x
-    svg = loader.get_template('faktura.svg').render(faktura_context_calc(i), request)
-    cairosvg.svg2pdf(bytestring=svg, write_to='faktura.pdf')
+    #return render(request, 'faktura.svg', faktura_context_calc(i))
+    
+    
+    context, pozycje = faktura_context_calc(i)
+    pdfs = []
+    temp = 0
+    for x in pozycje:
+        temp += 1
+        context.update({
+            'pozycje': x
+        })
+        svg = loader.get_template('faktura.svg').render(context, request)
+        cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura{temp}.pdf')
+        pdfs += [f'faktura{temp}.pdf']
+        
+    merger = PdfFileMerger()
+
+    for pdf in pdfs:
+        merger.append(pdf)
+
+    merger.write("faktura.pdf")
     return FileResponse(open('faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 

@@ -1,3 +1,4 @@
+{% load svg %}
 <svg width='1240' height="1748">
     <g font-family="Arial, Helvetica, sans-serif">
     <!--Informacje-->
@@ -53,14 +54,17 @@
         <text font-size="20" x="750" y="775">
     <!--Pozycje tabeli-->
         {% for x in pozycje%}
-                <tspan font-size="17" x='40' dy='1.2em'>{{x.nazwa}}</tspan>
-                <tspan font-size="17" x='480' text-anchor="middle">{{x.jednostka}}</tspan>
-                <tspan font-size="17" x='560' text-anchor="middle">{{x.ilosc}}</tspan>
-                <tspan font-size="17" x='735' text-anchor="end">{{x.cenaN}} zł</tspan>
-                <tspan font-size="17" x='875' text-anchor="end">{{x.wartoscN}} zł</tspan>
-                <tspan font-size="17" x='925' text-anchor="middle">{{x.podatek}}%</tspan>
-                <tspan font-size="17" x='1070' text-anchor="end">{{x.cenaVat}} zł</tspan>
-                <tspan font-size="17" x='1215' text-anchor="end">{{x.wartoscVat}} zł</tspan>
+            {% for i in x.nazwa %}
+                <tspan font-size="17" x='40' dy='1.2em'>{{i}}</tspan>
+            {% endfor %}
+            <tspan font-size="17" x='480' text-anchor="middle" dy="-{{x.wys|mlenght}}" >{{x.jednostka}}</tspan>
+            <tspan font-size="17" x='560' text-anchor="middle">{{x.ilosc}}</tspan>
+            <tspan font-size="17" x='735' text-anchor="end">{{x.cenaN}} zł</tspan>
+            <tspan font-size="17" x='875' text-anchor="end">{{x.wartoscN}} zł</tspan>
+            <tspan font-size="17" x='925' text-anchor="middle">{{x.podatek}}%</tspan>
+            <tspan font-size="17" x='1070' text-anchor="end">{{x.cenaVat}} zł</tspan>
+            <tspan font-size="17" x='1215' text-anchor="end">{{x.wartoscVat}} zł</tspan>
+            <tspan font-size="17" x='1900' dy="{{x.wys|mlenght}}"> a</tspan>
         {% endfor %}
     <!--Podsumowanie tabeli-->
             <tspan x="740" dy='2em' text-anchor="end">razem:</tspan>
