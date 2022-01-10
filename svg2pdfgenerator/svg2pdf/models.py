@@ -20,7 +20,7 @@ class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
     Jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
-    Ilosc = models.IntegerField()
+    Ilosc = models.IntegerField(default=1)
     Cena_Netto = models.FloatField()
 
     def __str__(self):
@@ -34,7 +34,7 @@ class faktura(models.Model):
     Data_wystawienia = models.DateField()
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
-    Termin_płatności_dni = models.IntegerField()
+    Termin_płatności_dni = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f'Faktura {self.Numer_faktury}'
