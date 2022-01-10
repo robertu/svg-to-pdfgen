@@ -7,19 +7,19 @@ import cairosvg
 from PyPDF2 import PdfFileMerger
 # Create your views here.
 
-def name(nazwa):
-    name = []
-    i = 0
-    l = 0
-    for x in nazwa.split():
-        if l + len(x) > 40:
-            i += 1
-            l = 0
-        if l == 0:
-            name += ['']
-        name[i] += f'{x} '
-        l += len(x)
-    return name, i
+#def name(nazwa):
+#    name = []
+#    i = 0
+#    l = 0
+#    for x in nazwa.split():
+#        if l + len(x) > 40:
+#            i += 1
+#            l = 0
+#        if l == 0:
+#            name += ['']
+#        name[i] += f'{x} '
+#        l += len(x)
+#    return name, i
 
 class pozycja:
     def __init__(self, nazwa, jednostka, cenaN, ilosc):
