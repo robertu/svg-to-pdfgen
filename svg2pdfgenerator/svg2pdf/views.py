@@ -1,5 +1,5 @@
+from django.http.response import FileResponse
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.template import loader
 from .models import faktura
 import cairosvg
@@ -22,7 +22,7 @@ class pozycja:
         self.cenaN = '%.2f' % cenaN
         self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
         self.cenaVat = '%.2f' % float(float(self.cenaN) * (float(podatek)/ 100 + 1))
-        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (float(podatek) / 100))
+        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (float(podatek)/ 100 + 1))
 
 
 
@@ -75,8 +75,8 @@ def faktura_context_calc(faktura_ostatinia):
         'wartoscN': '%.2f' % i[0],
         'cenaVat': '%.2f' % i[1],
         'wartoscVat': '%.2f' % i[2],
-        'rows': str(i[3]),
-        'rowse': str(i[3] + 35)
+        'rows': i[3],
+        'rowse': i[3] + 35
     })
 
     return context
@@ -92,6 +92,6 @@ def faktura_temp(request, id=1):
         if x.id == id:
             i = x
     svg = loader.get_template('faktura.svg').render(faktura_context_calc(i), request)
-    cairosvg.svg2pdf(bytestring=svg, write_to='svg2pdf/static/image.pdf')
-    return HttpResponse('static/image.pdf', content_type='svg2pdf/pdf')
+    cairosvg.svg2pdf(bytestring=svg, write_to='faktura.pdf')
+    return FileResponse(open('faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 

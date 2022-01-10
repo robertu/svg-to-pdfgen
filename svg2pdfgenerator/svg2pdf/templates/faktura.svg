@@ -29,11 +29,11 @@
     <!--text nad tabelą-->
         <text font-size="50" x="620" y="650" text-anchor="middle">Faktura Vat {{datafakturaVat}}</text>
         <rect x="20" y="698" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
-    <!--Kolor pod tabelą
-        <rect x="440" y="700" width="80" height={{rows}} style="fill:rgb(240, 240, 240)"></rect>
-        <rect x="600" y="700" width="140" height={{rows}} style="fill:rgb(240, 240, 240)"></rect>
-        <rect x="880" y="700" width="80" height={{rowse}} style="fill:rgb(240, 240, 240)"></rect>
-        <rect x="1075" y="700" width="145" height={{rowse}} style="fill:rgb(240, 240, 240)"></rect>-->
+    <!--Kolor pod tabelą-->
+        <rect x="440" y="700" width="80" height="{{rows}}" style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="600" y="700" width="140" height="{{rows}}" style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="880" y="700" width="80" height="{{rowse}}" style="fill:rgb(240, 240, 240)"></rect>
+        <rect x="1075" y="700" width="145" height="{{rowse}}" style="fill:rgb(240, 240, 240)"></rect>
         <rect x="20" y="770" width="1200" height="2" style="fill:rgb(220, 220, 220)"></rect>
     <!--Tabela-->
         <text font-size="20" x="40" y="740" text-anchor="middle">
