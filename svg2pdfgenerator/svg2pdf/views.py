@@ -1,4 +1,4 @@
-from django.http.response import FileResponse
+from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from .models import faktura
@@ -20,87 +20,51 @@ def name(nazwa):
         l += len(x)
     return name, i
 
-class firma:
-    def __init__(self, nazwa, nip, ulica, adres):
-        self.nazwa = nazwa
-        self.nip = nip
-        self.ulica = ulica
-        self.adres = adres
-
 class pozycja:
-    def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
-        self.nazwa, self.wys = name(nazwa)
+    def __init__(self, nazwa, jednostka, cenaN, ilosc):
+        self.nazwa = nazwa
         self.jednostka = jednostka
         self.ilosc = ilosc
-        self.podatek = podatek
         self.cenaN = '%.2f' % cenaN
         self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
-        self.cenaVat = '%.2f' % float(float(self.cenaN) * (float(podatek)/ 100 + 1))
-        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (float(podatek)/ 100 + 1))
+        self.cenaVat = '%.2f' % float(float(self.cenaN) * 1.23)
+        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * 1.23)
 
 
 def faktura_context_calc(faktura_ostatinia):
     context = {
-        "title": 'abc',
-        "miejsceWystawienia": faktura_ostatinia.miejsce_wystawienia,
-        "dataWystawienia": str(faktura_ostatinia.data_wystawienia),
-        "dataWykonaniaUslugi": str(faktura_ostatinia.data_wykonania_uslugi),
-        'firmasprzedawcza': firma(
-            faktura_ostatinia.firmaSprzedawca.name,
-            faktura_ostatinia.firmaSprzedawca.nip,
-            faktura_ostatinia.firmaSprzedawca.ulica,
-            faktura_ostatinia.firmaSprzedawca.adres
-        ),
-        'firmanabywcza': firma(
-            faktura_ostatinia.firmaKlient.name,
-            faktura_ostatinia.firmaKlient.nip,
-            faktura_ostatinia.firmaKlient.ulica,
-            faktura_ostatinia.firmaKlient.adres
-        ),
-        "datafakturaVat": faktura_ostatinia.numer_faktury,
-        'pozycje': list(faktura_ostatinia.pozycje.all()),
-        'metodaPlatnosci': faktura_ostatinia.metoda_platnosci,
-        'terminPlatnosci': str(faktura_ostatinia.termin_platnosci),
-        'nrkonta': faktura_ostatinia.numer_konta
+        'FVATNAME': faktura_ostatinia.Nazwa_faktury,
+        'NAB' : faktura_ostatinia.firma_klient.Nazwa,
+        'NABA' : faktura_ostatinia.firma_klient.Ulica,
+        'NABK' : faktura_ostatinia.firma_klient.Adres,
+        'NABNIP' : faktura_ostatinia.firma_klient.NIP,
+        'VATNAME': faktura_ostatinia.Numer_faktury,
+        'DATASP' : str(faktura_ostatinia.Data_sprzedaży),
+        'DATAWYS': str(faktura_ostatinia.Data_wystawienia),
+        'TERPLAT': str(faktura_ostatinia.Termin_płatności),
+        'POZYCJE': list(faktura_ostatinia.pozycje.all()),
+        'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
-    
-    i = []
-    for x in context['pozycje']:
-        i += [pozycja(
-            x.nazwa,
-            x.jednostka,
-            x.cena_Netto,
-            x.ilosc,
-            x.podatek
-        )]
 
-    context.update({'pozycje': i})
-    
-    # calculate last entry
-    i = [0.0,0.0,0.0]
-    for x in context['pozycje']:
-        i[0] += float(x.wartoscN)
-        i[1] += float(x.cenaVat)
-        i[2] += float(x.wartoscVat)
+    i = [[],[0., 0., 0., 0.]]
+    for x in context['POZYCJE']:
+        i[0] += [pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc)]
+
+    for x in i[0]:
+        i[1][0] += float(x.wartoscN)
+        i[1][1] += float(x.wartoscN) * 0.23
+        i[1][2] = float(i[1][0] + i[1][1])
+        i[1][3] = i[1][2]
 
     context.update({
-        'wartoscN': '%.2f' % i[0],
-        'cenaVat': '%.2f' % i[1],
-        'wartoscVat': '%.2f' % i[2]
+        'POZYCJE': i[0],
+        'KLN': '%.2f' % i[1][0],
+        'KVAT': '%.2f' % i[1][1],
+        'KLB': '%.2f' % i[1][2],
+        'KDZ': '%.2f' % i[1][3],
     })
-    
-    z = 0 
-    i = [[]]
-    lenght = 0
-    for x in context['pozycje']:
-        if lenght + x.wys > 16:
-            z += 1
-            i += [[]]
-            lenght = 0
-        i[z] += [x]
-        lenght += x.wys + 1
 
-    return context ,i
+    return context
 
 def strona_gl(request):
     faktury = list(faktura.objects.order_by('-id'))
@@ -108,30 +72,41 @@ def strona_gl(request):
 
 
 def faktura_temp(request, id=1):
+
+    #get faktura by id
     faktury = faktura.objects.order_by('-id')
     for x in faktury:
         if x.id == id:
             i = x
-    #return render(request, 'faktura.svg', faktura_context_calc(i))
-    
-    
-    context, pozycje = faktura_context_calc(i)
+
+    #calc context
+    context = faktura_context_calc(i)
     pdfs = []
     temp = 0
-    for x in pozycje:
+    for x in context['POZYCJE']:
         temp += 1
         context.update({
-            'pozycje': x
+            'OPIS' : x.nazwa,
+            'ILOSC' : x.ilosc,
+            'JM' :x.jednostka,
+            'CJD' :x.cenaN,
+            'CENA' :x.wartoscN,
         })
-        svg = loader.get_template('faktura.svg').render(context, request)
+        svg = loader.get_template('fv-template.svg').render(context, request)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura{temp}.pdf')
         pdfs += [f'faktura{temp}.pdf']
-        
+    
+    #return render(request, 'fv-template.svg', context)
+    
+
+    #merger pdf
     merger = PdfFileMerger()
 
     for pdf in pdfs:
         merger.append(pdf)
 
     merger.write("faktura.pdf")
+    
+
     return FileResponse(open('faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 

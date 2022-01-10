@@ -1,23 +1,16 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
+from django.db.models.fields.related import ForeignKey
 
 # Create your models here.
-class firma(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    nip = models.CharField(max_length=10)
-    ulica = models.CharField(max_length=100)
-    adres = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f'Firma {self.name}'
-
 class klient(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    nip = models.CharField(max_length=10)
-    ulica = models.CharField(max_length=100)
-    adres = models.CharField(max_length=100)
+    Nazwa = models.CharField(max_length=50, primary_key=True)
+    NIP = models.CharField(max_length=10)
+    Ulica = models.CharField(max_length=100)
+    Adres = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'Klient {self.name}'
+        return f'Klient {self.Nazwa}'
 
 class pozycjafaktury(models.Model):
     class JM(models.TextChoices):
@@ -25,26 +18,23 @@ class pozycjafaktury(models.Model):
         USL = 'Usł.'
         OPAK = 'Opak.'
 
-    nazwa = models.TextField()
-    jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
-    ilosc = models.IntegerField()
-    cena_Netto = models.FloatField()
-    podatek = models.IntegerField()
+    Nazwa = models.TextField()
+    Jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
+    Ilosc = models.IntegerField()
+    Cena_Netto = models.FloatField()
 
     def __str__(self):
-        return f'PozFakt {self.nazwa} x {self.ilosc}'
+        return f'PozFakt {self.Nazwa} x {self.Ilosc}'
 
 class faktura(models.Model):
-    miejsce_wystawienia = models.CharField(max_length=100)
-    data_wystawienia = models.DateField()
-    data_wykonania_uslugi = models.DateField()
-    firmaSprzedawca = models.ForeignKey(firma, on_delete=models.CASCADE)
-    firmaKlient = models.ForeignKey(klient, on_delete=models.CASCADE)
+    Nazwa_faktury = models.CharField(max_length=90)
+    firma_klient = models.ForeignKey(klient, on_delete=CASCADE)
+    Numer_faktury = models.CharField(max_length=90)
+    Data_sprzedaży = models.DateField()
+    Data_wystawienia = models.DateField()
+    Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
-    numer_faktury = models.CharField(max_length=15, unique=1)
-    metoda_platnosci = models.CharField(max_length=30)
-    termin_platnosci = models.DateField()
-    numer_konta = models.CharField(max_length=12)
+    Termin_płatności_dni = models.IntegerField()
 
     def __str__(self):
-        return f'Faktura {self.numer_faktury}'
+        return f'Faktura {self.Numer_faktury}'
