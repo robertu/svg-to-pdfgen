@@ -22,14 +22,15 @@ def name(nazwa):
     return name, i + 1
 
 class pozycja:
-    def __init__(self, nazwa, jednostka, cenaN, ilosc):
+    def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
         self.nazwa, self.wys= name(nazwa)
         self.jednostka = jednostka
         self.ilosc = ilosc
+        self.podatek = podatek
         self.cenaN = '%.2f' % cenaN
         self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
-        self.cenaVat = '%.2f' % float(float(self.cenaN) * 1.23)
-        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * 1.23)
+        self.cenaVat = '%.2f' % float(float(self.cenaN) * (podatek / 100 + 1))
+        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (podatek / 100 + 1))
 
 
 def faktura_context_calc(faktura_ostatinia):
@@ -47,11 +48,11 @@ def faktura_context_calc(faktura_ostatinia):
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
 
-    i = [[],[0., 0., 0., 0.], '', 469]
+    i = [[],[0., 0., 0., 0.], '', 467.6]
     for x in context['POZYCJE']:
-        i[2] = pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc)
+        i[2] = pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)
         i[2].szczalka = i[3]
-        i[3] -= 9.6 + ((i[2].wys - 1) * 11 )
+        i[3] -= 9.6 + ((i[2].wys - 1) * 9.6 )
         i[0] += [i[2]]
 
     for x in i[0]:

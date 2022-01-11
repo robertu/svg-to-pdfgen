@@ -22,6 +22,7 @@ class pozycjafaktury(models.Model):
     Jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
     Ilosc = models.IntegerField(default=1)
     Cena_Netto = models.FloatField()
+    Podatek = models.IntegerField(default=23)
 
     def __str__(self):
         return f'PozFakt {self.Nazwa} x {self.Ilosc}'

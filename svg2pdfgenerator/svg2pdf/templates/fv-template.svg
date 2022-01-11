@@ -9454,7 +9454,8 @@
      d="M 0,0 H 510.209"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192"
-     inkscape:connector-curvature="0" /></g><text
+     inkscape:connector-curvature="0" /></g>
+<text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6196"
@@ -9536,8 +9537,6 @@
      id="tspan6222"
      x="71.344589"
      y="-203.25737">Płatność</tspan></text>
-
-
 
 <text
    transform="scale(1,-1)"
@@ -9655,76 +9654,8 @@
      y="-177.06905">Przelew na konto</tspan></text>
 
 
-<!--Tabelka na dole koncowa-->
-<path
-   d="M 48.000001,497.99999 H 300.01333 v -18 H 48.000001 Z m 252.014329,0 h 44.80206 v -18 h -44.80206 z m 44.80206,0 h 41.42862 v -18 h -41.42862 z m 41.42862,0 h 83.44402 v -18 h -83.44402 z m 83.44402,0 h 82.31098 v -18 h -82.31098 z"
-   style="fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.94661587"
-   id="path6262"
-   inkscape:connector-curvature="0" /><path
-   d="m 468.00001,383.99999 h 84 v -24 h -84 z"
-   style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.96114719"
-   id="path6264"
-   inkscape:connector-curvature="0" /><g
-   id="g6266"
-   transform="matrix(1,0,0,1.0605858,336,455.99999)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6268"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6270"
-   transform="matrix(1,0,0,1.060586,384,455.99999)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6272"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6282"
-   transform="matrix(1,0,0,0.90712099,288,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6284"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6286"
-   transform="matrix(1,0,0,0.90712099,336,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6288"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6290"
-   transform="matrix(1,0,0,0.90712099,384,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6292"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6294"
-   transform="matrix(1,0,0,0.90712099,468.00001,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6296"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6310"
-   transform="matrix(2.5922592,0,0,1,336,431.99999)"><path
-     d="M 0,0 H 83.325"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6312"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6314"
-   transform="matrix(4.7234795,0,0,1,336,383.99999)"><path
-     d="M 0,0 H 45.729"
-     style="fill:none;stroke:#bdbcbc;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6316"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6370"
-   transform="matrix(4.7625346,0,0,1,336,407.99999)"><path
-     d="M 0,0 H 45.354"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6372"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6398"
-   transform="matrix(1,0,0,4.1506335,468.00001,383.99999)"><path
-     d="M 0,0 V 23.129"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6400"
-     inkscape:connector-curvature="0" /></g><text
+
+<text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6420"
@@ -9801,114 +9732,81 @@
 
 
 
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6488"
-   x="381.53336"
-   y="-441.69931"><tspan
-     sodipodi:role="line"
-     id="tspan6486"
-     x="381.53336"
-     y="-441.69931">Kwota łączna netto</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6492"
-   x="546.08075"
-   y="-441.254"><tspan
-     sodipodi:role="line"
-     id="tspan6490"
-     x="546.08075"
-     y="-441.254"
-     style="text-align:end;text-anchor:end">{{KLN}} zł</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6496"
-   x="397.19742"
-   y="-417.04099"><tspan
-     sodipodi:role="line"
-     id="tspan6494"
-     x="397.19742"
-     y="-417.04099">Kwota VAT 23%</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6500"
-   x="546.08075"
-   y="-417.37497"><tspan
-     sodipodi:role="line"
-     id="tspan6498"
-     x="546.08075"
-     y="-417.37497"
-     style="text-align:end;text-anchor:end">{{KVAT}} zł</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6504"
-   x="337.24429"
-   y="-391.37299"><tspan
-     sodipodi:role="line"
-     id="tspan6502"
-     x="337.24429"
-     y="-391.37299">Kwota łączna brutto</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6508"
-   x="546.08075"
-   y="-391.44131"><tspan
-     sodipodi:role="line"
-     id="tspan6506"
-     x="546.08075"
-     y="-391.44131"
-     style="text-align:end;text-anchor:end">{{KLB}} zł</tspan></text>
 
 
 
 
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6516"
-   x="354.91031"
-   y="-367.24597"><tspan
-     sodipodi:role="line"
-     id="tspan6514"
-     x="354.91031"
-     y="-367.24597">Kwota do zapłaty</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6520"
-   x="546.08075"
-   y="-367.47342"><tspan
-     sodipodi:role="line"
-     id="tspan6518"
-     x="546.08075"
-     y="-367.47342"
-     style="text-align:end;text-anchor:end">{{KDZ}} zł</tspan></text>
-
-
+<!--
+Tabelka
+<path
+   d="M 48.000001,497.99999 H 300.01333 v -18 H 48.000001 Z m 252.014329,0 h 44.80206 v -18 h -44.80206 z m 44.80206,0 h 41.42862 v -18 h -41.42862 z m 41.42862,0 h 83.44402 v -18 h -83.44402 z m 83.44402,0 h 82.31098 v -18 h -82.31098 z"
+   style="fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.94661587"
+   id="path6262"
+   inkscape:connector-curvature="0" /><path
+   d="m 468.00001,383.99999 h 84 v -24 h -84 z"
+   style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.96114719"
+   id="path6264"
+   inkscape:connector-curvature="0" /><g
+   id="g6266"
+   transform="matrix(1,0,0,1.0605858,336,455.99999)"><path
+     d="M 0,0 V 22.629"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6268"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6270"
+   transform="matrix(1,0,0,1.060586,384,455.99999)"><path
+     d="M 0,0 V 22.629"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6272"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6282"
+   transform="matrix(1,0,0,0.90712099,288,479.99999)"><path
+     d="M 0,0 V 19.843"
+     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6284"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6286"
+   transform="matrix(1,0,0,0.90712099,336,479.99999)"><path
+     d="M 0,0 V 19.843"
+     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6288"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6290"
+   transform="matrix(1,0,0,0.90712099,384,479.99999)"><path
+     d="M 0,0 V 19.843"
+     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6292"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6294"
+   transform="matrix(1,0,0,0.90712099,468.00001,479.99999)"><path
+     d="M 0,0 V 19.843"
+     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6296"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6310"
+   transform="matrix(2.5922592,0,0,1,336,431.99999)"><path
+     d="M 0,0 H 83.325"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6312"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6314"
+   transform="matrix(4.7234795,0,0,1,336,383.99999)"><path
+     d="M 0,0 H 45.729"
+     style="fill:none;stroke:#bdbcbc;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6316"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6370"
+   transform="matrix(4.7625346,0,0,1,336,407.99999)"><path
+     d="M 0,0 H 45.354"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6372"
+     inkscape:connector-curvature="0" /></g><g
+   id="g6398"
+   transform="matrix(1,0,0,4.1506335,468.00001,383.99999)"><path
+     d="M 0,0 V 23.129"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6400"
+     inkscape:connector-curvature="0" /></g>
 
 <g
    id="g6522"
@@ -9923,7 +9821,15 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
      id="path6368-1"
      inkscape:connector-curvature="0" /></g>
-
+     <g
+   id="g6266-3"
+   transform="matrix(1,0,0,1.0605858,288,456)"><path
+     d="M 0,0 V 22.629"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+     id="path6268-6"
+     inkscape:connector-curvature="0" /></g>
+koniec tabeli
+-->
 {% for x in pozycje%}
 <g
    id="g6438-2-7-2"
@@ -9971,6 +9877,51 @@
      x="546.08075"
      style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN}} zł</tspan>
 {% endfor %}
+<tspan
+     style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6486"
+     x="381.53336"
+     dy="2em">Kwota łączna netto</tspan>
+<tspan
+     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6490"
+     x="546.08075">{{KLN}} zł</tspan>
+<tspan
+     style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6494"
+     x="397.19742"
+     dy="2em">Kwota VAT 23%</tspan>
+<tspan
+     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6498"
+     x="546.08075">{{KVAT}} zł</tspan>
+<tspan
+     style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6502"
+     x="337.24429"
+     dy="2em">Kwota łączna brutto</tspan>
+<tspan
+     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6506"
+     x="546.08075">{{KLB}} zł</tspan>
+<tspan
+  style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6514"
+     x="354.91031"
+     dy="1em">Kwota do zapłaty</tspan>
+<tspan
+     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     sodipodi:role="line"
+     id="tspan6518"
+     x="546.08075">{{KDZ}} zł</tspan>
+
 </text>
 <g
    id="g6190-0"
@@ -9978,10 +9929,4 @@
      d="M 0,0 H 510.209"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6266-3"
-   transform="matrix(1,0,0,1.0605858,288,456)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6268-6"
      inkscape:connector-curvature="0" /></g></g></svg>
