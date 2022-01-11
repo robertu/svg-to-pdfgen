@@ -6,24 +6,24 @@ import os
 import cairosvg
 from PyPDF2 import PdfFileMerger
 # Create your views here.
-#
-#def name(nazwa):
-#    name = []
-#    i = 0
-#    l = 0
-#    for x in nazwa.split():
-#        if l + len(x) > 40:
-#            i += 1
-#            l = 0
-#        if l == 0:
-#            name += ['']
-#        name[i] += f'{x} '
-#        l += len(x)
-#    return name, i
+
+def name(nazwa):
+    name = []
+    i = 0
+    l = 0
+    for x in nazwa.split():
+        if l + len(x) > 40:
+            i += 1
+            l = 0
+        if l == 0:
+            name += ['']
+        name[i] += f'{x} '
+        l += len(x)
+    return name, i + 1
 
 class pozycja:
     def __init__(self, nazwa, jednostka, cenaN, ilosc):
-        self.nazwa = nazwa
+        self.nazwa, self.wys= name(nazwa)
         self.jednostka = jednostka
         self.ilosc = ilosc
         self.cenaN = '%.2f' % cenaN
@@ -47,9 +47,12 @@ def faktura_context_calc(faktura_ostatinia):
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
 
-    i = [[],[0., 0., 0., 0.]]
+    i = [[],[0., 0., 0., 0.], '', 469]
     for x in context['POZYCJE']:
-        i[0] += [pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc)]
+        i[2] = pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc)
+        i[2].szczalka = i[3]
+        i[3] -= 9.6 + ((i[2].wys - 1) * 11 )
+        i[0] += [i[2]]
 
     for x in i[0]:
         i[1][0] += float(x.wartoscN)
@@ -65,13 +68,15 @@ def faktura_context_calc(faktura_ostatinia):
         'KDZ': '%.2f' % i[1][3],
     })
     
-    i = [[[]], 0, 2]
+    i = [[[]], 0, 10, 0]
     for x in context['POZYCJE']:
-        print(len(i[0][i[1]]), ' / ', i[1], ' / ',i[2], ' / ', i[0])
-        if len(i[0][i[1]]) == i[2]:
+        print(i[3], ' / ', i[1], ' / ',i[2], ' / ', i[0])
+        if i[3] == i[2]:
             print('x')
             i[1] += 1
+            i[3] = 0
             i[0] += [[]]
+        i[3] += x.wys
         i[0][i[1]] += [x]
     
     print(i[0])
