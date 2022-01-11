@@ -64,8 +64,19 @@ def faktura_context_calc(faktura_ostatinia):
         'KLB': '%.2f' % i[1][2],
         'KDZ': '%.2f' % i[1][3],
     })
+    
+    i = [[[]], 0, 2]
+    for x in context['POZYCJE']:
+        print(len(i[0][i[1]]), ' / ', i[1], ' / ',i[2], ' / ', i[0])
+        if len(i[0][i[1]]) == i[2]:
+            print('x')
+            i[1] += 1
+            i[0] += [[]]
+        i[0][i[1]] += [x]
+    
+    print(i[0])
 
-    return context
+    return context, i
 
 def strona_gl(request):
     faktury = list(faktura.objects.order_by('-id'))
@@ -81,21 +92,20 @@ def faktura_temp(request, id=1):
             i = x
 
     #calc context
-    context = faktura_context_calc(i)
+    context, pozycje_c = faktura_context_calc(i)
     pdfs = []
     temp = 0
-    for x in context['POZYCJE']:
+    pozycje = pozycje_c[0]
+    for x in pozycje:
         temp += 1
         context.update({
-            'OPIS' : x.nazwa,
-            'ILOSC' : x.ilosc,
-            'JM' :x.jednostka,
-            'CJD' :x.cenaN,
-            'CENA' :x.wartoscN,
+            'pozycje': x,
+            'STRONA': temp,
+            'STRONY': pozycje_c[1] + 1
         })
         svg = loader.get_template('fv-template.svg').render(context, request)
-        cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura{temp}.pdf')
-        pdfs += [f'faktura{temp}.pdf']
+        cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
+        pdfs += [f'faktura/faktura{temp}.pdf']
     
     #return render(request, 'fv-template.svg', context)
     
@@ -106,9 +116,9 @@ def faktura_temp(request, id=1):
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write("faktura.pdf")
+    merger.write("faktura/faktura.pdf")
     for x in range(1, temp + 1):
-        os.remove(f'faktura{x}.pdf')
+        os.remove(f'faktura/faktura{x}.pdf')
 
-    return FileResponse(open('faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
+    return FileResponse(open('faktura/faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 

@@ -82,7 +82,22 @@
          d="M -11.022,10.63 H 606.614 V 33.307 H -11.022 Z"
          style="fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none"
          id="path22"
-         inkscape:connector-curvature="0" /></g></g></g><text
+         inkscape:connector-curvature="0" /></g></g></g>
+
+
+
+<text
+   transform="scale(1,-1)"
+   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
+   id="text30"
+   x="47.996292"
+   y="-19.290501"><tspan
+     sodipodi:role="line"
+     id="tspan28"
+     x="47.996292"
+     y="-19.290501">Strona:      {{STRONA}}/{{STRONY}}</tspan></text>
+
+<text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:7px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text26"
@@ -9942,61 +9957,38 @@
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
    id="text6448-2-1-4"
    x="312.36298"
-   y="-465.25696"
-   transform="scale(1,-1)"><tspan
+   y="-474.25696"
+   transform="scale(1,-1)">
+{% for x in pozycje %}
+  <tspan
+     style="stroke-width:1"
+     sodipodi:role="line"
+     x="75.723106"
+     dy="1.2em"
+     id="tspan7890-2">{{x.nazwa}}</tspan>
+  <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
      x="310.21063"
-     y="-465.25696"
-     id="tspan6446-3-2-5">{{ILOSC}}</tspan></text>
-
-<text
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
-   id="text6452-7-9-0"
-   x="349.83762"
-   y="-466.0343"
-   transform="scale(1,-1)"><tspan
+     id="tspan6446-3-2-5">{{x.ilosc}}</tspan>
+  <tspan
      style="stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="349.83762"
-     y="-466.0343">{{JM}}</tspan></text>
+     x="349.83762">{{x.jednostka}}</tspan>
 
-<text
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
-   id="text6456-9-1-6"
-   x="458.20523"
-   y="-465.58899"
-   transform="scale(1,-1)"><tspan
+  <tspan
      sodipodi:role="line"
      id="tspan6454-2-9-1"
      x="458.20523"
-     y="-465.58899"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{CJD}} zł</tspan></text>
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.cenaN}} zł</tspan>
 
-<text
-   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
-   id="text6460-2-4-0"
-   x="546.08075"
-   y="-465.58899"
-   transform="scale(1,-1)"><tspan
+  <tspan
      sodipodi:role="line"
      id="tspan6458-8-7-6"
      x="546.08075"
-     y="-465.58899"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{CENA}} zł</tspan></text>
-
-<text
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
-   id="text6444-3-3"
-   x="58.723106"
-   y="-465.65594"
-   transform="scale(1,-1)"><tspan
-     style="stroke-width:1"
-     sodipodi:role="line"
-     x="58.723106"
-     y="-465.65594"
-     id="tspan7890-2">{{OPIS}}</tspan></text>
-
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN}} zł</tspan>
+{% endfor %}
+</text>
 <g
    id="g6190-0"
    transform="matrix(0.9878305,0,0,1,47.999995,527.99999)"><path
