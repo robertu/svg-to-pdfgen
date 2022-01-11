@@ -6,7 +6,7 @@ import os
 import cairosvg
 from PyPDF2 import PdfFileMerger
 # Create your views here.
-
+#
 #def name(nazwa):
 #    name = []
 #    i = 0
