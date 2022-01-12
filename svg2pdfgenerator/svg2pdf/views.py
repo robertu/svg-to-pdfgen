@@ -12,7 +12,7 @@ def name(nazwa):
     i = 0
     l = 0
     for x in nazwa.split():
-        if l + len(x) > 44:
+        if l + len(x) > 35:
             i += 1
             l = 0
         if l == 0:
@@ -41,16 +41,15 @@ class tabela:
             self.wys += i.wys + 1
             self.liniah += [467.6 - (self.wys * 12.2) + (self.wys + 1 * 4)]
         self.linawys = (self.wys * 11.2) + 2
-        self.wys = self.liniah[-1]
+        self.wys = self.liniah[-1] - 2
         self.liniah = self.liniah[:-1]
         self.kln = self.wys - 15
         self.kwotav = self.kln
         self.kwotavh = []
         for x in kwotavpoz.items():
-            self.kwotav -= 11.2
-            self.kwotavh += [self.kwotav -2]
+            self.kwotav -= 13.
+            self.kwotavh += [self.kwotav]
         self.kwotavh = self.kwotavh[:-1]
-        self.kwotav -= 4
         if zaplacono > 0:
             self.zapl = self.kwotav - 22
         else:

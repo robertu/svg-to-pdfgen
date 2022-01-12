@@ -9661,11 +9661,11 @@
    style="font-variant:normal;font-weight:300;font-stretch:normal;font-size:12px;font-family:'Open Sans Light';-inkscape-font-specification:OpenSans-Light;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6512"
    x="50.121895"
-   y="-292.99597"><tspan
+   y="-280.99597"><tspan
      sodipodi:role="line"
      id="tspan6510"
      x="50.121895"
-     y="-292.99597">Termin płatności: {{DAYS}} od daty wystawienia faktury</tspan></text>
+     y="-280.99597">Termin płatności: {{DAYS}} od daty wystawienia faktury</tspan></text>
 
 
 <text
@@ -9864,14 +9864,14 @@
      sodipodi:role="line"
      id="tspan6486"
      x="460"
-     dy="1.6em">Kwota łączna netto</tspan>
+     dy="1.8em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6490"
      x="546.08075">{{KLN|floatf}} zł</tspan>
 <tspan
-  dy="0.5em"> </tspan>
+  dy="0.3em"> </tspan>
 {% for x, y in KVAT.items%}
 <tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9890,7 +9890,7 @@
      sodipodi:role="line"
      id="tspan6514"
      x="460"
-     dy="1.4em">Razem</tspan>
+     dy="1.55em">Razem</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
