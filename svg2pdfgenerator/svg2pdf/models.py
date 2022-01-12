@@ -35,6 +35,7 @@ class faktura(models.Model):
     Data_wystawienia = models.DateField()
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
+    Zapłacono = models.FloatField(default=0)
     Termin_płatności_dni = models.PositiveIntegerField(default=1)
 
     def __str__(self):

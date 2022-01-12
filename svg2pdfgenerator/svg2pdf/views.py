@@ -35,14 +35,17 @@ class pozycja:
 class tabela:
     def __init__(self, x, kwotavpoz):
         self.wys = 0
+        self.liniah = []
         for i in x:
             self.wys += i.wys + 1
+            self.liniah += [self.wys]
         self.linawys = (self.wys * 9.2) + 10
         self.wys = 467.6 - (self.wys * 9.6)
         self.kln = self.wys - 15
         print(kwotavpoz)
         self.kwotav = self.kln - (11.2 * len(kwotavpoz.items())) - 4
-        self.klb = self.kwotav - 22
+        self.zapl = self.kwotav - 22
+        self.klb = self.zapl - 22
         self.klina = self.klb - 24
         self.linawysmax = (self.wys - self.klb) + 24 + self.linawys
 
@@ -58,6 +61,7 @@ def faktura_context_calc(faktura_ostatinia):
         'DATAWYS': str(faktura_ostatinia.Data_wystawienia),
         'TERPLAT': str(faktura_ostatinia.Termin_płatności),
         'POZYCJE': list(faktura_ostatinia.pozycje.all()),
+        'ZAPLACONO': faktura_ostatinia.Zapłacono,
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
     if context['DAYS'] == '1':
@@ -86,11 +90,11 @@ def faktura_context_calc(faktura_ostatinia):
         'POZYCJE': i[0],
         'KLN': i[1][1],
         'KVAT': dict(sorted(i[1][0].items())),
-        'KLB': i[1][2],
-        'KDZ': i[1][3],
+        'RAZEM': i[1][2],
+        'KDZ': i[1][3] - context['ZAPLACONO'],
     })
     
-    i = [[[]], 0, 9 - len(i[1][0].items()), 0, 467.6]
+    i = [[[]], 0, 7 - len(i[1][0].items()), 0, 467.6]
     for x in context['POZYCJE']:
         print(i[3], ' / ', i[1], ' / ',i[2], ' / ', i[0])
         if i[3] + x.wys >= i[2]:
