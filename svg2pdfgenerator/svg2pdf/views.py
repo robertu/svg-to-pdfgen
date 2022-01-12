@@ -12,14 +12,14 @@ def name(nazwa):
     i = 0
     l = 0
     for x in nazwa.split():
-        if l + len(x) > 30:
+        if l + len(x) > 46:
             i += 1
             l = 0
         if l == 0:
             name += ['']
         name[i] += f'{x} '
-        l += len(x)
-    return name, i + 1
+        l += len(x) + 1
+    return name, i
 
 class pozycja:
     def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
@@ -27,10 +27,10 @@ class pozycja:
         self.jednostka = jednostka
         self.ilosc = ilosc
         self.podatek = podatek
-        self.cenaN = '%.2f' % cenaN
-        self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
-        self.cenaVat = '%.2f' % float(float(self.cenaN) * (podatek / 100))
-        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (podatek / 100))
+        self.cenaN = cenaN
+        self.wartoscN = self.cenaN * self.ilosc
+        self.cenaVat = self.cenaN * (podatek / 100)
+        self.wartoscVat = self.wartoscN * (podatek / 100)
 
 
 def faktura_context_calc(faktura_ostatinia):
@@ -56,11 +56,11 @@ def faktura_context_calc(faktura_ostatinia):
     for x in i[0]:
         if x.podatek > 0:
             try:
-                i[1][0].update({f'{x.podatek}':float(float(x.wartoscVat) + i[1][0][f'{x.podatek}'])})
+                i[1][0].update({f'{x.podatek}':x.wartoscVat + i[1][0][f'{x.podatek}']})
             except:
-                i[1][0].update({f'{x.podatek}':float(x.wartoscVat)})
-        i[1][1] += float(x.wartoscN)
-        i[1][2] += float(x.wartoscVat)
+                i[1][0].update({f'{x.podatek}':x.wartoscVat})
+        i[1][1] += x.wartoscN
+        i[1][2] += x.wartoscVat
     i[1][2] += i[1][1]
     i[1][3] = i[1][2]
 
@@ -82,8 +82,8 @@ def faktura_context_calc(faktura_ostatinia):
             i[0] += [[]]
             i[4] = 467.6
         x.szczalka = i[4]
-        i[4] -= 9.6 + ((x.wys - 1) * 9.6 )
-        i[3] += x.wys
+        i[4] -= 9.6 + ((x.wys) * 9.6 )
+        i[3] += x.wys + 1
         i[0][i[1]] += [x]
     
     print(i[0])

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+{% load svg2pdff %}
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9680,15 +9681,15 @@
 <tspan
      sodipodi:role="line"
      id="tspan6422"
-     x="253.63651">Ilość</tspan>
+     x="243.63651">Ilość</tspan>
 <tspan
      sodipodi:role="line"
      id="tspan6426"
-     x="308.53683">J.m.</tspan>
+     x="288.53683">J.m.</tspan>
 <tspan
      sodipodi:role="line"
      id="tspan6426"
-     x="348.53683">VAT</tspan>
+     x="320.53683">Stawka VAT</tspan>
 <tspan
      sodipodi:role="line"
      id="tspan6430"
@@ -9827,28 +9828,30 @@ koniec tabeli
   {% endfor %}
   <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
-     x="270.21063"
-     id="tspan6446-3-2-5">{{x.ilosc}}</tspan>
+     x="255.21063"
+     id="tspan6446-3-2-5"
+     dy="-{{x.wys|hight}}em">{{x.ilosc}}</tspan>
   <tspan
      style="stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="309.83762">{{x.jednostka}}</tspan>
+     x="288.83762">{{x.jednostka}}</tspan>
 <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
      id="tspan6426"
-     x="360.53683">{{x.podatek}}.00%</tspan>
+     x="360.53683">{{x.podatek}}%</tspan>
   <tspan
      sodipodi:role="line"
      id="tspan6454-2-9-1"
      x="458.20523"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{x.cenaN}} zł</tspan>
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.cenaN|floatf}} zł</tspan>
 
   <tspan
      sodipodi:role="line"
      id="tspan6458-8-7-6"
      x="546.08075"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN}} zł</tspan>
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN|floatf}} zł</tspan>
+  <tspan dy='{{x.wys|hight}}em'> </tspan>
 {% endfor %}
 <tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9860,7 +9863,7 @@ koniec tabeli
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6490"
-     x="546.08075">{{KLN}} zł</tspan>
+     x="546.08075">{{KLN|floatf}} zł</tspan>
 <tspan
   dy="0.5em"> </tspan>
 {% for x, y in KVAT.items%}
@@ -9874,7 +9877,7 @@ koniec tabeli
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6498"
-     x="546.08075">{{y}} zł</tspan>
+     x="546.08075">{{y|floatf}} zł</tspan>
 {% endfor %}
 <tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9886,7 +9889,7 @@ koniec tabeli
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6506"
-     x="546.08075">{{KLB}} zł</tspan>
+     x="546.08075">{{KLB|floatf}} zł</tspan>
 <tspan
   style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9897,7 +9900,7 @@ koniec tabeli
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6518"
-     x="546.08075">{{KDZ}} zł</tspan>
+     x="546.08075">{{KDZ|floatf}} zł</tspan>
 
 </text>
 <g
