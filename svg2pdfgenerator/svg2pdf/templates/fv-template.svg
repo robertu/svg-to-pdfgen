@@ -9665,7 +9665,7 @@
      sodipodi:role="line"
      id="tspan6510"
      x="50.121895"
-     y="-292.99597">Termin płatności: {{DAYS}} dni od daty wystawienia faktury</tspan></text>
+     y="-292.99597">Termin płatności: {{DAYS}} od daty wystawienia faktury</tspan></text>
 
 
 <text
@@ -9709,98 +9709,42 @@
      inkscape:connector-curvature="0" />
 </g>
 
-
-
-
-
-<!--
-Tabelka
+<!--Tabelka-->
+<g
+   id="g6190-0"
+   transform="matrix(0.9878305,0,0,1,47.999995,{{TABELA.wys}})"><path
+     d="M 0,0 H 510.209"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+<g
+   id="g6190-0"
+   transform="matrix(2.5922592,0,0,1,335,{{TABELA.kln}})"><path
+     d="M 0,0 H 83.325"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+<g
+   id="g6190-0"
+   transform="matrix(2.5922592,0,0,1,335,{{TABELA.kwotav}})"><path
+     d="M 0,0 H 83.325"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+<g
+   id="g6190-0"
+   transform="matrix(2.5922592,0,0,1,335,{{TABELA.klb}})"><path
+     d="M 0,0 H 83.325"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
 <path
-   d="M 48.000001,497.99999 H 300.01333 v -18 H 48.000001 Z m 252.014329,0 h 44.80206 v -18 h -44.80206 z m 44.80206,0 h 41.42862 v -18 h -41.42862 z m 41.42862,0 h 83.44402 v -18 h -83.44402 z m 83.44402,0 h 82.31098 v -18 h -82.31098 z"
-   style="fill:#f4f4f4;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.94661587"
-   id="path6262"
-   inkscape:connector-curvature="0" /><path
-   d="m 468.00001,383.99999 h 84 v -24 h -84 z"
+   d="m 468.00001,{{TABELA.klb}} h 84 v -24 h -84 z"
    style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.96114719"
    id="path6264"
-   inkscape:connector-curvature="0" /><g
-   id="g6266"
-   transform="matrix(1,0,0,1.0605858,336,455.99999)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6268"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6270"
-   transform="matrix(1,0,0,1.060586,384,455.99999)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6272"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6282"
-   transform="matrix(1,0,0,0.90712099,288,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6284"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6286"
-   transform="matrix(1,0,0,0.90712099,336,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6288"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6290"
-   transform="matrix(1,0,0,0.90712099,384,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6292"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6294"
-   transform="matrix(1,0,0,0.90712099,468.00001,479.99999)"><path
-     d="M 0,0 V 19.843"
-     style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6296"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6310"
-   transform="matrix(2.5922592,0,0,1,336,431.99999)"><path
-     d="M 0,0 H 83.325"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6312"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6314"
-   transform="matrix(4.7234795,0,0,1,336,383.99999)"><path
-     d="M 0,0 H 45.729"
-     style="fill:none;stroke:#bdbcbc;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6316"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6370"
-   transform="matrix(4.7625346,0,0,1,336,407.99999)"><path
-     d="M 0,0 H 45.354"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6372"
-     inkscape:connector-curvature="0" /></g><g
-   id="g6398"
-   transform="matrix(1,0,0,4.1506335,468.00001,383.99999)"><path
-     d="M 0,0 V 23.129"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6400"
-     inkscape:connector-curvature="0" /></g>
+   inkscape:connector-curvature="0" />
 
-<g
-   id="g6366-9"
-   transform="matrix(6.0668071,0,0,1,48.000001,455.99999)"><path
-     d="M 0,0 H 83.075"
-     style="fill:none;stroke:#bdbcbc;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6368-1"
-     inkscape:connector-curvature="0" /></g>
-     <g
-   id="g6266-3"
-   transform="matrix(1,0,0,1.0605858,288,456)"><path
-     d="M 0,0 V 22.629"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     id="path6268-6"
-     inkscape:connector-curvature="0" /></g>
-koniec tabeli
--->
+<!--Koniec tabeli-->
 {% for x in pozycje%}
 <g
    id="g6438-2-7-2"
@@ -9858,7 +9802,7 @@ koniec tabeli
      sodipodi:role="line"
      id="tspan6486"
      x="381.53336"
-     dy="2em">Kwota łączna netto</tspan>
+     dy="2.2em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9872,7 +9816,7 @@ koniec tabeli
      sodipodi:role="line"
      id="tspan6494"
      x="397.19742"
-     dy="1.2em">Kwota VAT {{x}}%</tspan>
+     dy="1.4em">Kwota VAT {{x}}%</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9884,7 +9828,7 @@ koniec tabeli
      sodipodi:role="line"
      id="tspan6502"
      x="337.24429"
-     dy="1.5em">Kwota łączna brutto</tspan>
+     dy="1.7em">Kwota łączna brutto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9895,18 +9839,19 @@ koniec tabeli
      sodipodi:role="line"
      id="tspan6514"
      x="354.91031"
-     dy="1.5em">Kwota do zapłaty</tspan>
+     dy="1.8em">Kwota do zapłaty</tspan>
 <tspan
-     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#FFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6518"
      x="546.08075">{{KDZ|floatf}} zł</tspan>
-
 </text>
+
 <g
    id="g6190-0"
    transform="matrix(0.9878305,0,0,1,47.999995,527.99999)"><path
      d="M 0,0 H 510.209"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
-     inkscape:connector-curvature="0" /></g></g></svg>
+     inkscape:connector-curvature="0" /></g></g>
+</svg>

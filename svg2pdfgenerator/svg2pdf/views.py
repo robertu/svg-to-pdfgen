@@ -32,6 +32,16 @@ class pozycja:
         self.cenaVat = self.cenaN * (podatek / 100)
         self.wartoscVat = self.wartoscN * (podatek / 100)
 
+class tabela:
+    def __init__(self, x, kwotavpoz):
+        self.wys = 0
+        for i in x:
+            self.wys += i.wys + 1
+        self.wys = 467.6 - (self.wys * 9.6)
+        self.kln = self.wys - 15
+        print(kwotavpoz)
+        self.kwotav = self.kln - (11.2 * len(kwotavpoz.items())) - 4
+        self.klb = self.kwotav - 22
 
 def faktura_context_calc(faktura_ostatinia):
     context = {
@@ -47,6 +57,12 @@ def faktura_context_calc(faktura_ostatinia):
         'POZYCJE': list(faktura_ostatinia.pozycje.all()),
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
+    if context['DAYS'] == '1':
+        context.update({'DAYS': context['DAYS'] + ' dzień'})
+    else:
+        context.update({'DAYS': context['DAYS'] + ' dni'})
+    
+
 
     i = [[],[{}, 0., 0., 0.], '']
     for x in context['POZYCJE']:
@@ -54,11 +70,10 @@ def faktura_context_calc(faktura_ostatinia):
         i[0] += [i[2]]
 
     for x in i[0]:
-        if x.podatek > 0:
-            try:
-                i[1][0].update({f'{x.podatek}':x.wartoscVat + i[1][0][f'{x.podatek}']})
-            except:
-                i[1][0].update({f'{x.podatek}':x.wartoscVat})
+        try:
+            i[1][0].update({f'{x.podatek}':x.wartoscVat + i[1][0][f'{x.podatek}']})
+        except:
+            i[1][0].update({f'{x.podatek}':x.wartoscVat})
         i[1][1] += x.wartoscN
         i[1][2] += x.wartoscVat
     i[1][2] += i[1][1]
@@ -72,17 +87,17 @@ def faktura_context_calc(faktura_ostatinia):
         'KDZ': i[1][3],
     })
     
-    i = [[[]], 0, 10 - len(i[1][0].items()), 0, 467.6]
+    i = [[[]], 0, 9 - len(i[1][0].items()), 0, 467.6]
     for x in context['POZYCJE']:
         print(i[3], ' / ', i[1], ' / ',i[2], ' / ', i[0])
-        if i[3] >= i[2]:
-            print('x')
+        if i[3] + x.wys >= i[2]:
+            #print('x')
             i[1] += 1
             i[3] = 0
             i[0] += [[]]
             i[4] = 467.6
         x.szczalka = i[4]
-        i[4] -= 9.6 + ((x.wys) * 9.6 )
+        i[4] -= ((x.wys + 1) * 9.6 )
         i[3] += x.wys + 1
         i[0][i[1]] += [x]
     
@@ -101,10 +116,10 @@ def faktura_temp(request, id=1):
     faktury = faktura.objects.order_by('-id')
     for x in faktury:
         if x.id == id:
-            i = x
+            id = x
 
     #calc context
-    context, pozycje_c = faktura_context_calc(i)
+    context, pozycje_c = faktura_context_calc(id)
     pdfs = []
     temp = 0
     pozycje = pozycje_c[0]
@@ -112,9 +127,11 @@ def faktura_temp(request, id=1):
         temp += 1
         context.update({
             'pozycje': x,
+            'TABELA': tabela(x, context['KVAT']),
             'STRONA': temp,
             'STRONY': pozycje_c[1] + 1
         })
+        print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
         svg = loader.get_template('fv-template.svg').render(context, request)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
         pdfs += [f'faktura/faktura{temp}.pdf']
