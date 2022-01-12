@@ -9657,70 +9657,6 @@
 
 <text
    transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6420"
-   x="73.7146"
-   y="-484.65338"><tspan
-     sodipodi:role="line"
-     id="tspan6418"
-     x="73.7146"
-     y="-484.65338">Opis usługi</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6424"
-   x="293.63651"
-   y="-484.27844"><tspan
-     sodipodi:role="line"
-     id="tspan6422"
-     x="293.63651"
-     y="-484.27844">Ilość</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6428"
-   x="348.53683"
-   y="-484.37219"><tspan
-     sodipodi:role="line"
-     id="tspan6426"
-     x="348.53683"
-     y="-484.37219">J.m.</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6432"
-   x="391.05649"
-   y="-484.65338"><tspan
-     sodipodi:role="line"
-     id="tspan6430"
-     x="391.05649"
-     y="-484.65338">Cena jedn.</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6436"
-   x="493.9549"
-   y="-484.84094"><tspan
-     x="493.9549 502.2449 509.8349 518.56488"
-     y="-484.84094"
-     sodipodi:role="line"
-     id="tspan6434">Cena</tspan></text>
-
-
-<text
-   transform="scale(1,-1)"
    style="font-variant:normal;font-weight:300;font-stretch:normal;font-size:12px;font-family:'Open Sans Light';-inkscape-font-specification:OpenSans-Light;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6512"
    x="50.121895"
@@ -9731,6 +9667,46 @@
      y="-292.99597">Termin płatności: {{DAYS}} dni od daty wystawienia faktury</tspan></text>
 
 
+<text
+   transform="scale(1,-1)"
+   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
+   id="text6420"
+   x="73.7146"
+   y="-484.65338">
+<tspan
+     sodipodi:role="line"
+     id="tspan6418"
+     x="73.7146">Opis usługi</tspan>
+<tspan
+     sodipodi:role="line"
+     id="tspan6422"
+     x="253.63651">Ilość</tspan>
+<tspan
+     sodipodi:role="line"
+     id="tspan6426"
+     x="308.53683">J.m.</tspan>
+<tspan
+     sodipodi:role="line"
+     id="tspan6426"
+     x="348.53683">VAT</tspan>
+<tspan
+     sodipodi:role="line"
+     id="tspan6430"
+     x="391.05649">Cena jedn.</tspan>
+<tspan
+     x="493.9549 502.2449 509.8349 518.56488"
+     sodipodi:role="line"
+     id="tspan6434">Cena</tspan>
+</text>
+
+<g
+   id="g6522"
+   transform="matrix(0.91194649,0,0,0.90488631,48.000001,497.99999)"><path
+     d="m 0,0 v -19.899 l 19.738,0.007 V 0 Z"
+     style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="path6524"
+     inkscape:connector-curvature="0" />
+</g>
 
 
 
@@ -9809,12 +9785,6 @@ Tabelka
      inkscape:connector-curvature="0" /></g>
 
 <g
-   id="g6522"
-   transform="matrix(0.91194649,0,0,0.90488631,48.000001,497.99999)"><path
-     d="m 0,0 v -19.899 l 19.738,0.007 V 0 Z"
-     style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none"
-     id="path6524"
-     inkscape:connector-curvature="0" /></g><g
    id="g6366-9"
    transform="matrix(6.0668071,0,0,1,48.000001,455.99999)"><path
      d="M 0,0 H 83.075"
@@ -9857,14 +9827,17 @@ koniec tabeli
   {% endfor %}
   <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
-     x="310.21063"
+     x="270.21063"
      id="tspan6446-3-2-5">{{x.ilosc}}</tspan>
   <tspan
      style="stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="349.83762">{{x.jednostka}}</tspan>
-
+     x="309.83762">{{x.jednostka}}</tspan>
+<tspan
+     style="text-align:center;text-anchor:middle;stroke-width:1"
+     id="tspan6426"
+     x="360.53683">{{x.podatek}}.00%</tspan>
   <tspan
      sodipodi:role="line"
      id="tspan6454-2-9-1"
@@ -9889,22 +9862,26 @@ koniec tabeli
      id="tspan6490"
      x="546.08075">{{KLN}} zł</tspan>
 <tspan
+  dy="0.5em"> </tspan>
+{% for x, y in KVAT.items%}
+<tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6494"
      x="397.19742"
-     dy="2em">Kwota VAT 23%</tspan>
+     dy="1.2em">Kwota VAT {{x}}%</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6498"
-     x="546.08075">{{KVAT}} zł</tspan>
+     x="546.08075">{{y}} zł</tspan>
+{% endfor %}
 <tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6502"
      x="337.24429"
-     dy="2em">Kwota łączna brutto</tspan>
+     dy="1.5em">Kwota łączna brutto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9915,7 +9892,7 @@ koniec tabeli
      sodipodi:role="line"
      id="tspan6514"
      x="354.91031"
-     dy="1em">Kwota do zapłaty</tspan>
+     dy="1.5em">Kwota do zapłaty</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"

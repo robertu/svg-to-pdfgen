@@ -12,7 +12,7 @@ def name(nazwa):
     i = 0
     l = 0
     for x in nazwa.split():
-        if l + len(x) > 40:
+        if l + len(x) > 30:
             i += 1
             l = 0
         if l == 0:
@@ -29,8 +29,8 @@ class pozycja:
         self.podatek = podatek
         self.cenaN = '%.2f' % cenaN
         self.wartoscN = '%.2f' % float(float(self.cenaN) * self.ilosc)
-        self.cenaVat = '%.2f' % float(float(self.cenaN) * (podatek / 100 + 1))
-        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (podatek / 100 + 1))
+        self.cenaVat = '%.2f' % float(float(self.cenaN) * (podatek / 100))
+        self.wartoscVat = '%.2f' % float(float(self.wartoscN) * (podatek / 100))
 
 
 def faktura_context_calc(faktura_ostatinia):
@@ -48,35 +48,41 @@ def faktura_context_calc(faktura_ostatinia):
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
     }
 
-    i = [[],[0., 0., 0., 0.], '', 467.6]
+    i = [[],[{}, 0., 0., 0.], '']
     for x in context['POZYCJE']:
         i[2] = pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)
-        i[2].szczalka = i[3]
-        i[3] -= 9.6 + ((i[2].wys - 1) * 9.6 )
         i[0] += [i[2]]
 
     for x in i[0]:
-        i[1][0] += float(x.wartoscN)
-        i[1][1] += float(x.wartoscN) * 0.23
-        i[1][2] = float(i[1][0] + i[1][1])
-        i[1][3] = i[1][2]
+        if x.podatek > 0:
+            try:
+                i[1][0].update({f'{x.podatek}':float(float(x.wartoscVat) + i[1][0][f'{x.podatek}'])})
+            except:
+                i[1][0].update({f'{x.podatek}':float(x.wartoscVat)})
+        i[1][1] += float(x.wartoscN)
+        i[1][2] += float(x.wartoscVat)
+    i[1][2] += i[1][1]
+    i[1][3] = i[1][2]
 
     context.update({
         'POZYCJE': i[0],
-        'KLN': '%.2f' % i[1][0],
-        'KVAT': '%.2f' % i[1][1],
-        'KLB': '%.2f' % i[1][2],
-        'KDZ': '%.2f' % i[1][3],
+        'KLN': i[1][1],
+        'KVAT': dict(sorted(i[1][0].items())),
+        'KLB': i[1][2],
+        'KDZ': i[1][3],
     })
     
-    i = [[[]], 0, 10, 0]
+    i = [[[]], 0, 10 - len(i[1][0].items()), 0, 467.6]
     for x in context['POZYCJE']:
         print(i[3], ' / ', i[1], ' / ',i[2], ' / ', i[0])
-        if i[3] == i[2]:
+        if i[3] >= i[2]:
             print('x')
             i[1] += 1
             i[3] = 0
             i[0] += [[]]
+            i[4] = 467.6
+        x.szczalka = i[4]
+        i[4] -= 9.6 + ((x.wys - 1) * 9.6 )
         i[3] += x.wys
         i[0][i[1]] += [x]
     
