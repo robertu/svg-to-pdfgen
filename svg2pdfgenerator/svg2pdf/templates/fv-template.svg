@@ -9710,6 +9710,15 @@
 </g>
 
 <!--Tabelka-->
+{% for x in TABELA.liniah%}
+<g
+   id="g6190-0"
+   transform="matrix(0.9878305,0,0,1,47.999995,{{x}})"><path
+     d="M 0,0 H 510.209"
+     style="fill:none;stroke:#dadada;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+{% endfor %}
 <g
    id="g6190-0"
    transform="matrix(0.9878305,0,0,1,47.999995,{{TABELA.wys}})"><path
@@ -9724,6 +9733,15 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+{% for x in TABELA.kwotavh%}
+<g
+   id="g6190-0"
+   transform="matrix(2.5922592,0,0,1,335,{{x}})"><path
+     d="M 0,0 H 83.325"
+     style="fill:none;stroke:#dadada;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+{% endfor %}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,335,{{TABELA.kwotav}})"><path
@@ -9731,6 +9749,7 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+{% if ZAPLACONO > 0%}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,335,{{TABELA.zapl}})"><path
@@ -9738,6 +9757,7 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+{% endif %}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,335,{{TABELA.klb}})"><path
@@ -9809,7 +9829,7 @@
      style="stroke-width:1"
      sodipodi:role="line"
      x="60.723106"
-     dy="1.2em"
+     dy="1.4em"
      id="tspan7890-2">{{y}}</tspan>
   {% endfor %}
   <tspan
@@ -9844,7 +9864,7 @@
      sodipodi:role="line"
      id="tspan6486"
      x="460"
-     dy="2.2em">Kwota łączna netto</tspan>
+     dy="1.6em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9858,7 +9878,7 @@
      sodipodi:role="line"
      id="tspan6494"
      x="397.19742"
-     dy="1.4em">Kwota VAT {{x}}%</tspan>
+     dy="1.6em">Kwota VAT {{x}}%</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9870,12 +9890,13 @@
      sodipodi:role="line"
      id="tspan6514"
      x="460"
-     dy="1.6em">Razem</tspan>
+     dy="1.4em">Razem</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6506"
      x="546.08075">{{RAZEM|floatf}} zł</tspan>
+{% if ZAPLACONO > 0%}
 <tspan
   style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9887,12 +9908,13 @@
      sodipodi:role="line"
      id="tspan6506"
      x="546.08075">{{ZAPLACONO|floatf}} zł</tspan>
+{% endif %}
 <tspan
   style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6514"
      x="460"
-     dy="1.8em">Kwota do zapłaty</tspan>
+     dy="1.9em">Kwota do zapłaty</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#FFF;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"

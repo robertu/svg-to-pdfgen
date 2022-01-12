@@ -33,18 +33,28 @@ class pozycja:
         self.wartoscVat = self.wartoscN * (podatek / 100)
 
 class tabela:
-    def __init__(self, x, kwotavpoz):
+    def __init__(self, x, kwotavpoz, zaplacono):
+        #((x.wys + 1) * 11.2 )
         self.wys = 0
         self.liniah = []
         for i in x:
             self.wys += i.wys + 1
-            self.liniah += [self.wys]
-        self.linawys = (self.wys * 9.2) + 10
-        self.wys = 467.6 - (self.wys * 9.6)
+            self.liniah += [467.6 - (self.wys * 12.2) + (self.wys + 1 * 4)]
+        self.linawys = (self.wys * 11.2) + 2
+        self.wys = self.liniah[-1]
+        self.liniah = self.liniah[:-1]
         self.kln = self.wys - 15
-        print(kwotavpoz)
-        self.kwotav = self.kln - (11.2 * len(kwotavpoz.items())) - 4
-        self.zapl = self.kwotav - 22
+        self.kwotav = self.kln
+        self.kwotavh = []
+        for x in kwotavpoz.items():
+            self.kwotav -= 11.2
+            self.kwotavh += [self.kwotav -2]
+        self.kwotavh = self.kwotavh[:-1]
+        self.kwotav -= 4
+        if zaplacono > 0:
+            self.zapl = self.kwotav - 22
+        else:
+            self.zapl = self.kwotav
         self.klb = self.zapl - 22
         self.klina = self.klb - 24
         self.linawysmax = (self.wys - self.klb) + 24 + self.linawys
@@ -86,29 +96,34 @@ def faktura_context_calc(faktura_ostatinia):
     i[1][2] += i[1][1]
     i[1][3] = i[1][2]
 
+    if context['ZAPLACONO'] > 0:
+        i[1][3] -= context['ZAPLACONO']
+
+
     context.update({
         'POZYCJE': i[0],
         'KLN': i[1][1],
         'KVAT': dict(sorted(i[1][0].items())),
         'RAZEM': i[1][2],
-        'KDZ': i[1][3] - context['ZAPLACONO'],
+        'KDZ': i[1][3],
     })
-    
-    i = [[[]], 0, 7 - len(i[1][0].items()), 0, 467.6]
+
+    linie = 7 - len(i[1][0].items())
+    print(context['ZAPLACONO'])
+    if context['ZAPLACONO'] <= float(0):
+        linie += 2
+
+    i = [[[]], 0, linie, 0, 465.8]
     for x in context['POZYCJE']:
-        print(i[3], ' / ', i[1], ' / ',i[2], ' / ', i[0])
         if i[3] + x.wys >= i[2]:
-            #print('x')
             i[1] += 1
             i[3] = 0
             i[0] += [[]]
             i[4] = 467.6
         x.szczalka = i[4]
-        i[4] -= ((x.wys + 1) * 9.6 )
+        i[4] -= ((x.wys + 1) * 11.2 )
         i[3] += x.wys + 1
         i[0][i[1]] += [x]
-    
-    print(i[0])
 
     return context, i
 
@@ -134,7 +149,7 @@ def faktura_temp(request, id=1):
         temp += 1
         context.update({
             'pozycje': x,
-            'TABELA': tabela(x, context['KVAT']),
+            'TABELA': tabela(x, context['KVAT'], context['ZAPLACONO']),
             'STRONA': temp,
             'STRONY': pozycje_c[1] + 1
         })
