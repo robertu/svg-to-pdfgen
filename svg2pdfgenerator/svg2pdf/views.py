@@ -12,7 +12,7 @@ def name(nazwa):
     i = 0
     l = 0
     for x in nazwa.split():
-        if l + len(x) > 46:
+        if l + len(x) > 44:
             i += 1
             l = 0
         if l == 0:
@@ -37,11 +37,14 @@ class tabela:
         self.wys = 0
         for i in x:
             self.wys += i.wys + 1
+        self.linawys = (self.wys * 9.2) + 10
         self.wys = 467.6 - (self.wys * 9.6)
         self.kln = self.wys - 15
         print(kwotavpoz)
         self.kwotav = self.kln - (11.2 * len(kwotavpoz.items())) - 4
         self.klb = self.kwotav - 22
+        self.klina = self.klb - 24
+        self.linawysmax = (self.wys - self.klb) + 24 + self.linawys
 
 def faktura_context_calc(faktura_ostatinia):
     context = {
