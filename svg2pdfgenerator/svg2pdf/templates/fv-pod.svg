@@ -9875,7 +9875,7 @@
      sodipodi:role="line"
      id="tspan6486"
      x="460"
-     dy="1.9em">Kwota łączna netto</tspan>
+     dy="1.7em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9932,7 +9932,6 @@
      id="tspan6518"
      x="546.08075">{{KDZ|floatf}} zł</tspan>
 </text>
-
 <g
    id="g6190-0"
    transform="matrix(0.9878305,0,0,1,47.999995,527.99999)"><path

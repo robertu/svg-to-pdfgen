@@ -39,7 +39,7 @@ class tabela:
         self.liniah = []
         for i in x:
             self.wys += i.wys + 1
-            self.liniah += [467.6 - (self.wys * 12.7) + self.wys + 4]
+            self.liniah += [467.6 - (self.wys * 12.2) + self.wys + 4]
         self.linawys = (self.wys * 11.2) + 2
         self.wys = self.liniah[-1]
         self.liniah = self.liniah[:-1]
@@ -71,7 +71,8 @@ def faktura_context_calc(faktura_ostatinia):
         'TERPLAT': str(faktura_ostatinia.Termin_płatności),
         'POZYCJE': list(faktura_ostatinia.pozycje.all()),
         'ZAPLACONO': faktura_ostatinia.Zapłacono,
-        'DAYS': str(faktura_ostatinia.Termin_płatności_dni)
+        'DAYS': str(faktura_ostatinia.Termin_płatności_dni),
+        'STRGL': 'fv-pod.svg'
     }
     if context['DAYS'] == '1':
         context.update({'DAYS': context['DAYS'] + ' dzień'})
@@ -108,6 +109,7 @@ def faktura_context_calc(faktura_ostatinia):
     })
 
     linie = 7 - len(i[1][0].items())
+    linie2 = 15
     print(context['ZAPLACONO'])
     if context['ZAPLACONO'] <= float(0):
         linie += 2
@@ -119,10 +121,12 @@ def faktura_context_calc(faktura_ostatinia):
             i[3] = 0
             i[0] += [[]]
             i[4] = 467.6
+            i[2] = linie2
         x.szczalka = i[4]
         i[4] -= ((x.wys + 1) * 11.2 )
         i[3] += x.wys + 1
         i[0][i[1]] += [x]
+
 
     return context, i
 
@@ -150,13 +154,16 @@ def faktura_temp(request, id=1):
             'pozycje': x,
             'TABELA': tabela(x, context['KVAT'], context['ZAPLACONO']),
             'STRONA': temp,
-            'STRONY': pozycje_c[1] + 1
+            'STRONY': pozycje_c[1] + 1,
         })
         print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
-        svg = loader.get_template('fv-template.svg').render(context, request)
+        svg = loader.get_template(context['STRGL']).render(context, request)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
         pdfs += [f'faktura/faktura{temp}.pdf']
-    
+        context.update({
+            'STRGL': 'fv-bezpod.svg'
+        })
+
     #return render(request, 'fv-template.svg', context)
     
 
