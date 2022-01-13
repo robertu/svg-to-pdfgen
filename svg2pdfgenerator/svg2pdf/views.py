@@ -12,7 +12,7 @@ def name(nazwa):
     i = 0
     l = 0
     for x in nazwa.split():
-        if l + len(x) > 35:
+        if l + len(x) > 40:
             i += 1
             l = 0
         if l == 0:
@@ -39,9 +39,9 @@ class tabela:
         self.liniah = []
         for i in x:
             self.wys += i.wys + 1
-            self.liniah += [467.6 - (self.wys * 12.2) + (self.wys + 1 * 4)]
+            self.liniah += [467.6 - (self.wys * 12.7) + self.wys + 4]
         self.linawys = (self.wys * 11.2) + 2
-        self.wys = self.liniah[-1] - 2
+        self.wys = self.liniah[-1]
         self.liniah = self.liniah[:-1]
         self.kln = self.wys - 15
         self.kwotav = self.kln

@@ -9677,25 +9677,36 @@
 <tspan
      sodipodi:role="line"
      id="tspan6418"
-     x="73.7146">Opis usługi</tspan>
+     x="73.5">Opis usługi</tspan>
 <tspan
+     style="text-align:center;text-anchor:middle;"
      sodipodi:role="line"
      id="tspan6422"
-     x="243.63651">Ilość</tspan>
+     x="263.5">Ilość</tspan>
 <tspan
+     style="text-align:center;text-anchor:middle;"
      sodipodi:role="line"
      id="tspan6426"
-     x="284.53683">J.m.</tspan>
+     x="303.5">J.m.</tspan>
 <tspan
+     style="text-align:center;text-anchor:middle;"
      sodipodi:role="line"
      id="tspan6426"
-     x="317.53683">Stawka VAT</tspan>
+     x="353"
+     dy='-0.5em'>Stawka</tspan>
+<tspan
+     style="text-align:center;text-anchor:middle;"
+     sodipodi:role="line"
+     id="tspan6426"
+     x="353"
+     dy='1em'>VAT</tspan>
 <tspan
      sodipodi:role="line"
      id="tspan6430"
-     x="391.05649">Cena jedn.</tspan>
+     x="397"
+     dy='-0.5em'>Cena jedn.</tspan>
 <tspan
-     x="493.9549 502.2449 509.8349 518.56488"
+     x="494 502 510 518"
      sodipodi:role="line"
      id="tspan6434">Cena</tspan>
 </text>
@@ -9767,28 +9778,28 @@
      inkscape:connector-curvature="0" /></g>
 <g
    id="g6190-0"
-   transform="matrix(2.5922592,0,0,1,236.63651,{{TABELA.wys}})"><path
+   transform="matrix(2.5922592,0,0,1,243,{{TABELA.wys}})"><path
      d="M 0,0 V {{TABELA.linawys}}"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
 <g
    id="g6190-0"
-   transform="matrix(2.5922592,0,0,1,274.53683,{{TABELA.wys}})"><path
+   transform="matrix(2.5922592,0,0,1,284,{{TABELA.wys}})"><path
      d="M 0,0 V {{TABELA.linawys}}"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
 <g
    id="g6190-0"
-   transform="matrix(2.5922592,0,0,1,310.53683,{{TABELA.wys}})"><path
+   transform="matrix(2.5922592,0,0,1,323,{{TABELA.wys}})"><path
      d="M 0,0 V {{TABELA.linawys}}"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
 <g
    id="g6190-0"
-   transform="matrix(2.5922592,0,0,1,384.05649,{{TABELA.wys}})"><path
+   transform="matrix(2.5922592,0,0,1,384,{{TABELA.wys}})"><path
      d="M 0,0 V {{TABELA.linawys}}"
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
@@ -9834,18 +9845,18 @@
   {% endfor %}
   <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
-     x="255.21063"
+     x="263.21063"
      id="tspan6446-3-2-5"
      dy="-{{x.wys|hight}}em">{{x.ilosc}}</tspan>
   <tspan
-     style="stroke-width:1"
+     style="text-align:center;text-anchor:middle;stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="285.83762">{{x.jednostka}}</tspan>
+     x="303">{{x.jednostka}}</tspan>
 <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
      id="tspan6426"
-     x="348.53683">{{x.podatek}}%</tspan>
+     x="354">{{x.podatek}} %</tspan>
   <tspan
      sodipodi:role="line"
      id="tspan6454-2-9-1"
@@ -9864,7 +9875,7 @@
      sodipodi:role="line"
      id="tspan6486"
      x="460"
-     dy="1.8em">Kwota łączna netto</tspan>
+     dy="1.9em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9890,7 +9901,7 @@
      sodipodi:role="line"
      id="tspan6514"
      x="460"
-     dy="1.55em">Razem</tspan>
+     dy="1.50em">Razem</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
