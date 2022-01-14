@@ -9,3 +9,11 @@ def hight(value):
 @register.filter
 def floatf(value):
     return '%.2f' % float(value)
+
+@register.filter
+def opistabeli(value):
+    return (value + 12) * -1
+
+@register.filter
+def kwadrat(value):
+    return value + 25

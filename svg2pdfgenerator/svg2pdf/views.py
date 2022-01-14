@@ -33,14 +33,17 @@ class pozycja:
         self.wartoscVat = self.wartoscN * (podatek / 100)
 
 class tabela:
-    def __init__(self, x, kwotavpoz, zaplacono):
+    def __init__(self, x, kwotavpoz, zaplacono, wys):
         #((x.wys + 1) * 11.2 )
         self.wys = 0
+        self.cwys = 0
         self.liniah = []
         for i in x:
             self.wys += i.wys + 1
-            self.liniah += [467.6 - (self.wys * 12.2) + self.wys + 4]
-        self.linawys = (self.wys * 11.2) + 2
+            self.cwys += i.wys
+            print(self.cwys, "  /  ", i.wys)
+            self.liniah += [wys + 4 - (self.wys * 13.55) + (self.cwys * 2.3)]
+        self.linawys = (self.wys * 13.4)
         self.wys = self.liniah[-1]
         self.liniah = self.liniah[:-1]
         self.kln = self.wys - 15
@@ -72,7 +75,8 @@ def faktura_context_calc(faktura_ostatinia):
         'POZYCJE': list(faktura_ostatinia.pozycje.all()),
         'ZAPLACONO': faktura_ostatinia.Zapłacono,
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni),
-        'STRGL': 'fv-pod.svg'
+        'STRGL': True,
+        'STRKON': False,
     }
     if context['DAYS'] == '1':
         context.update({'DAYS': context['DAYS'] + ' dzień'})
@@ -108,11 +112,16 @@ def faktura_context_calc(faktura_ostatinia):
         'KDZ': i[1][3],
     })
 
-    linie = 7 - len(i[1][0].items())
-    linie2 = 15
+    linie = 25 - len(i[1][0].items())
+    liniegl = linie - 20
+    linie2 = 36
+    linie2gl = 22
     print(context['ZAPLACONO'])
     if context['ZAPLACONO'] <= float(0):
         linie += 2
+        liniegl += 2
+    
+    tabelarys = [467.6]
 
     i = [[[]], 0, linie, 0, 465.8]
     for x in context['POZYCJE']:
@@ -120,15 +129,28 @@ def faktura_context_calc(faktura_ostatinia):
             i[1] += 1
             i[3] = 0
             i[0] += [[]]
-            i[4] = 467.6
+            i[4] = 618.5
             i[2] = linie2
+            tabelarys +=[620]
         x.szczalka = i[4]
-        i[4] -= ((x.wys + 1) * 11.2 )
+        i[4] -= ((x.wys + 1) * 11.2 ) + 2.4
         i[3] += x.wys + 1
         i[0][i[1]] += [x]
+    
+    print(len(i[0]))
+    if len(i[0]) == 1:
+        print(i[3], '  ', liniegl)
+        if len(i[0][0]) > liniegl:
+            i[1] += 1
+            i[0] += [[]]
+    else:
+        print(len(i[0][-1]), '  ', linie2gl)
+        if i[3] > linie2gl:
+            i[1] += 1
+            i[0] += [[]]
 
 
-    return context, i
+    return context, i, tabelarys
 
 def strona_gl(request):
     faktury = list(faktura.objects.order_by('-id'))
@@ -144,24 +166,39 @@ def faktura_temp(request, id=1):
             id = x
 
     #calc context
-    context, pozycje_c = faktura_context_calc(id)
+    context, pozycje_c, tabelarys = faktura_context_calc(id)
     pdfs = []
     temp = 0
     pozycje = pozycje_c[0]
     for x in pozycje:
         temp += 1
-        context.update({
-            'pozycje': x,
-            'TABELA': tabela(x, context['KVAT'], context['ZAPLACONO']),
-            'STRONA': temp,
-            'STRONY': pozycje_c[1] + 1,
-        })
-        print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
-        svg = loader.get_template(context['STRGL']).render(context, request)
+        if len(x) != 0:
+            context.update({
+                'pozycje': x,
+                'TABELA': tabela(x, context['KVAT'], context['ZAPLACONO'], tabelarys[temp - 1]),
+                'TABELARYS': (tabelarys[temp - 1] + 6.65),
+                'STRONA': temp,
+                'STRONY': pozycje_c[1] + 1,
+            })
+        else:
+            context.update({
+                'pozycje': [],
+                'TABELA': -200,
+                'TABELARYS': -200,
+                'STRONA': temp,
+                'STRONY': pozycje_c[1] + 1,
+            })
+        print(pozycje_c[1], '   ', temp)
+        if pozycje_c[1] + 1 == temp:
+            context.update({
+                'STRKON': True
+            })
+        #print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
+        svg = loader.get_template('fv-pod.svg').render(context, request)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
         pdfs += [f'faktura/faktura{temp}.pdf']
         context.update({
-            'STRGL': 'fv-bezpod.svg'
+            'STRGL': False
         })
 
     #return render(request, 'fv-template.svg', context)

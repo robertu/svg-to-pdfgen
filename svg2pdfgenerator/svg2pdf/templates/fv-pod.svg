@@ -124,6 +124,7 @@
 
 
 
+
 <g
    id="g32"><g
      id="g34"><g
@@ -9225,7 +9226,11 @@
            d="M 0,0 V 7.567 L 13.611,-0.012 40.816,15.145 47.588,11.36 20.422,-3.775 27.171,-7.576 60.519,11.007 c -0.374,0.635 -0.902,1.184 -1.645,1.603 L 40.759,22.7 13.614,7.574 6.809,11.36 l 27.15,15.131 -4.581,2.556 c -1.356,0.76 -3.049,0.76 -4.412,0 L -4.578,12.575 c -1.359,-0.753 -2.21,-2.166 -2.21,-3.686 V -3.79 L 27.171,-22.711 54.39,-7.543 v -7.574 L 27.171,-30.289 -6.788,-11.357 v -5.109 c 0,-1.522 0.851,-2.935 2.21,-3.69 l 29.544,-16.469 c 1.363,-0.758 3.056,-0.758 4.412,0 l 29.55,16.469 c 1.363,0.755 2.202,2.168 2.202,3.69 V 3.783 L 27.18,-15.143 Z"
            style="fill:#e61b2d;fill-opacity:1;fill-rule:nonzero;stroke:none"
            id="path6116"
-           inkscape:connector-curvature="0" /></g></g></g></g><text
+           inkscape:connector-curvature="0" /></g></g></g></g>
+
+
+{% if STRGL %}
+<text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#e61b2d;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6120"
@@ -9235,9 +9240,6 @@
      id="tspan6118"
      x="47.996292"
      y="-677.45007">Faktura</tspan></text>
-
-
-
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#e61b2d;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9249,7 +9251,6 @@
      x="552.77673"
      y="-678.47852"
      style="text-align:end;text-anchor:end">{{FVATNAME}}</tspan></text>
-
 
 
 <text
@@ -9390,6 +9391,7 @@
 
 
 
+
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9448,14 +9450,6 @@
    y="-560.48438" />
 
 
-
-<g
-   id="g6190"
-   transform="matrix(0.98783049,0,0,1,47.999995,551.99999)"><path
-     d="M 0,0 H 510.209"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     id="path6192"
-     inkscape:connector-curvature="0" /></g>
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9469,8 +9463,24 @@
    style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Light'"
    id="tspan8193">{{DATAWYS}}</tspan> </tspan></text>
 
+<g
+   id="g6190"
+   transform="matrix(0.98783049,0,0,1,47.999995,551.99999)"><path
+     d="M 0,0 H 510.209"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192"
+     inkscape:connector-curvature="0" /></g>
 
+<g
+   id="g6190-0"
+   transform="matrix(0.9878305,0,0,1,47.999995,527.99999)"><path
+     d="M 0,0 H 510.209"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
 
+{% endif %}
+{% if STRKON %}
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9509,7 +9519,6 @@
      id="tspan6210"
      x="50.237087"
      y="-242.41319">Wszelkie pytania dotyczące niniejszej faktury prosimy kierować na adres mail@linacti.software</tspan></text>
-
 
 
 <path
@@ -9668,12 +9677,14 @@
      y="-280.99597">Termin płatności: {{DAYS}} od daty wystawienia faktury</tspan></text>
 
 
+{% endif %}
+
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;font-family:'Good Times Rg';-inkscape-font-specification:GoodTimesRg-Regular;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
    id="text6420"
    x="73.7146"
-   y="-484.65338">
+   y="{{TABELARYS|opistabeli}}">
 <tspan
      sodipodi:role="line"
      id="tspan6418"
@@ -9713,7 +9724,7 @@
 
 <g
    id="g6522"
-   transform="matrix(0.91194649,0,0,0.90488631,48.000001,497.99999)"><path
+   transform="matrix(0.91194649,0,0,0.90488631,48.000001,{{TABELARYS|kwadrat}})"><path
      d="m 0,0 v -19.899 l 19.738,0.007 V 0 Z"
      style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none"
      id="path6524"
@@ -9737,6 +9748,7 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+{% if STRGL %}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,335,{{TABELA.kln}})"><path
@@ -9776,6 +9788,12 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+<path
+   d="m 468.00001,{{TABELA.klb}} h 84 v -24 h -84 z"
+   style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.96114719"
+   id="path6264"
+   inkscape:connector-curvature="0" />
+{% endif %}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,243,{{TABELA.wys}})"><path
@@ -9804,6 +9822,7 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
+{% if STRGL%}
 <g
    id="g6190-0"
    transform="matrix(2.5922592,0,0,1,468,{{TABELA.klina}})"><path
@@ -9811,11 +9830,15 @@
      style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path6192-6"
      inkscape:connector-curvature="0" /></g>
-<path
-   d="m 468.00001,{{TABELA.klb}} h 84 v -24 h -84 z"
-   style="fill:#ee2722;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.96114719"
-   id="path6264"
-   inkscape:connector-curvature="0" />
+{% else %}
+<g
+   id="g6190-0"
+   transform="matrix(2.5922592,0,0,1,468,{{TABELA.wys}})"><path
+     d="M 0,0 V {{TABELA.linawys}}"
+     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path6192-6"
+     inkscape:connector-curvature="0" /></g>
+{% endif %}
 
 <!--Koniec tabeli-->
 {% for x in pozycje%}
@@ -9832,7 +9855,7 @@
    style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1"
    id="text6448-2-1-4"
    x="312.36298"
-   y="-474.25696"
+   y="-{{TABELARYS}}"
    transform="scale(1,-1)">
 {% for x in pozycje %}
   {%for y in x.nazwa%}
@@ -9869,20 +9892,22 @@
      x="546.08075"
      style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN|floatf}} zł</tspan>
   <tspan dy='{{x.wys|hight}}em'> </tspan>
+  <tspan dy='0.3em'> </tspan>
 {% endfor %}
+{% if STRGL%}
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6486"
      x="460"
-     dy="1.7em">Kwota łączna netto</tspan>
+     dy="1.6em">Kwota łączna netto</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
      id="tspan6490"
      x="546.08075">{{KLN|floatf}} zł</tspan>
 <tspan
-  dy="0.3em"> </tspan>
+  dy="0.2em"> </tspan>
 {% for x, y in KVAT.items%}
 <tspan
      style="font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -9913,7 +9938,7 @@
      sodipodi:role="line"
      id="tspan6514"
      x="460"
-     dy="1.9em">Zapłacono</tspan>
+     dy="1.8em">Zapłacono</tspan>
 <tspan
      style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
      sodipodi:role="line"
@@ -9931,12 +9956,6 @@
      sodipodi:role="line"
      id="tspan6518"
      x="546.08075">{{KDZ|floatf}} zł</tspan>
-</text>
-<g
-   id="g6190-0"
-   transform="matrix(0.9878305,0,0,1,47.999995,527.99999)"><path
-     d="M 0,0 H 510.209"
-     style="fill:none;stroke:#bdbcbc;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     id="path6192-6"
-     inkscape:connector-curvature="0" /></g></g>
+{% endif %}
+</text></g>
 </svg>
