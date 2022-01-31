@@ -21,6 +21,7 @@ Start serwera deweloperskiego
 
 ```
 . env/bin/activate
+python3 manage.py migrate
 python3 manage.py createsuperuser
 (Podaj nazwę użytkownika oraz hasło)
 python3 manage.py runserver {port}
