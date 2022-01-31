@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.template import loader
 from .models import faktura
 import os
+from os.path import isdir
 import cairosvg
 from PyPDF2 import PdfFileMerger
 # Create your views here.
@@ -195,6 +196,9 @@ def faktura_temp(request, id=1):
             context.update({
                 'STRKON': True
             })
+        
+        if isdir('faktura') == False:
+            os.mkdir('faktura')
         #print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
         svg = loader.get_template('fv-pod.svg').render(context, request)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
