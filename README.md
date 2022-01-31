@@ -19,6 +19,8 @@ pip3 install -r requirements.txt
 Start serwera deweloperskiego
 =============================
 
+Wewnątrz katalogu `app`:
+
 ```
 . env/bin/activate
 python3 manage.py migrate
