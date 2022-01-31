@@ -2,7 +2,7 @@ Repo
 ====
 
 ```
-git clone https://github.com/robertu/svg2pdfgen app
+git clone git@github.com:robertu/svg2pdfgen.giti app
 ```
 
 Instalacja virtualenv
