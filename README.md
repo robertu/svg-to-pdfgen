@@ -1,8 +1,12 @@
-venv
-
 ```
-git clone https://github.com/robertu/svg2pdfgen
-sh svg2pdfgen/req.sh
+git clone https://github.com/robertu/svg2pdfgen app
+```
+
+venv
+```
+python3 -m venv ./env
+. env/bin/activate
+cd app && pip3 install -r ./requirements.txt
 ```
 
 Start
