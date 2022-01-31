@@ -4,17 +4,21 @@ git clone https://github.com/robertu/svg2pdfgen app
 ```
 
 Instalacja virtualenv
+=====================
+
+Wewnątrz katalogu `app`:
+
 ```
-cd app
 python3 -m venv env
 . env/bin/activate
-pip3 install -r ./requirements.txt
+. .env
+pip3 install -r requirements.txt
 ```
 
 Start
 
 ```
-cd app/svg2pdfgenerator
+cd app
 . env/bin/activate
 python3 manage.py createsuperuser
 (Podaj nazwę użytkownika oraz hasło)
