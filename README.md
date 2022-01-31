@@ -12,16 +12,15 @@ Wewnątrz katalogu `app`:
 
 ```
 python3 -m venv env
-. .env
+. env/bin/activate
 pip3 install -r requirements.txt
 ```
-
 
 Start serwera deweloperskiego
 =============================
 
 ```
-. .env
+. env/bin/activate
 python3 manage.py createsuperuser
 (Podaj nazwę użytkownika oraz hasło)
 python3 manage.py runserver {port}
