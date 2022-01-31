@@ -1,5 +1,3 @@
-svg2pdfgenerator/svg2pdfgenerator/__pycache__
-svg2pdfgenerator/svg2pdf/__pycache__
-svg2pdfgenerator/svg2pdf/migrations
-svg2pdfgenerator/svg2pdfgenerator/__pycache__
-svg2pdfgenerator/svg2pdf/templatetags/__pycache__
+__pycache__
+/env
+/db.sqlite3
