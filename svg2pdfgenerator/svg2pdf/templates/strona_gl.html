@@ -6,40 +6,53 @@
             color: #151515;
             font-family: Arial, Helvetica, sans-serif;
             margin-left: 20px;
+            position: relative;
+            margin: 60px;
         }
         a {
             text-decoration: none;
             color: rgb(255, 91, 91);
         }
-        a:hover {
-            color: #151515;
-        }
         li {
             font-size: 22px;
             text-decoration: none;
+        }
+        a:hover {
+            color: #151515;
         }
         #title {
             font-size: 50px;
         }
         #not {
-            color: rgb(160, 160, 160);
-            font-weight: bold;
+            color: rgb(170,170,170);
             font-size: 20px;
             margin-left: 20px;
+        }
+        #addf {
+            font-size: 20px;
+        }
+        #edit {
+            color: rgb(170,170,170);
+            margin-left: 20px;
+        }
+        #edit:hover {
+            color: #151515;
         }
     </style>
 </head>
 <body>
     <p id="title">Wybierz fakturę</p>
-    {% if faktura_ostatnia%}
         <ul>
-            {% for fakt in faktura_ostatnia%}
-            <li>
-                <a href="/svg2pdf/faktura-{{fakt.id}}">Faktura: {{fakt.Numer_faktury}}</a>
-            </li>
-            {% endfor %}
+            {% if faktura_ostatnia%}
+                {% for fakt in faktura_ostatnia%}
+                <li>
+                    <a id="faktura" href="/faktura-{{fakt.id}}">Faktura: {{fakt.Numer_faktury}}</a><br>
+                    <a id="edit" href="/admin/svg2pdf/faktura/{{fakt.id}}/change/">Edytuj</a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li id="not">Nie ma faktur</li>
+            {% endif %}
         </ul>
-    {% else %}
-        <p id="not">Nie ma faktur</p>
-    {% endif %}
+    <p><a href="/admin/svg2pdf/faktura/add/">Dodaj Fakturę</a></p>
 </body>

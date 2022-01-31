@@ -38,12 +38,14 @@ class tabela:
         self.wys = 0
         self.cwys = 0
         self.liniah = []
+        self.linawys = 0
         for i in x:
             self.wys += i.wys + 1
             self.cwys += i.wys
             print(self.cwys, "  /  ", i.wys)
             self.liniah += [wys + 4 - (self.wys * 13.55) + (self.cwys * 2.3)]
-        self.linawys = (self.wys * 13.4)
+            self.linawys -= i.wys * 2.2
+        self.linawys += (self.wys * 13.4) + 7
         self.wys = self.liniah[-1]
         self.liniah = self.liniah[:-1]
         self.kln = self.wys - 15
