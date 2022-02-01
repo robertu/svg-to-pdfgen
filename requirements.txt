@@ -1,3 +1,4 @@
 Django
 cairosvg
 PyPDF2
+pytest
