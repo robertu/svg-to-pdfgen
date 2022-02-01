@@ -64,7 +64,7 @@ class tabela:
         self.klina = self.klb - 24
         self.linawysmax = (self.wys - self.klb) + 24 + self.linawys
 
-def faktura_context_calc(faktura_ostatinia):
+def getcontext(faktura_ostatinia):
     context = {
         'FVATNAME': faktura_ostatinia.Nazwa_faktury,
         'NAB' : faktura_ostatinia.firma_klient.Nazwa,
@@ -81,6 +81,10 @@ def faktura_context_calc(faktura_ostatinia):
         'STRGL': True,
         'STRKON': False,
     }
+    return context
+
+def faktura_context_calc(context):
+
     if context['DAYS'] == '1':
         context.update({'DAYS': context['DAYS'] + ' dzień'})
     else:
@@ -155,21 +159,7 @@ def faktura_context_calc(faktura_ostatinia):
 
     return context, i, tabelarys
 
-def strona_gl(request):
-    faktury = list(faktura.objects.order_by('-id'))
-    return render(request, 'strona_gl.html', {"faktura_ostatnia" : faktury})
-
-
-def faktura_temp(request, id=1):
-
-    #get faktura by id
-    faktury = faktura.objects.order_by('-id')
-    for x in faktury:
-        if x.id == id:
-            id = x
-
-    #calc context
-    context, pozycje_c, tabelarys = faktura_context_calc(id)
+def context_to_pdf(context, pozycje_c, tabelarys):
     pdfs = []
     temp = 0
     pozycje = pozycje_c[0]
@@ -200,16 +190,13 @@ def faktura_temp(request, id=1):
         if isdir('faktura') == False:
             os.mkdir('faktura')
         #print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
-        svg = loader.get_template('fv-pod.svg').render(context, request)
+        svg = loader.get_template('fv-pod.svg').render(context)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
         pdfs += [f'faktura/faktura{temp}.pdf']
         context.update({
             'STRGL': False
         })
-
-    #return render(request, 'fv-template.svg', context)
     
-
     #merger pdf
     merger = PdfFileMerger()
 
@@ -219,6 +206,22 @@ def faktura_temp(request, id=1):
     merger.write("faktura/faktura.pdf")
     for x in range(1, temp + 1):
         os.remove(f'faktura/faktura{x}.pdf')
+
+def strona_gl(request):
+    faktury = list(faktura.objects.order_by('-id'))
+    return render(request, 'strona_gl.html', {"faktura_ostatnia" : faktury})
+
+def faktura_temp(request, id=1):
+
+    #get faktura by id
+    faktury = faktura.objects.order_by('-id')
+    for x in faktury:
+        if x.id == id:
+            id = x
+
+    #calc context
+    context, pozycje_c, tabelarys = faktura_context_calc(getcontext(id))
+    context_to_pdf(context, pozycje_c, tabelarys)
 
     return FileResponse(open('faktura/faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 
