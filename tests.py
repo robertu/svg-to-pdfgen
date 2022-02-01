@@ -44,4 +44,4 @@ def test_podstawowy():
     context = basic_con()
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, 'test_podstawowy', 'faktura_testy')
-    assert os.path.exists('faktura/test_podstawowy.pdf')
+    assert os.path.exists('faktura_testy/test_podstawowy.pdf')

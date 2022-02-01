@@ -18,7 +18,7 @@ def faktura_temp(request, id=1):
     #calc context
     context = getcontext(id)
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'eluwina')
+    context_to_pdf(context, pozycje_c, tabelarys, 'faktura')
 
     return FileResponse(open('faktura/faktura.pdf', 'rb'), as_attachment=0, filename='faktura.pdf')
 
