@@ -165,7 +165,7 @@ def faktura_context_calc(context):
 
     return context, i, tabelarys
 
-def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='faktura'):
+def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='faktura', dirf="faktura"):
     class tabela:
         def __init__(self, x, kwotavpoz, zaplacono, wys):
             #((x.wys + 1) * 11.2 )
@@ -224,12 +224,12 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
                 'STRKON': True
             })
         
-        if isdir('faktura') == False:
-            os.mkdir('faktura')
+        if isdir(f'{dirf}') == False:
+            os.mkdir(f'{dirf}')
         #print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
         svg = loader.get_template('fv-pod.svg').render(context)
-        cairosvg.svg2pdf(bytestring=svg, write_to=f'faktura/faktura{temp}.pdf')
-        pdfs += [f'faktura/faktura{temp}.pdf']
+        cairosvg.svg2pdf(bytestring=svg, write_to=f'{dirf}/faktura{temp}.pdf')
+        pdfs += [f'{dirf}/faktura{temp}.pdf']
         context.update({
             'STRGL': False
         })
@@ -240,6 +240,6 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write(f"faktura/{Nazwa_faktury_Wygenerowanej}.pdf")
+    merger.write(f"{dirf}/{Nazwa_faktury_Wygenerowanej}.pdf")
     for x in range(1, temp + 1):
-        os.remove(f'faktura/faktura{x}.pdf')
+        os.remove(f'{dirf}/faktura{x}.pdf')

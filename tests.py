@@ -1,3 +1,4 @@
+from logging import exception
 import pytest
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
@@ -34,11 +35,13 @@ def basic_con():
     }
     return context
 
-
-shutil.rmtree('faktura')
+try:
+    shutil.rmtree('faktura_testy')
+except:
+    print(exception)
 #tests
 def test_podstawowy():
     context = basic_con()
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'test_podstawowy')
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_podstawowy', 'faktura_testy')
     assert os.path.exists('faktura/test_podstawowy.pdf')
