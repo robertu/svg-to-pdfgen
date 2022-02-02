@@ -35,7 +35,15 @@
             color: rgb(170,170,170);
             margin-left: 20px;
         }
-        #edit:hover {
+        a#edit:hover {
+            color: #151515;
+        }
+        #gen {
+            margin-left: 20px;
+            color: rgb(112, 102, 255);
+            font-weight: bolder;
+        }
+        a#gen:hover {
             color: #151515;
         }
     </style>
@@ -46,7 +54,8 @@
             {% if faktura_ostatnia%}
                 {% for fakt in faktura_ostatnia%}
                 <li>
-                    <a id="faktura" href="/faktura-{{fakt.id}}">Faktura: {{fakt.Numer_faktury}}</a><br>
+                    <a id="faktura" href="/faktura-{{fakt.id}}" title='Pokaż fakturę "{{fakt.Nazwa_faktury}}"'>Faktura: {{fakt.Numer_faktury}}</a>
+                    <a id="gen" href="/fakturag-{{fakt.id}}" title='Wygeneruj fakturę "{{fakt.Nazwa_faktury}}"'>+</a><br>
                     <a id="edit" href="/admin/svg2pdf/faktura/{{fakt.id}}/change/">Edytuj</a>
                 </li>
                 {% endfor %}
