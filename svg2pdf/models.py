@@ -111,7 +111,6 @@ def faktura_context_calc(context):
     i = [[],[{}, 0., 0., 0.]]
     for x in context['POZYCJE']:
         i[0] += [pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)]
-        print(i[0])
 
     for x in i[0]:
         try:
@@ -166,12 +165,10 @@ def faktura_context_calc(context):
     # page wrap
 
     if len(i[0]) == 1:
-        print(i[3], '  ', liniegl)
         if len(i[0][0]) > liniegl:
             i[1] += 1
             i[0] += [[]]
     else:
-        print(len(i[0][-1]), '  ', linie2gl)
         if i[3] > linie2gl:
             i[1] += 1
             i[0] += [[]]
@@ -192,7 +189,6 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
             for i in x:
                 self.wys += i.wys + 1
                 self.cwys += i.wys
-                print(self.cwys, "  /  ", i.wys)
                 self.liniah += [wys + 4 - (self.wys * 13.55) + (self.cwys * 2.3)]
                 self.linawys -= i.wys * 2.2
             self.linawys += (self.wys * 13.4) + 7
