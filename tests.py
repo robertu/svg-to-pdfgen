@@ -6,6 +6,8 @@ django.setup()
 import shutil
 from svg2pdf.models import faktura, getcontext, faktura_context_calc, context_to_pdf
 
+FOLDER_NA_FAKTURY_TESTOWE = 'faktury_testowe'
+
 class pozycja:
     def __init__(self, nazwa, cenaN, ilosc=1, podatek=23, jednostka='Szt.'):
         self.Nazwa = nazwa
@@ -35,15 +37,15 @@ def basic_con():
     return context
 
 try:
-    shutil.rmtree('faktura_testy')
+    shutil.rmtree(FOLDER_NA_FAKTURY_TESTOWE)
 except:
     pass
 #tests
 def test_podstawowy():
     context = basic_con()
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'test_podstawowy', 'faktura_testy')
-    assert os.path.exists('faktura_testy/test_podstawowy.pdf')
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_podstawowy', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podstawowy.pdf')
 def test_pozycje():
     context = basic_con()
     temp = []
@@ -53,8 +55,8 @@ def test_pozycje():
         'POZYCJE': temp
     })
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'test_pozycje', 'faktura_testy')
-    assert os.path.exists('faktura_testy/test_pozycje.pdf')
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_pozycje', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_pozycje.pdf')
 def test_nazwa_wrap():
     context = basic_con()
     temp = []
@@ -66,8 +68,8 @@ def test_nazwa_wrap():
         'POZYCJE': temp
     })
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'test_nazwa_wrap', 'faktura_testy')
-    assert os.path.exists('faktura_testy/test_nazwa_wrap.pdf')
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_nazwa_wrap', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_nazwa_wrap.pdf')
 def test_podatki_pozycje():
     context = basic_con()
     temp = []
@@ -79,5 +81,5 @@ def test_podatki_pozycje():
         'POZYCJE': temp
     })
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, 'test_podatki_pozycje', 'faktura_testy')
-    assert os.path.exists('faktura_testy/test_podatki_pozycje.pdf')
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_podatki_pozycje', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podatki_pozycje.pdf')

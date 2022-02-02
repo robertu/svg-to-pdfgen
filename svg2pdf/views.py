@@ -1,39 +1,52 @@
-from logging import exception
-import re
 from django.http.response import FileResponse, HttpResponse
 from django.shortcuts import render
 from .models import *
-# Create your views here.
+
+########### Settings
+
+FOLDER_NA_FAKTURY = 'faktury'
+
+########### Requests
+
+# Str gl 
 
 def strona_gl(request):
     faktury = list(faktura.objects.order_by('-id'))
     return render(request, 'strona_gl.html', {"faktura_ostatnia" : faktury})
 
-def faktura_temp(request, id=1):
-    #get faktura by id
+# Get selected faktura ID
+
+def faktura_id(id):
     faktury = faktura.objects.order_by('-id')
     for x in faktury:
         if x.id == id:
-            id = x
-    try:
-        return FileResponse(open(f'faktura/{x.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{x.Nazwa_faktury}.pdf')
-    except:
-        context = getcontext(id)
-        context, pozycje_c, tabelarys = faktura_context_calc(context)
-        context_to_pdf(context, pozycje_c, tabelarys, x.Nazwa_faktury)
+            return x
 
-        return FileResponse(open(f'faktura/{x.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{x.Nazwa_faktury}.pdf')
+# Gen faktura from id
 
-def faktura_gen(request, id=1):
-    #get faktura by id
-    faktury = faktura.objects.order_by('-id')
-    for x in faktury:
-        if x.id == id:
-            id = x
-
-    #calc context
+def faktura_from_id(id):
     context = getcontext(id)
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, x.Nazwa_faktury)
+    context_to_pdf(context, pozycje_c, tabelarys, id.Nazwa_faktury, FOLDER_NA_FAKTURY )
 
-    return FileResponse(open(f'faktura/{x.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{x.Nazwa_faktury}.pdf')
+# Get faktura
+
+def faktura_temp(request, id=1):
+    
+    # ID faktury
+    id = faktura_id(id)
+    try:
+        return FileResponse(open(f'{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{id.Nazwa_faktury}.pdf')
+    except:
+        faktura_from_id(id)
+        return FileResponse(open(f'{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{id.Nazwa_faktury}.pdf')
+
+# Gen faktura
+
+def faktura_gen(request, id=1):
+    
+    # ID faktury
+    id = faktura_id(id)
+    faktura_from_id(id)
+
+    return FileResponse(open(f'{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf', 'rb'), as_attachment=0, filename=f'{id.Nazwa_faktury}.pdf')

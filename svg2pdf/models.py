@@ -1,13 +1,13 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.fields.related import ForeignKey
 from django.template import loader
 import os
 from os.path import isdir
 import cairosvg
 from PyPDF2 import PdfFileMerger
 
-# Create your models here.
+########### Models
+
 class klient(models.Model):
     Nazwa = models.CharField(max_length=50, primary_key=True)
     NIP = models.CharField(max_length=13)
@@ -46,6 +46,10 @@ class faktura(models.Model):
     def __str__(self):
         return f'Faktura {self.Numer_faktury}'
 
+########### Functions
+
+# Get context from faktura
+
 def getcontext(faktura_ostatinia):
     context = {
         'FVATNAME': faktura_ostatinia.Nazwa_faktury,
@@ -65,7 +69,10 @@ def getcontext(faktura_ostatinia):
     }
     return context
 
+# Calc content of faktura
+
 def faktura_context_calc(context):
+
     class pozycja:
         def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
             def name(nazwa):
@@ -91,17 +98,20 @@ def faktura_context_calc(context):
             self.cenaVat = self.cenaN * (podatek / 100)
             self.wartoscVat = self.wartoscN * (podatek / 100)
 
+    # Check for number of DAYS 
+
     if context['DAYS'] == '1':
         context.update({'DAYS': context['DAYS'] + ' dzień'})
     else:
         context.update({'DAYS': context['DAYS'] + ' dni'})
     
+    # Calc pozycja and update context
+    # i = [Pozycje, [Podatki, Kwota Laczna Netto, Razem, Zaplacono]]
 
-
-    i = [[],[{}, 0., 0., 0.], '']
+    i = [[],[{}, 0., 0., 0.]]
     for x in context['POZYCJE']:
-        i[2] = pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)
-        i[0] += [i[2]]
+        i[0] += [pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)]
+        print(i[0])
 
     for x in i[0]:
         try:
@@ -116,7 +126,6 @@ def faktura_context_calc(context):
     if context['ZAPLACONO'] > 0:
         i[1][3] -= context['ZAPLACONO']
 
-
     context.update({
         'POZYCJE': i[0],
         'KLN': i[1][1],
@@ -125,17 +134,21 @@ def faktura_context_calc(context):
         'KDZ': i[1][3],
     })
 
+    # Calc pozycje on page
+
     linie = 25 - len(i[1][0].items())
     liniegl = linie - 20
     linie2 = 36
     linie2gl = 22
-    print(context['ZAPLACONO'])
     if context['ZAPLACONO'] <= float(0):
         linie += 2
         liniegl += 2
     
+    # some things on page
+    # Tabelarys = [tabela_anchor]
+    # i = [[strona = [pozycje]], nr strony , max linie ,c linie on page , strzalka poz]
+    
     tabelarys = [467.6]
-
     i = [[[]], 0, linie, 0, 465.8]
     for x in context['POZYCJE']:
         if i[3] + x.wys >= i[2]:
@@ -150,7 +163,8 @@ def faktura_context_calc(context):
         i[3] += x.wys + 1
         i[0][i[1]] += [x]
     
-    print(len(i[0]))
+    # page wrap
+
     if len(i[0]) == 1:
         print(i[3], '  ', liniegl)
         if len(i[0][0]) > liniegl:
@@ -164,6 +178,8 @@ def faktura_context_calc(context):
 
 
     return context, i, tabelarys
+
+# Gen pdf file
 
 def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='faktura', dirf="faktura"):
     class tabela:
@@ -197,10 +213,18 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
             self.klina = self.klb - 24
             self.linawysmax = (self.wys - self.klb) + 24 + self.linawys
 
+    # variables
+
     pdfs = []
     temp = 0
     pozycje = pozycje_c[0]
+
+    # gen single page
+
     for x in pozycje:
+
+        # final context update
+
         temp += 1
         if len(x) != 0:
             context.update({
@@ -218,15 +242,15 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
                 'STRONA': temp,
                 'STRONY': pozycje_c[1] + 1,
             })
-        print(pozycje_c[1], '   ', temp)
         if pozycje_c[1] + 1 == temp:
             context.update({
                 'STRKON': True
             })
         
+        # create pdf
+
         if isdir(f'{dirf}') == False:
             os.mkdir(f'{dirf}')
-        #print(context['TABELA'].wys, context['TABELA'].kln, context['TABELA'].kwotav)
         svg = loader.get_template('fv-pod.svg').render(context)
         cairosvg.svg2pdf(bytestring=svg, write_to=f'{dirf}/faktura{temp}.pdf')
         pdfs += [f'{dirf}/faktura{temp}.pdf']
@@ -234,12 +258,13 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
             'STRGL': False
         })
     
-    #merger pdf
+    # merge pdf
     merger = PdfFileMerger()
 
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write(f"{dirf}/{Nazwa_faktury_Wygenerowanej}.pdf")
+    merger.write(f"{dirf}/fak-{Nazwa_faktury_Wygenerowanej}.pdf")
+    
     for x in range(1, temp + 1):
         os.remove(f'{dirf}/faktura{x}.pdf')
