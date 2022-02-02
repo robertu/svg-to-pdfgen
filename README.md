@@ -26,3 +26,11 @@ python3 manage.py createsuperuser
 (Podaj nazwę użytkownika oraz hasło)
 python3 manage.py runserver {port}
 ```
+
+Test aplikacji
+==============
+
+```
+. env/bin/activate
+pytest tests.py
+```
