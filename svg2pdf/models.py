@@ -8,14 +8,14 @@ from PyPDF2 import PdfFileMerger
 
 ########### Models
 
-class klient(models.Model):
+class firma(models.Model):
     Nazwa = models.CharField(max_length=50, primary_key=True)
     NIP = models.CharField(max_length=13)
     Ulica = models.CharField(max_length=100)
     Adres = models.CharField(max_length=100)
 
     def __str__(self):
-        return f'Klient {self.Nazwa}'
+        return f'firma {self.Nazwa}'
 
 class pozycjafaktury(models.Model):
 
@@ -30,7 +30,8 @@ class pozycjafaktury(models.Model):
 
 class faktura(models.Model):
     Nazwa_faktury = models.CharField(max_length=90)
-    firma_klient = models.ForeignKey(klient, on_delete=CASCADE)
+    firma_sprzedawca = models.ForeignKey(firma,related_name='sprzedawca', on_delete=CASCADE)
+    firma_klient = models.ForeignKey(firma,related_name='nabywca', on_delete=CASCADE)
     Numer_faktury = models.CharField(max_length=90)
     Data_sprzedaży = models.DateField()
     Data_wystawienia = models.DateField()
@@ -54,6 +55,10 @@ def getcontext(faktura_ostatinia):
         'NABA' : faktura_ostatinia.firma_klient.Ulica,
         'NABK' : faktura_ostatinia.firma_klient.Adres,
         'NABNIP' : 'NIP: ' + str(faktura_ostatinia.firma_klient.NIP),
+        'SPR' : faktura_ostatinia.firma_sprzedawca.Nazwa,
+        'SPRA' : faktura_ostatinia.firma_sprzedawca.Ulica,
+        'SPRK' : faktura_ostatinia.firma_sprzedawca.Adres,
+        'SPRNIP' : 'NIP: ' + str(faktura_ostatinia.firma_sprzedawca.NIP),
         'VATNAME': faktura_ostatinia.Numer_faktury,
         'DATASP' : str(faktura_ostatinia.Data_sprzedaży),
         'DATAWYS': str(faktura_ostatinia.Data_wystawienia),
