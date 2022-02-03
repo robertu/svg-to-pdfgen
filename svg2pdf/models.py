@@ -18,13 +18,9 @@ class klient(models.Model):
         return f'Klient {self.Nazwa}'
 
 class pozycjafaktury(models.Model):
-    class JM(models.TextChoices):
-        SZT = 'Szt.'
-        USL = 'Usł.'
-        OPAK = 'Opak.'
 
     Nazwa = models.TextField()
-    Jednostka = models.CharField(max_length=5, choices=JM.choices, default=JM.SZT)
+    Jednostka = models.CharField(max_length=5, default="Szt.")
     Ilosc = models.IntegerField(default=1)
     Cena_Netto = models.FloatField()
     Podatek = models.IntegerField(default=23)
