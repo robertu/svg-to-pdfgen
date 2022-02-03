@@ -21,7 +21,7 @@ class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
     Jednostka = models.CharField(max_length=5, default="Szt.")
-    Ilosc = models.IntegerField(default=1)
+    Ilosc = models.FloatField(default=1)
     Cena_Netto = models.FloatField()
     Podatek = models.IntegerField(default=23)
 
@@ -88,6 +88,8 @@ def faktura_context_calc(context):
             self.nazwa, self.wys= name(nazwa)
             self.jednostka = jednostka
             self.ilosc = ilosc
+            if ilosc == int(ilosc):
+                self.ilosc = int(ilosc)
             self.podatek = podatek
             self.cenaN = cenaN
             self.wartoscN = self.cenaN * self.ilosc
