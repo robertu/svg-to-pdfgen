@@ -37,8 +37,9 @@ class faktura(models.Model):
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
     Zapłacono = models.FloatField(default=0)
+    Sposób_płatności = models.CharField(max_length=90, default='Przelew na konto')
     Termin_płatności_dni = models.PositiveIntegerField(default=1)
-    
+
     def __str__(self):
         return f'Faktura {self.Numer_faktury}'
 
@@ -52,7 +53,7 @@ def getcontext(faktura_ostatinia):
         'NAB' : faktura_ostatinia.firma_klient.Nazwa,
         'NABA' : faktura_ostatinia.firma_klient.Ulica,
         'NABK' : faktura_ostatinia.firma_klient.Adres,
-        'NABNIP' : faktura_ostatinia.firma_klient.NIP,
+        'NABNIP' : 'NIP: ' + str(faktura_ostatinia.firma_klient.NIP),
         'VATNAME': faktura_ostatinia.Numer_faktury,
         'DATASP' : str(faktura_ostatinia.Data_sprzedaży),
         'DATAWYS': str(faktura_ostatinia.Data_wystawienia),
@@ -60,6 +61,7 @@ def getcontext(faktura_ostatinia):
         'POZYCJE': list(faktura_ostatinia.pozycje.all()),
         'ZAPLACONO': faktura_ostatinia.Zapłacono,
         'DAYS': str(faktura_ostatinia.Termin_płatności_dni),
+        'SPOSPLAT': faktura_ostatinia.Sposób_płatności ,
         'STRGL': True,
         'STRKON': False,
     }
