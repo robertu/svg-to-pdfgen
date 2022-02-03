@@ -9703,19 +9703,11 @@
      style="text-align:center;text-anchor:middle;"
      sodipodi:role="line"
      id="tspan6426"
-     x="353"
-     dy='-0.5em'>Stawka</tspan>
-<tspan
-     style="text-align:center;text-anchor:middle;"
-     sodipodi:role="line"
-     id="tspan6426"
-     x="353"
-     dy='1em'>VAT</tspan>
+     x="354">St. Vat</tspan>
 <tspan
      sodipodi:role="line"
      id="tspan6430"
-     x="397"
-     dy='-0.5em'>Cena jedn.</tspan>
+     x="397">Cena jedn.</tspan>
 <tspan
      x="494 502 510 518"
      sodipodi:role="line"
@@ -9920,6 +9912,8 @@
      sodipodi:role="line"
      id="tspan6498"
      x="546.08075">{{y|floatf}} zł</tspan>
+<tspan
+  dy="0.2em"> </tspan>
 {% endfor %}
 <tspan
   style="text-align:end;text-anchor:end;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:'Open Sans';-inkscape-font-specification:OpenSans-Bold;writing-mode:lr-tb;fill:#063d56;fill-opacity:1;fill-rule:nonzero;stroke:none"

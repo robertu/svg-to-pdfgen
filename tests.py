@@ -1,3 +1,4 @@
+from re import X
 import pytest
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
@@ -83,3 +84,14 @@ def test_podatki_pozycje():
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, 'test_podatki_pozycje', FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podatki_pozycje.pdf')
+def test_vat():
+    context = basic_con()
+    temp = []
+    for x in range(10):
+        temp += [pozycja(f'poz {x}', x, 1, x)]
+    context.update({
+        'POZYCJE': temp
+    })
+    context, pozycje_c, tabelarys = faktura_context_calc(context)
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_vat', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_vat.pdf')

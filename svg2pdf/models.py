@@ -198,7 +198,7 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej='f
             self.kwotav = self.kln
             self.kwotavh = []
             for x in kwotavpoz.items():
-                self.kwotav -= 13.
+                self.kwotav -= 14.38
                 self.kwotavh += [self.kwotav]
             self.kwotavh = self.kwotavh[:-1]
             if zaplacono > 0:
