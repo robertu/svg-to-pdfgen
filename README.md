@@ -23,10 +23,13 @@ Wewnątrz katalogu `app`:
 
 ```
 . env/bin/activate
-python3 manage.py migrate
-python3 manage.py createsuperuser
-(Podaj nazwę użytkownika oraz hasło)
-python3 manage.py runserver {port}
+./manage.py migrate
+./manage.py createsuperuser
+```
+Tu podaj nazwę użytkownika oraz hasło.
+
+```
+./manage.py runserver {port}
 ```
 
 Test aplikacji
