@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.template import loader
 from django.core.exceptions import ValidationError
 import os
@@ -61,6 +63,14 @@ class faktura(models.Model):
     def __str__(self):
         return f'Faktura {self.Numer_faktury}'
 
+########### pre_save
+
+@receiver(pre_save, sender=pozycjafaktury)
+def my_callback(sender, instance, *args, **kwargs):
+    if instance.Ilosc != int(instance.Ilosc):
+        if instance.Jednostka.Dziesietna is False:
+            instance.Ilosc = int(instance.Ilosc)
+
 ########### Functions
 
 # Get context from faktura
@@ -109,16 +119,9 @@ def faktura_context_calc(context):
                     l += len(x) + 1
                 return name, i
             
-            def iloscDzi(ilosc, jednostka):
-                if jednostka == True:
-                    return float(ilosc)
-                else:
-                    return int(ilosc)
-
-
             self.nazwa, self.wys= name(nazwa)
             self.jednostka = jednostka
-            self.ilosc = iloscDzi(ilosc, jednostka.Dziesietna)
+            self.ilosc = ilosc
             self.podatek = podatek
             self.cenaN = cenaN
             self.wartoscN = self.cenaN * self.ilosc

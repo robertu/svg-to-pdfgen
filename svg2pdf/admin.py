@@ -5,17 +5,24 @@ from .models import firma, faktura, pozycjafaktury, jednostkaM
 
 # Register your models here.
 
-admin.site.register(firma)
+@admin.register(firma)
+class firmaAdmin(admin.ModelAdmin):
+    list_display = ['Nazwa','NIP','Ulica','Adres']
+
 
 @admin.register(pozycjafaktury)
 class pozycjaAdmin(admin.ModelAdmin):
     list_display = ['Nazwa', 'Ilosc', 'Jednostka' , 'Cena_Netto', 'Podatek']
 
-admin.site.register(jednostkaM)
+@admin.register(jednostkaM)
+class jednostkaMAdmin(admin.ModelAdmin):
+    list_display = ['Nazwa','Dziesietna']
+
+
 
 @admin.register(faktura)
 class fakturaAdmin(admin.ModelAdmin):
-    list_display = ['nazwa','wygeneruj_fakture']
+    list_display = ['nazwa','Numer_faktury','wygeneruj_fakture']
     fieldsets = [
         ('Dane Faktury', {'fields':('Nazwa_faktury','Numer_faktury')}),
         ('Firmy', {'fields':(('firma_sprzedawca','firma_klient'),)}),
