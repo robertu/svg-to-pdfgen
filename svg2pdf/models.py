@@ -27,16 +27,23 @@ class firma(models.Model):
     def __str__(self):
         return f'firma {self.Nazwa}'
 
+class jednostkaM(models.Model):
+    Nazwa = models.CharField(max_length=5, default="Szt.")
+    Dziesietna = models.BooleanField()
+
+    def __str__(self):
+        return f'{self.Nazwa}'
+
 class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
-    Jednostka = models.CharField(max_length=5, default="Szt.")
+    Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
     Ilosc = models.FloatField(default=1,validators=[validate_neg])
     Cena_Netto = models.FloatField(validators=[validate_neg])
     Podatek = models.IntegerField(default=23,validators=[validate_neg])
 
     def __str__(self):
-        return f'PozFakt {self.Nazwa} x {self.Ilosc}'
+        return f'>{self.Nazwa} x {self.Ilosc}'
 
 class faktura(models.Model):
     Nazwa_faktury = models.CharField(max_length=90)
@@ -101,12 +108,17 @@ def faktura_context_calc(context):
                     name[i] += f'{x} '
                     l += len(x) + 1
                 return name, i
+            
+            def iloscDzi(ilosc, jednostka):
+                if jednostka == True:
+                    return float(ilosc)
+                else:
+                    return int(ilosc)
+
 
             self.nazwa, self.wys= name(nazwa)
             self.jednostka = jednostka
-            self.ilosc = ilosc
-            if ilosc == int(ilosc):
-                self.ilosc = int(ilosc)
+            self.ilosc = iloscDzi(ilosc, jednostka.Dziesietna)
             self.podatek = podatek
             self.cenaN = cenaN
             self.wartoscN = self.cenaN * self.ilosc

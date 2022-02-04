@@ -1,11 +1,17 @@
+from csv import list_dialects
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import firma, faktura, pozycjafaktury
+from .models import firma, faktura, pozycjafaktury, jednostkaM
 
 # Register your models here.
 
 admin.site.register(firma)
-admin.site.register(pozycjafaktury)
+
+@admin.register(pozycjafaktury)
+class pozycjaAdmin(admin.ModelAdmin):
+    list_display = ['Nazwa', 'Ilosc', 'Jednostka' , 'Cena_Netto', 'Podatek']
+
+admin.site.register(jednostkaM)
 
 @admin.register(faktura)
 class fakturaAdmin(admin.ModelAdmin):
