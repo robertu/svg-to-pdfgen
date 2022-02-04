@@ -1,10 +1,20 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.template import loader
+from django.core.exceptions import ValidationError
 import os
 from os.path import isdir
 import cairosvg
 from PyPDF2 import PdfFileMerger
+
+########### Validation
+
+def validate_neg(value):
+    if value < 0:
+        raise ValidationError(
+            f"{value} is negative"
+        )
+
 
 ########### Models
 
@@ -21,9 +31,9 @@ class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
     Jednostka = models.CharField(max_length=5, default="Szt.")
-    Ilosc = models.FloatField(default=1)
-    Cena_Netto = models.FloatField()
-    Podatek = models.IntegerField(default=23)
+    Ilosc = models.FloatField(default=1,validators=[validate_neg])
+    Cena_Netto = models.FloatField(validators=[validate_neg])
+    Podatek = models.IntegerField(default=23,validators=[validate_neg])
 
     def __str__(self):
         return f'PozFakt {self.Nazwa} x {self.Ilosc}'
@@ -37,7 +47,7 @@ class faktura(models.Model):
     Data_wystawienia = models.DateField()
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
-    Zapłacono = models.FloatField(default=0)
+    Zapłacono = models.FloatField(default=0,validators=[validate_neg])
     Sposób_płatności = models.CharField(max_length=90, default='Przelew na konto')
     Termin_płatności_dni = models.PositiveIntegerField(default=1)
 

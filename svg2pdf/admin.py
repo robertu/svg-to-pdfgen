@@ -10,6 +10,13 @@ admin.site.register(pozycjafaktury)
 @admin.register(faktura)
 class fakturaAdmin(admin.ModelAdmin):
     list_display = ['nazwa','wygeneruj_fakture']
+    fieldsets = [
+        ('Dane Faktury', {'fields':('Nazwa_faktury','Numer_faktury')}),
+        ('Firmy', {'fields':(('firma_sprzedawca','firma_klient'),)}),
+        ('Pozycje', {'fields':(('Data_sprzedaży','Data_wystawienia'),'pozycje')}),
+        ('Platnosc', {'fields':('Termin_płatności','Zapłacono','Sposób_płatności','Termin_płatności_dni')})
+    ]
+    filter_horizontal = ('pozycje',)
 
     def nazwa(self, obj):
         return "Faktura-" + obj.Nazwa_faktury
