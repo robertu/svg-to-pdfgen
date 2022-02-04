@@ -118,10 +118,13 @@ def faktura_context_calc(context):
                     name[i] += f'{x} '
                     l += len(x) + 1
                 return name, i
-            
+
             self.nazwa, self.wys= name(nazwa)
             self.jednostka = jednostka
-            self.ilosc = ilosc
+            if not jednostka.Dziesietna:
+                self.ilosc = int(ilosc)
+            else:
+                self.ilosc = ilosc
             self.podatek = podatek
             self.cenaN = cenaN
             self.wartoscN = self.cenaN * self.ilosc
