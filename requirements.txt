@@ -2,3 +2,4 @@ Django
 cairosvg
 PyPDF2
 pytest
+powerline-status
