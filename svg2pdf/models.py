@@ -17,6 +17,12 @@ def validate_neg(value):
             f"{value} is negative"
         )
 
+def validate_num(value):
+    if value != float("%.2f" % value):
+        raise ValidationError(
+            f"{value} has more than 2 decimal places"
+        )
+
 
 ########### Models
 
@@ -41,7 +47,7 @@ class pozycjafaktury(models.Model):
     Nazwa = models.TextField()
     Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
     Ilosc = models.FloatField(default=1,validators=[validate_neg])
-    Cena_Netto = models.FloatField(validators=[validate_neg])
+    Cena_Netto = models.FloatField(validators=[validate_neg,validate_num])
     Podatek = models.IntegerField(default=23,validators=[validate_neg])
 
     def __str__(self):
@@ -56,7 +62,7 @@ class faktura(models.Model):
     Data_wystawienia = models.DateField()
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
-    Zapłacono = models.FloatField(default=0,validators=[validate_neg])
+    Zapłacono = models.FloatField(default=0,validators=[validate_neg,validate_num])
     Sposób_płatności = models.CharField(max_length=90, default='Przelew na konto')
     Termin_płatności_dni = models.PositiveIntegerField(default=1)
 
@@ -66,10 +72,13 @@ class faktura(models.Model):
 ########### pre_save
 
 @receiver(pre_save, sender=pozycjafaktury)
-def my_callback(sender, instance, *args, **kwargs):
+def dzies(sender, instance, *args, **kwargs):
     if instance.Ilosc != int(instance.Ilosc):
         if instance.Jednostka.Dziesietna is False:
             instance.Ilosc = int(instance.Ilosc)
+
+
+
 
 ########### Functions
 
