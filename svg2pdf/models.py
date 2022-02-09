@@ -17,6 +17,12 @@ def validate_neg(value):
             f"{value} is negative"
         )
 
+def validate_zero(value):
+    if value == 0:
+        raise ValidationError(
+            f"{value} is 0"
+        )
+
 def validate_num(value):
     if value != float("%.2f" % value):
         raise ValidationError(
@@ -46,9 +52,9 @@ class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
     Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
-    Ilosc = models.FloatField(default=1,validators=[validate_neg])
-    Cena_Netto = models.FloatField(validators=[validate_neg,validate_num])
-    Podatek = models.IntegerField(default=23,validators=[validate_neg])
+    Ilosc = models.FloatField(default=1,validators=[validate_neg,validate_zero])
+    Cena_Netto = models.FloatField(validators=[validate_neg,validate_num,validate_zero])
+    Podatek = models.IntegerField(default=23,validators=[validate_neg,validate_zero])
 
     def __str__(self):
         return f'>{self.Nazwa} x {self.Ilosc}'
