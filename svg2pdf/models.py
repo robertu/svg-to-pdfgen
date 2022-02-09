@@ -301,7 +301,6 @@ def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej="f
             context.update({"STRKON": True})
 
         # create pdf
-
         if isdir(f"{dirf}") is False:
             os.mkdir(f"{dirf}")
         svg = loader.get_template("fv-pod.svg").render(context)
