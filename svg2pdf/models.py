@@ -32,17 +32,17 @@ def validate_num(value):
 
 
 class Firma(models.Model):
-    nazwa = models.CharField(max_length=50, primary_key=True)
+    nazwa = models.CharField(max_length=45, primary_key=True)
     nip = models.CharField(max_length=13)
-    ulica = models.CharField(max_length=100)
-    adres = models.CharField(max_length=100)
+    ulica = models.CharField(max_length=45)
+    adres = models.CharField(max_length=45)
 
     def __str__(self):
         return f"firma {self.nazwa}"
 
 
 class JednostkaM(models.Model):
-    nazwa = models.CharField(max_length=5, default="Szt.")
+    nazwa = models.CharField(max_length=8, default="Szt")
     dziesietna = models.BooleanField()
 
     def __str__(self):
@@ -62,10 +62,10 @@ class Pozycjafaktury(models.Model):
 
 
 class Faktura(models.Model):
-    nazwa_faktury = models.CharField(max_length=90)
+    nazwa_faktury = models.CharField(max_length=8)
     firma_sprzedawca = models.ForeignKey(Firma, related_name="sprzedawca", on_delete=CASCADE)
     firma_klient = models.ForeignKey(Firma, related_name="nabywca", on_delete=CASCADE)
-    numer_faktury = models.CharField(max_length=90)
+    numer_faktury = models.CharField(max_length=15)
     data_sprzedazy = models.DateField()
     data_wystawienia = models.DateField()
     termin_platnosci = models.DateField()
@@ -140,15 +140,15 @@ def faktura_context_calc(context):
 
             self.nazwa, self.wys = name(nazwa)
             self.jednostka = jednostka
+            self.ilosc = abs(ilosc)
+            self.cenaN = abs(cenaN)
             if not jednostka.dziesietna:
-                self.ilosc = int(ilosc)
-            else:
-                self.ilosc = ilosc
-            self.podatek = podatek
-            self.cenaN = cenaN
+                self.ilosc = int(self.ilosc)
+                self.cenaN = int(self.cenaN)
+            self.podatek = abs(podatek)
             self.wartoscN = self.cenaN * self.ilosc
-            self.cenaVat = self.cenaN * (podatek / 100)
-            self.wartoscVat = self.wartoscN * (podatek / 100)
+            self.cenaVat = self.cenaN * (self.podatek / 100)
+            self.wartoscVat = self.wartoscN * (self.podatek / 100)
 
     # Check for number of DAYS
 

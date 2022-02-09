@@ -21,3 +21,8 @@ def opistabeli(value):
 @register.filter
 def kwadrat(value):
     return value + 25
+
+
+@register.filter
+def nazwa_lt(value, lt):
+    return value[:lt]
