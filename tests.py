@@ -5,12 +5,17 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 import django
 django.setup()
 import shutil
-from svg2pdf.models import faktura, getcontext, faktura_context_calc, context_to_pdf
+from svg2pdf.models import faktura_context_calc, context_to_pdf
 
 FOLDER_NA_FAKTURY_TESTOWE = 'faktury_testowe'
 
+class Jednostka():
+    def __init__(self, nazwa, dziesietna):
+        self.Nazwa = nazwa
+        self.Dziesietna = dziesietna
+
 class pozycja:
-    def __init__(self, nazwa, cenaN, ilosc=1, podatek=23, jednostka='Szt.'):
+    def __init__(self, nazwa, cenaN, ilosc=1, podatek=23, jednostka=Jednostka('SZT', False)):
         self.Nazwa = nazwa
         self.Jednostka = jednostka
         self.Cena_Netto = cenaN
@@ -95,3 +100,16 @@ def test_vat():
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, 'test_vat', FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_vat.pdf')
+def test_jednostki():
+    context = basic_con()
+    temp = []
+    jednostki = [Jednostka('SZT', False), Jednostka('KG', True)]
+    for x in range(10):
+        temp += [pozycja(f'poz {x}', x , float(f'{x}.{x}'), 23, jednostki[0])]
+        temp += [pozycja(f'poz {x}', x , float(f'{x}.{x}'), 23, jednostki[1])]
+    context.update({
+        'POZYCJE': temp
+    })
+    context, pozycje_c, tabelarys = faktura_context_calc(context)
+    context_to_pdf(context, pozycje_c, tabelarys, 'test_jednostki', FOLDER_NA_FAKTURY_TESTOWE)
+    assert os.path.exists(f'{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_jednostki.pdf')
