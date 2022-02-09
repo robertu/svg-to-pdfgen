@@ -1,15 +1,16 @@
+import os
+from os.path import isdir
+
+import cairosvg
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template import loader
-from django.core.exceptions import ValidationError
-import os
-from os.path import isdir
-import cairosvg
 from PyPDF2 import PdfFileMerger
 
-########### Validation
+# Validation
 
 
 def validate_neg(value):
@@ -27,7 +28,7 @@ def validate_num(value):
         raise ValidationError(f"{value} has more than 2 decimal places")
 
 
-########### Models
+# Models
 
 
 class firma(models.Model):
@@ -53,9 +54,7 @@ class pozycjafaktury(models.Model):
     Nazwa = models.TextField()
     Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
     Ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
-    Cena_Netto = models.FloatField(
-        validators=[validate_neg, validate_num, validate_zero]
-    )
+    Cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
     Podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
 
     def __str__(self):
@@ -64,9 +63,7 @@ class pozycjafaktury(models.Model):
 
 class faktura(models.Model):
     Nazwa_faktury = models.CharField(max_length=90)
-    firma_sprzedawca = models.ForeignKey(
-        firma, related_name="sprzedawca", on_delete=CASCADE
-    )
+    firma_sprzedawca = models.ForeignKey(firma, related_name="sprzedawca", on_delete=CASCADE)
     firma_klient = models.ForeignKey(firma, related_name="nabywca", on_delete=CASCADE)
     Numer_faktury = models.CharField(max_length=90)
     Data_sprzedaży = models.DateField()
@@ -81,7 +78,7 @@ class faktura(models.Model):
         return f"Faktura {self.Numer_faktury}"
 
 
-########### pre_save
+# pre_save
 
 
 @receiver(pre_save, sender=pozycjafaktury)
@@ -91,7 +88,7 @@ def dzies(sender, instance, *args, **kwargs):
             instance.Ilosc = int(instance.Ilosc)
 
 
-########### Functions
+# Functions
 
 # Get context from faktura
 
@@ -130,15 +127,15 @@ def faktura_context_calc(context):
             def name(nazwa):
                 name = []
                 i = 0
-                l = 0
+                lenght = 0
                 for x in nazwa.split():
-                    if l + len(x) > 40:
+                    if lenght + len(x) > 40:
                         i += 1
-                        l = 0
-                    if l == 0:
+                        lenght = 0
+                    if lenght == 0:
                         name += [""]
                     name[i] += f"{x} "
-                    l += len(x) + 1
+                    lenght += len(x) + 1
                 return name, i
 
             self.nazwa, self.wys = name(nazwa)
@@ -170,7 +167,7 @@ def faktura_context_calc(context):
     for x in i[0]:
         try:
             i[1][0].update({f"{x.podatek}": x.wartoscVat + i[1][0][f"{x.podatek}"]})
-        except:
+        except Exception:
             i[1][0].update({f"{x.podatek}": x.wartoscVat})
         i[1][1] += x.wartoscN
         i[1][2] += x.wartoscVat
@@ -236,9 +233,7 @@ def faktura_context_calc(context):
 # Gen pdf file
 
 
-def context_to_pdf(
-    context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej="faktura", dirf="faktura"
-):
+def context_to_pdf(context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej="faktura", dirf="faktura"):
     class tabela:
         def __init__(self, x, kwotavpoz, zaplacono, wys):
             # ((x.wys + 1) * 11.2 )
@@ -286,9 +281,7 @@ def context_to_pdf(
             context.update(
                 {
                     "pozycje": x,
-                    "TABELA": tabela(
-                        x, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]
-                    ),
+                    "TABELA": tabela(x, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]),
                     "TABELARYS": (tabelarys[temp - 1] + 6.65),
                     "STRONA": temp,
                     "STRONY": pozycje_c[1] + 1,
@@ -309,7 +302,7 @@ def context_to_pdf(
 
         # create pdf
 
-        if isdir(f"{dirf}") == False:
+        if isdir(f"{dirf}") is False:
             os.mkdir(f"{dirf}")
         svg = loader.get_template("fv-pod.svg").render(context)
         cairosvg.svg2pdf(bytestring=svg, write_to=f"{dirf}/faktura{temp}.pdf")
