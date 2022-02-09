@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.template import loader
 from django.core.exceptions import ValidationError
 import os
@@ -13,6 +15,18 @@ def validate_neg(value):
     if value < 0:
         raise ValidationError(
             f"{value} is negative"
+        )
+
+def validate_zero(value):
+    if value == 0:
+        raise ValidationError(
+            f"{value} is 0"
+        )
+
+def validate_num(value):
+    if value != float("%.2f" % value):
+        raise ValidationError(
+            f"{value} has more than 2 decimal places"
         )
 
 
@@ -38,9 +52,9 @@ class pozycjafaktury(models.Model):
 
     Nazwa = models.TextField()
     Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
-    Ilosc = models.FloatField(default=1,validators=[validate_neg])
-    Cena_Netto = models.FloatField(validators=[validate_neg])
-    Podatek = models.IntegerField(default=23,validators=[validate_neg])
+    Ilosc = models.FloatField(default=1,validators=[validate_neg,validate_zero])
+    Cena_Netto = models.FloatField(validators=[validate_neg,validate_num,validate_zero])
+    Podatek = models.IntegerField(default=23,validators=[validate_neg,validate_zero])
 
     def __str__(self):
         return f'>{self.Nazwa} x {self.Ilosc}'
@@ -54,12 +68,23 @@ class faktura(models.Model):
     Data_wystawienia = models.DateField()
     Termin_płatności = models.DateField()
     pozycje = models.ManyToManyField(pozycjafaktury)
-    Zapłacono = models.FloatField(default=0,validators=[validate_neg])
+    Zapłacono = models.FloatField(default=0,validators=[validate_neg,validate_num])
     Sposób_płatności = models.CharField(max_length=90, default='Przelew na konto')
     Termin_płatności_dni = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f'Faktura {self.Numer_faktury}'
+
+########### pre_save
+
+@receiver(pre_save, sender=pozycjafaktury)
+def dzies(sender, instance, *args, **kwargs):
+    if instance.Ilosc != int(instance.Ilosc):
+        if instance.Jednostka.Dziesietna is False:
+            instance.Ilosc = int(instance.Ilosc)
+
+
+
 
 ########### Functions
 
@@ -108,17 +133,13 @@ def faktura_context_calc(context):
                     name[i] += f'{x} '
                     l += len(x) + 1
                 return name, i
-            
-            def iloscDzi(ilosc, jednostka):
-                if jednostka == True:
-                    return float(ilosc)
-                else:
-                    return int(ilosc)
-
 
             self.nazwa, self.wys= name(nazwa)
             self.jednostka = jednostka
-            self.ilosc = iloscDzi(ilosc, jednostka.Dziesietna)
+            if not jednostka.Dziesietna:
+                self.ilosc = int(ilosc)
+            else:
+                self.ilosc = ilosc
             self.podatek = podatek
             self.cenaN = cenaN
             self.wartoscN = self.cenaN * self.ilosc
