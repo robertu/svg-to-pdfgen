@@ -3,3 +3,4 @@ cairosvg
 PyPDF2
 pytest
 powerline-status
+pre-commit
