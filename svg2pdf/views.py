@@ -1,7 +1,7 @@
 from django.http.response import FileResponse, HttpResponse  # noqa
 from django.shortcuts import render
 
-from .models import context_to_pdf, faktura, faktura_context_calc, getcontext
+from .models import Faktura, context_to_pdf, faktura_context_calc, getcontext
 
 # Settings
 
@@ -13,15 +13,15 @@ FOLDER_NA_FAKTURY = "faktury"
 
 
 def strona_gl(request):
-    faktury = list(faktura.objects.order_by("-id"))
+    faktury = list(Faktura.objects.order_by("-id"))
     return render(request, "strona_gl.html", {"faktura_ostatnia": faktury})
 
 
-# Get selected faktura ID
+# Get selected Faktura ID
 
 
 def faktura_id(id):
-    faktury = faktura.objects.order_by("-id")
+    faktury = Faktura.objects.order_by("-id")
     for x in faktury:
         if x.id == id:
             return x
@@ -33,7 +33,7 @@ def faktura_id(id):
 def faktura_from_id(id):
     context = getcontext(id)
     context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, id.Nazwa_faktury, FOLDER_NA_FAKTURY)
+    context_to_pdf(context, pozycje_c, tabelarys, id.nazwa_faktury, FOLDER_NA_FAKTURY)
 
 
 # Get faktura
@@ -44,10 +44,10 @@ def faktura_temp(request, id=1):
     # ID faktury
     id = faktura_id(id)
     try:
-        return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.Nazwa_faktury}.pdf")
+        return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.nazwa_faktury}.pdf")
     except Exception:
         faktura_from_id(id)
-        return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.Nazwa_faktury}.pdf")
+        return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.nazwa_faktury}.pdf")
 
 
 # Gen faktura
@@ -59,4 +59,4 @@ def faktura_gen(request, id=1):
     id = faktura_id(id)
     faktura_from_id(id)
 
-    return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.Nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.Nazwa_faktury}.pdf")
+    return FileResponse(open(f"{FOLDER_NA_FAKTURY}/fak-{id.nazwa_faktury}.pdf", "rb"), as_attachment=0, filename=f"{id.nazwa_faktury}.pdf")

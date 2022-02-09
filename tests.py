@@ -13,17 +13,17 @@ FOLDER_NA_FAKTURY_TESTOWE = "faktury_testowe"
 
 class Jednostka:
     def __init__(self, nazwa, dziesietna):
-        self.Nazwa = nazwa
-        self.Dziesietna = dziesietna
+        self.nazwa = nazwa
+        self.dziesietna = dziesietna
 
 
-class pozycja:
+class Pozycja:
     def __init__(self, nazwa, cenaN, ilosc=1, podatek=23, jednostka=Jednostka("SZT", False)):
-        self.Nazwa = nazwa
-        self.Jednostka = jednostka
-        self.Cena_Netto = cenaN
-        self.Ilosc = ilosc
-        self.Podatek = podatek
+        self.nazwa = nazwa
+        self.jednostka = jednostka
+        self.cena_Netto = cenaN
+        self.ilosc = ilosc
+        self.podatek = podatek
 
 
 def basic_con():
@@ -37,7 +37,7 @@ def basic_con():
         "DATASP": "01-01-0001",
         "DATAWYS": "01-01-0001",
         "TERPLAT": "01-01-0001",
-        "POZYCJE": [pozycja("Poz 1", 10, 10)],
+        "POZYCJE": [Pozycja("Poz 1", 10, 10)],
         "ZAPLACONO": 2,
         "DAYS": "2",
         "STRGL": True,
@@ -62,10 +62,10 @@ def test_podstawowy():
 
 def test_pozycje():
     context = basic_con()
-    temp = []
+    TEMP = []
     for x in range(100):
-        temp += [pozycja(f"poz {x}", x)]
-    context.update({"POZYCJE": temp})
+        TEMP += [Pozycja(f"poz {x}", x)]
+    context.update({"POZYCJE": TEMP})
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, "test_pozycje", FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_pozycje.pdf")
@@ -73,12 +73,12 @@ def test_pozycje():
 
 def test_nazwa_wrap():
     context = basic_con()
-    temp = []
-    tempn = ""
+    TEMP = []
+    TEMPN = ""
     for x in range(100):
-        tempn = "poz" + str(x) + " a" * 4 * x
-        temp += [pozycja(tempn, x)]
-    context.update({"POZYCJE": temp})
+        TEMPN = "poz" + str(x) + " a" * 4 * x
+        TEMP += [Pozycja(TEMPN, x)]
+    context.update({"POZYCJE": TEMP})
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, "test_nazwa_wrap", FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_nazwa_wrap.pdf")
@@ -86,12 +86,12 @@ def test_nazwa_wrap():
 
 def test_podatki_pozycje():
     context = basic_con()
-    temp = []
+    TEMP = []
     for x in range(100):
-        temp += [pozycja(f"poz {x}", x, 1, 23)]
-        temp += [pozycja(f"poz {x}", x, 2, 8)]
-        temp += [pozycja(f"poz {x}", x, 3, 0)]
-    context.update({"POZYCJE": temp})
+        TEMP += [Pozycja(f"poz {x}", x, 1, 23)]
+        TEMP += [Pozycja(f"poz {x}", x, 2, 8)]
+        TEMP += [Pozycja(f"poz {x}", x, 3, 0)]
+    context.update({"POZYCJE": TEMP})
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, "test_podatki_pozycje", FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podatki_pozycje.pdf")
@@ -99,10 +99,10 @@ def test_podatki_pozycje():
 
 def test_vat():
     context = basic_con()
-    temp = []
+    TEMP = []
     for x in range(10):
-        temp += [pozycja(f"poz {x}", x, 1, x)]
-    context.update({"POZYCJE": temp})
+        TEMP += [Pozycja(f"poz {x}", x, 1, x)]
+    context.update({"POZYCJE": TEMP})
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, "test_vat", FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_vat.pdf")
@@ -110,12 +110,12 @@ def test_vat():
 
 def test_jednostki():
     context = basic_con()
-    temp = []
+    TEMP = []
     jednostki = [Jednostka("SZT", False), Jednostka("KG", True)]
     for x in range(10):
-        temp += [pozycja(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[0])]
-        temp += [pozycja(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[1])]
-    context.update({"POZYCJE": temp})
+        TEMP += [Pozycja(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[0])]
+        TEMP += [Pozycja(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[1])]
+    context.update({"POZYCJE": TEMP})
     context, pozycje_c, tabelarys = faktura_context_calc(context)
     context_to_pdf(context, pozycje_c, tabelarys, "test_jednostki", FOLDER_NA_FAKTURY_TESTOWE)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_jednostki.pdf")

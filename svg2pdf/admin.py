@@ -1,39 +1,39 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import faktura, firma, jednostkaM, pozycjafaktury
+from .models import Faktura, Firma, JednostkaM, Pozycjafaktury
 
 # Register your models here.
 
 
-@admin.register(firma)
-class firmaAdmin(admin.ModelAdmin):
-    list_display = ["Nazwa", "NIP", "Ulica", "Adres"]
+@admin.register(Firma)
+class FirmaAdmin(admin.ModelAdmin):
+    list_display = ["nazwa", "nip", "ulica", "adres"]
 
 
-@admin.register(pozycjafaktury)
-class pozycjaAdmin(admin.ModelAdmin):
-    list_display = ["Nazwa", "Ilosc", "Jednostka", "Cena_Netto", "Podatek"]
+@admin.register(Pozycjafaktury)
+class PozycjaAdmin(admin.ModelAdmin):
+    list_display = ["nazwa", "ilosc", "jednostka", "cena_Netto", "podatek"]
 
 
-@admin.register(jednostkaM)
-class jednostkaMAdmin(admin.ModelAdmin):
-    list_display = ["Nazwa", "Dziesietna"]
+@admin.register(JednostkaM)
+class JednostkaMAdmin(admin.ModelAdmin):
+    list_display = ["nazwa", "dziesietna"]
 
 
-@admin.register(faktura)
-class fakturaAdmin(admin.ModelAdmin):
-    list_display = ["nazwa", "Numer_faktury", "wygeneruj_fakture"]
+@admin.register(Faktura)
+class FakturaAdmin(admin.ModelAdmin):
+    list_display = ["nazwa", "numer_faktury", "faktura"]
     fieldsets = [
-        ("Dane Faktury", {"fields": ("Nazwa_faktury", "Numer_faktury")}),
+        ("Dane Faktury", {"fields": ("nazwa_faktury", "numer_faktury")}),
         ("Firmy", {"fields": (("firma_sprzedawca", "firma_klient"),)}),
-        ("Pozycje", {"fields": (("Data_sprzedaży", "Data_wystawienia"), "pozycje")}),
-        ("Platnosc", {"fields": ("Termin_płatności", "Zapłacono", "Sposób_płatności", "Termin_płatności_dni")}),
+        ("Pozycje", {"fields": (("data_sprzedazy", "data_wystawienia"), "pozycje")}),
+        ("Platnosc", {"fields": ("termin_platnosci", "zaplacono", "sposob_platnosci", "termin_platnosci_dni")}),
     ]
     filter_horizontal = ("pozycje",)
 
     def nazwa(self, obj):
-        return "Faktura-" + obj.Nazwa_faktury
+        return "Faktura-" + obj.nazwa_faktury
 
-    def wygeneruj_fakture(self, obj):
-        return format_html("<a href='/fakturag-{url}/'>Wygeneruj</a>", url=obj.id)
+    def faktura(self, obj):
+        return format_html("<a href='/fakturag-{url}/'>Faktura</a>", url=obj.id)

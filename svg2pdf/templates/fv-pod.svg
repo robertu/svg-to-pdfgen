@@ -9867,7 +9867,7 @@
      style="text-align:center;text-anchor:middle;stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="303">{{x.jednostka.Nazwa}}</tspan>
+     x="303">{{x.jednostka.nazwa}}</tspan>
 <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
      id="tspan6426"
