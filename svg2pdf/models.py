@@ -35,7 +35,7 @@ class Firma(models.Model):
     nazwa = models.CharField(max_length=45, primary_key=True)
     nip = models.CharField(max_length=13)
     ulica = models.CharField(max_length=45)
-    adres = models.CharField(max_length=45)
+    adres = models.TextField()
 
     def __str__(self):
         return f"firma {self.nazwa}"
@@ -101,16 +101,31 @@ def dzies(sender, instance, *args, **kwargs):
 # Get context from faktura
 
 
+def name(nazwa):
+    name = []
+    i = 0
+    lenght = 0
+    for x in nazwa.split():
+        if lenght + len(x) > 40:
+            i += 1
+            lenght = 0
+        if lenght == 0:
+            name += [""]
+        name[i] += f"{x} "
+        lenght += len(x) + 1
+    return name, i
+
+
 def getcontext(faktura_ostatinia):
     context = {
         "FVATNAME": faktura_ostatinia.nazwa_faktury,
         "NAB": faktura_ostatinia.firma_klient.nazwa,
         "NABA": faktura_ostatinia.firma_klient.ulica,
-        "NABK": faktura_ostatinia.firma_klient.adres,
+        "NABK": name(faktura_ostatinia.firma_klient.adres)[0],
         "NABNIP": "NIP: " + str(faktura_ostatinia.firma_klient.nip),
         "SPR": faktura_ostatinia.firma_sprzedawca.nazwa,
         "SPRA": faktura_ostatinia.firma_sprzedawca.ulica,
-        "SPRK": faktura_ostatinia.firma_sprzedawca.adres,
+        "SPRK": name(faktura_ostatinia.firma_sprzedawca.adres)[0],
         "SPRNIP": "NIP: " + str(faktura_ostatinia.firma_sprzedawca.nip),
         "VATNAME": faktura_ostatinia.numer_faktury,
         "DATASP": str(faktura_ostatinia.data_sprzedazy),
@@ -132,20 +147,6 @@ def getcontext(faktura_ostatinia):
 def faktura_context_calc(context):
     class Pozycja:
         def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
-            def name(nazwa):
-                name = []
-                i = 0
-                lenght = 0
-                for x in nazwa.split():
-                    if lenght + len(x) > 40:
-                        i += 1
-                        lenght = 0
-                    if lenght == 0:
-                        name += [""]
-                    name[i] += f"{x} "
-                    lenght += len(x) + 1
-                return name, i
-
             self.nazwa, self.wys = name(nazwa)
             self.jednostka = jednostka
             self.ilosc = abs(ilosc)

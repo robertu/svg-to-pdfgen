@@ -9294,34 +9294,20 @@
      id="tspan6134"
      x="551.82526"
      y="-610.10968"
-     style="text-align:end;text-anchor:end">{{NABA|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6140"
-   x="552.03619"
-   y="-596.10968"><tspan
+     style="text-align:end;text-anchor:end">{{NABA|nazwa_lt:45}}</tspan>
+  {% for x in NABK %}
+  <tspan
      sodipodi:role="line"
      id="tspan6138"
      x="552.03619"
-     y="-596.10968"
-     style="text-align:end;text-anchor:end">{{NABK|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6144"
-   x="551.75494"
-   y="-582.10968"><tspan
+     dy="1.6em"
+     style="text-align:end;text-anchor:end">{{x}}</tspan>
+  {% endfor %}
+  <tspan
      sodipodi:role="line"
      id="tspan6142"
      x="551.75494"
-     y="-582.10968"
+     dy="1.6em"
      style="text-align:end;text-anchor:end">{{NABNIP}}</tspan></text>
 
 
@@ -9361,33 +9347,19 @@
      sodipodi:role="line"
      id="tspan6154"
      x="48.535591"
-     y="-610.88678">{{SPRA|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6160"
-   x="48.816841"
-   y="-596.88678"><tspan
+     y="-610.88678">{{SPRA|nazwa_lt:45}}</tspan>
+  {% for x in SPRK%}
+  <tspan
      sodipodi:role="line"
      id="tspan6158"
      x="48.816841"
-     y="-596.88678">{{SPRK|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6144"
-   x="48.816841"
-   y="-582.10968"><tspan
+     dy="1.6em">{{x}}</tspan>
+  {% endfor %}
+  <tspan
      sodipodi:role="line"
      id="tspan6142"
      x="48.816841"
-     y="-582.10968">{{NABNIP}}</tspan></text>
+     dy="1.6em">{{SPRNIP}}</tspan></text>
 
 
 
