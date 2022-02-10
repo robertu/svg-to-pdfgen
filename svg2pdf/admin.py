@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Faktura, Firma, JednostkaM, Pozycjafaktury
+from .models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
 
 # Register your models here.
 
@@ -37,3 +37,10 @@ class FakturaAdmin(admin.ModelAdmin):
 
     def faktura(self, obj):
         return format_html("<a href='/fakturag-{url}/'>Faktura</a>", url=obj.id)
+
+
+@admin.register(SposobPlat)
+class SposobPlatAdmin(admin.ModelAdmin):
+    list_display = [
+        "nazwa",
+    ]

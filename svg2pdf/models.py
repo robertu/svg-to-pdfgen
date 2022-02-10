@@ -61,6 +61,14 @@ class Pozycjafaktury(models.Model):
         return f">{self.nazwa} x {self.ilosc}"
 
 
+class SposobPlat(models.Model):
+
+    nazwa = models.CharField(max_length=20, default="Przelew na konto")
+
+    def __str__(self):
+        return f"{self.nazwa}"
+
+
 class Faktura(models.Model):
     nazwa_faktury = models.CharField(max_length=8)
     firma_sprzedawca = models.ForeignKey(Firma, related_name="sprzedawca", on_delete=CASCADE)
@@ -71,7 +79,7 @@ class Faktura(models.Model):
     termin_platnosci = models.DateField()
     pozycje = models.ManyToManyField(Pozycjafaktury)
     zaplacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
-    sposob_platnosci = models.CharField(max_length=90, default="Przelew na konto")
+    sposob_platnosci = models.ForeignKey(SposobPlat, on_delete=CASCADE)
     termin_platnosci_dni = models.PositiveIntegerField(default=1)
 
     def __str__(self):
