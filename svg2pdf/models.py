@@ -1,15 +1,16 @@
+import os
+from os.path import isdir
+
+import cairosvg
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template import loader
-from django.core.exceptions import ValidationError
-import os
-from os.path import isdir
-import cairosvg
 from PyPDF2 import PdfFileMerger
 
-########### Validation
+# Validation
 
 
 def validate_neg(value):
@@ -27,94 +28,90 @@ def validate_num(value):
         raise ValidationError(f"{value} has more than 2 decimal places")
 
 
-########### Models
+# Models
 
 
-class firma(models.Model):
-    Nazwa = models.CharField(max_length=50, primary_key=True)
-    NIP = models.CharField(max_length=13)
-    Ulica = models.CharField(max_length=100)
-    Adres = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"firma {self.Nazwa}"
-
-
-class jednostkaM(models.Model):
-    Nazwa = models.CharField(max_length=5, default="Szt.")
-    Dziesietna = models.BooleanField()
+class Firma(models.Model):
+    nazwa = models.CharField(max_length=45, primary_key=True)
+    nip = models.CharField(max_length=13)
+    ulica = models.CharField(max_length=45)
+    adres = models.CharField(max_length=45)
 
     def __str__(self):
-        return f"{self.Nazwa}"
+        return f"firma {self.nazwa}"
 
 
-class pozycjafaktury(models.Model):
-
-    Nazwa = models.TextField()
-    Jednostka = models.ForeignKey(jednostkaM, on_delete=CASCADE)
-    Ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
-    Cena_Netto = models.FloatField(
-        validators=[validate_neg, validate_num, validate_zero]
-    )
-    Podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
+class JednostkaM(models.Model):
+    nazwa = models.CharField(max_length=8, default="Szt")
+    dziesietna = models.BooleanField()
 
     def __str__(self):
-        return f">{self.Nazwa} x {self.Ilosc}"
+        return f"{self.nazwa}"
 
 
-class faktura(models.Model):
-    Nazwa_faktury = models.CharField(max_length=90)
-    firma_sprzedawca = models.ForeignKey(
-        firma, related_name="sprzedawca", on_delete=CASCADE
-    )
-    firma_klient = models.ForeignKey(firma, related_name="nabywca", on_delete=CASCADE)
-    Numer_faktury = models.CharField(max_length=90)
-    Data_sprzedaży = models.DateField()
-    Data_wystawienia = models.DateField()
-    Termin_płatności = models.DateField()
-    pozycje = models.ManyToManyField(pozycjafaktury)
-    Zapłacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
-    Sposób_płatności = models.CharField(max_length=90, default="Przelew na konto")
-    Termin_płatności_dni = models.PositiveIntegerField(default=1)
+class Pozycjafaktury(models.Model):
+
+    nazwa = models.TextField()
+    jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
+    ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
+    cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
+    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
 
     def __str__(self):
-        return f"Faktura {self.Numer_faktury}"
+        return f">{self.nazwa} x {self.ilosc}"
 
 
-########### pre_save
+class Faktura(models.Model):
+    nazwa_faktury = models.CharField(max_length=8)
+    firma_sprzedawca = models.ForeignKey(Firma, related_name="sprzedawca", on_delete=CASCADE)
+    firma_klient = models.ForeignKey(Firma, related_name="nabywca", on_delete=CASCADE)
+    numer_faktury = models.CharField(max_length=15)
+    data_sprzedazy = models.DateField()
+    data_wystawienia = models.DateField()
+    termin_platnosci = models.DateField()
+    pozycje = models.ManyToManyField(Pozycjafaktury)
+    zaplacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
+    sposob_platnosci = models.CharField(max_length=90, default="Przelew na konto")
+    termin_platnosci_dni = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"Faktura {self.numer_faktury}"
 
 
-@receiver(pre_save, sender=pozycjafaktury)
+# pre_save
+
+
+@receiver(pre_save, sender=Pozycjafaktury)
 def dzies(sender, instance, *args, **kwargs):
-    if instance.Ilosc != int(instance.Ilosc):
-        if instance.Jednostka.Dziesietna is False:
-            instance.Ilosc = int(instance.Ilosc)
+    if instance.ilosc != int(instance.ilosc):
+        if instance.jednostka.dziesietna is False:
+            instance.ilosc = int(instance.ilosc)
 
 
-########### Functions
+# Functions
 
 # Get context from faktura
 
 
 def getcontext(faktura_ostatinia):
     context = {
-        "FVATNAME": faktura_ostatinia.Nazwa_faktury,
-        "NAB": faktura_ostatinia.firma_klient.Nazwa,
-        "NABA": faktura_ostatinia.firma_klient.Ulica,
-        "NABK": faktura_ostatinia.firma_klient.Adres,
-        "NABNIP": "NIP: " + str(faktura_ostatinia.firma_klient.NIP),
-        "SPR": faktura_ostatinia.firma_sprzedawca.Nazwa,
-        "SPRA": faktura_ostatinia.firma_sprzedawca.Ulica,
-        "SPRK": faktura_ostatinia.firma_sprzedawca.Adres,
-        "SPRNIP": "NIP: " + str(faktura_ostatinia.firma_sprzedawca.NIP),
-        "VATNAME": faktura_ostatinia.Numer_faktury,
-        "DATASP": str(faktura_ostatinia.Data_sprzedaży),
-        "DATAWYS": str(faktura_ostatinia.Data_wystawienia),
-        "TERPLAT": str(faktura_ostatinia.Termin_płatności),
+        "FVATNAME": faktura_ostatinia.nazwa_faktury,
+        "NAB": faktura_ostatinia.firma_klient.nazwa,
+        "NABA": faktura_ostatinia.firma_klient.ulica,
+        "NABK": faktura_ostatinia.firma_klient.adres,
+        "NABNIP": "NIP: " + str(faktura_ostatinia.firma_klient.nip),
+        "SPR": faktura_ostatinia.firma_sprzedawca.nazwa,
+        "SPRA": faktura_ostatinia.firma_sprzedawca.ulica,
+        "SPRK": faktura_ostatinia.firma_sprzedawca.adres,
+        "SPRNIP": "NIP: " + str(faktura_ostatinia.firma_sprzedawca.nip),
+        "VATNAME": faktura_ostatinia.numer_faktury,
+        "DATASP": str(faktura_ostatinia.data_sprzedazy),
+        "DATAWYS": str(faktura_ostatinia.data_wystawienia),
+        "TERPLAT": str(faktura_ostatinia.termin_platnosci),
         "POZYCJE": list(faktura_ostatinia.pozycje.all()),
-        "ZAPLACONO": faktura_ostatinia.Zapłacono,
-        "DAYS": str(faktura_ostatinia.Termin_płatności_dni),
-        "SPOSPLAT": faktura_ostatinia.Sposób_płatności,
+        "ZAPLACONO": faktura_ostatinia.zaplacono,
+        "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
+        "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
         "STRGL": True,
         "STRKON": False,
     }
@@ -125,33 +122,33 @@ def getcontext(faktura_ostatinia):
 
 
 def faktura_context_calc(context):
-    class pozycja:
+    class Pozycja:
         def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
             def name(nazwa):
                 name = []
                 i = 0
-                l = 0
+                lenght = 0
                 for x in nazwa.split():
-                    if l + len(x) > 40:
+                    if lenght + len(x) > 40:
                         i += 1
-                        l = 0
-                    if l == 0:
+                        lenght = 0
+                    if lenght == 0:
                         name += [""]
                     name[i] += f"{x} "
-                    l += len(x) + 1
+                    lenght += len(x) + 1
                 return name, i
 
             self.nazwa, self.wys = name(nazwa)
             self.jednostka = jednostka
-            if not jednostka.Dziesietna:
-                self.ilosc = int(ilosc)
-            else:
-                self.ilosc = ilosc
-            self.podatek = podatek
-            self.cenaN = cenaN
+            self.ilosc = abs(ilosc)
+            self.cenaN = abs(cenaN)
+            if not jednostka.dziesietna:
+                self.ilosc = int(self.ilosc)
+                self.cenaN = int(self.cenaN)
+            self.podatek = abs(podatek)
             self.wartoscN = self.cenaN * self.ilosc
-            self.cenaVat = self.cenaN * (podatek / 100)
-            self.wartoscVat = self.wartoscN * (podatek / 100)
+            self.cenaVat = self.cenaN * (self.podatek / 100)
+            self.wartoscVat = self.wartoscN * (self.podatek / 100)
 
     # Check for number of DAYS
 
@@ -165,12 +162,12 @@ def faktura_context_calc(context):
 
     i = [[], [{}, 0.0, 0.0, 0.0]]
     for x in context["POZYCJE"]:
-        i[0] += [pozycja(x.Nazwa, x.Jednostka, x.Cena_Netto, x.Ilosc, x.Podatek)]
+        i[0] += [Pozycja(x.nazwa, x.jednostka, x.cena_Netto, x.ilosc, x.podatek)]
 
     for x in i[0]:
         try:
             i[1][0].update({f"{x.podatek}": x.wartoscVat + i[1][0][f"{x.podatek}"]})
-        except:
+        except Exception:
             i[1][0].update({f"{x.podatek}": x.wartoscVat})
         i[1][1] += x.wartoscN
         i[1][2] += x.wartoscVat
@@ -236,10 +233,8 @@ def faktura_context_calc(context):
 # Gen pdf file
 
 
-def context_to_pdf(
-    context, pozycje_c, tabelarys, Nazwa_faktury_Wygenerowanej="faktura", dirf="faktura"
-):
-    class tabela:
+def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_Wygenerowanej="faktura", dirf="faktura"):
+    class Tabela:
         def __init__(self, x, kwotavpoz, zaplacono, wys):
             # ((x.wys + 1) * 11.2 )
             self.wys = 0
@@ -286,9 +281,7 @@ def context_to_pdf(
             context.update(
                 {
                     "pozycje": x,
-                    "TABELA": tabela(
-                        x, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]
-                    ),
+                    "TABELA": Tabela(x, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]),
                     "TABELARYS": (tabelarys[temp - 1] + 6.65),
                     "STRONA": temp,
                     "STRONY": pozycje_c[1] + 1,
@@ -308,8 +301,7 @@ def context_to_pdf(
             context.update({"STRKON": True})
 
         # create pdf
-
-        if isdir(f"{dirf}") == False:
+        if isdir(f"{dirf}") is False:
             os.mkdir(f"{dirf}")
         svg = loader.get_template("fv-pod.svg").render(context)
         cairosvg.svg2pdf(bytestring=svg, write_to=f"{dirf}/faktura{temp}.pdf")
@@ -322,7 +314,7 @@ def context_to_pdf(
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write(f"{dirf}/fak-{Nazwa_faktury_Wygenerowanej}.pdf")
+    merger.write(f"{dirf}/fak-{nazwa_faktury_Wygenerowanej}.pdf")
 
     for x in range(1, temp + 1):
         os.remove(f"{dirf}/faktura{x}.pdf")

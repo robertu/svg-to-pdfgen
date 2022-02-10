@@ -9250,7 +9250,7 @@
      id="tspan6122"
      x="552.77673"
      y="-678.47852"
-     style="text-align:end;text-anchor:end">{{FVATNAME}}</tspan></text>
+     style="text-align:end;text-anchor:end">{{FVATNAME|nazwa_lt:8}}</tspan></text>
 
 
 <text
@@ -9276,7 +9276,7 @@
      id="tspan6130"
      x="551.93951"
      y="-624.10968"
-     style="text-align:end;text-anchor:end">{{NAB}}</tspan><tspan
+     style="text-align:end;text-anchor:end">{{NAB|nazwa_lt:45}}</tspan><tspan
      sodipodi:role="line"
      x="551.93951"
      y="-612.85968"
@@ -9294,7 +9294,7 @@
      id="tspan6134"
      x="551.82526"
      y="-610.10968"
-     style="text-align:end;text-anchor:end">{{NABA}}</tspan></text>
+     style="text-align:end;text-anchor:end">{{NABA|nazwa_lt:45}}</tspan></text>
 
 
 
@@ -9308,7 +9308,7 @@
      id="tspan6138"
      x="552.03619"
      y="-596.10968"
-     style="text-align:end;text-anchor:end">{{NABK}}</tspan></text>
+     style="text-align:end;text-anchor:end">{{NABK|nazwa_lt:45}}</tspan></text>
 
 
 
@@ -9348,7 +9348,7 @@
      sodipodi:role="line"
      id="tspan6150"
      x="48.447701"
-     y="-624.88678">{{SPR}}</tspan></text>
+     y="-624.88678">{{SPR|nazwa_lt:45}}</tspan></text>
 
 
 
@@ -9361,7 +9361,7 @@
      sodipodi:role="line"
      id="tspan6154"
      x="48.535591"
-     y="-610.88678">{{SPRA}}</tspan></text>
+     y="-610.88678">{{SPRA|nazwa_lt:45}}</tspan></text>
 
 
 
@@ -9374,20 +9374,20 @@
      sodipodi:role="line"
      id="tspan6158"
      x="48.816841"
-     y="-596.88678">{{SPRK}}</tspan></text>
+     y="-596.88678">{{SPRK|nazwa_lt:45}}</tspan></text>
 
 
 
 <text
    transform="scale(1,-1)"
    style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6164"
-   x="48.372993"
-   y="-582.88678"><tspan
-     x="48.372993 55.158993 57.669994 63.087994 65.481987 67.821983 72.969986 78.117989 83.265991 85.605988 90.75399 95.901985 101.05 103.38998 108.53798 113.68598 116.02599 121.174"
-     y="-582.88678"
+   id="text6144"
+   x="48.816841"
+   y="-582.10968"><tspan
      sodipodi:role="line"
-     id="tspan6162">{{SPRNIP}}</tspan></text>
+     id="tspan6142"
+     x="48.816841"
+     y="-582.10968">{{NABNIP}}</tspan></text>
 
 
 
@@ -9403,7 +9403,7 @@
      x="48.537544"
      y="-537.22852">Numer faktury: <tspan
    style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Light'"
-   id="tspan8189">{{VATNAME}}</tspan> </tspan></text>
+   id="tspan8189">{{VATNAME|nazwa_lt:15}}</tspan> </tspan></text>
 
 
 
@@ -9867,7 +9867,7 @@
      style="text-align:center;text-anchor:middle;stroke-width:1"
      sodipodi:role="line"
      id="tspan6450-5-3-3"
-     x="303">{{x.jednostka.Nazwa}}</tspan>
+     x="303">{{x.jednostka.nazwa|nazwa_lt:8}}</tspan>
 <tspan
      style="text-align:center;text-anchor:middle;stroke-width:1"
      id="tspan6426"
