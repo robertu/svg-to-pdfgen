@@ -5,8 +5,7 @@ import cairosvg
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
+from django.db.models.signals import pre_delete, pre_save
 from django.template import loader
 from PyPDF2 import PdfFileMerger
 
@@ -49,18 +48,6 @@ class JednostkaM(models.Model):
         return f"{self.nazwa}"
 
 
-class Pozycjafaktury(models.Model):
-
-    nazwa = models.TextField()
-    jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
-    ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
-    cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
-    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
-
-    def __str__(self):
-        return f">{self.nazwa} x {self.ilosc}"
-
-
 class SposobPlat(models.Model):
 
     nazwa = models.CharField(max_length=20, default="Przelew na konto")
@@ -77,23 +64,56 @@ class Faktura(models.Model):
     data_sprzedazy = models.DateField()
     data_wystawienia = models.DateField()
     termin_platnosci = models.DateField()
-    pozycje = models.ManyToManyField(Pozycjafaktury)
     zaplacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
     sposob_platnosci = models.ForeignKey(SposobPlat, on_delete=CASCADE)
     termin_platnosci_dni = models.PositiveIntegerField(default=1)
+    if "pozycje" not in locals():
+        pozycje = []
 
     def __str__(self):
         return f"Faktura {self.numer_faktury}"
 
 
-# pre_save
+class Pozycjafaktury(models.Model):
+    faktura = models.ForeignKey(Faktura, on_delete=CASCADE)
+    nazwa = models.TextField()
+    jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
+    ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
+    cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
+    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
+
+    def __str__(self):
+        return f">{self.nazwa} x {self.ilosc}"
 
 
-@receiver(pre_save, sender=Pozycjafaktury)
+# signals
+
+
 def dzies(sender, instance, *args, **kwargs):
     if instance.ilosc != int(instance.ilosc):
         if instance.jednostka.dziesietna is False:
             instance.ilosc = int(instance.ilosc)
+
+
+def fakturaupdate(sender, instance, using, **kwargs):
+    i = 0
+    found = False
+    for x in instance.faktura.pozycje:
+        if x.id == instance.id:
+            instance.faktura.pozycje[i] = instance
+            found = True
+        i += 1
+    if not found:
+        instance.faktura.pozycje += [instance]
+
+
+def pozdel(sender, instance, using, **kwargs):
+    instance.faktura.pozycje.remove(instance)
+
+
+pre_save.connect(dzies, sender=Pozycjafaktury)
+pre_save.connect(fakturaupdate, sender=Pozycjafaktury)
+pre_delete.connect(pozdel, sender=Pozycjafaktury)
 
 
 # Functions
@@ -131,7 +151,7 @@ def getcontext(faktura_ostatinia):
         "DATASP": str(faktura_ostatinia.data_sprzedazy),
         "DATAWYS": str(faktura_ostatinia.data_wystawienia),
         "TERPLAT": str(faktura_ostatinia.termin_platnosci),
-        "POZYCJE": list(faktura_ostatinia.pozycje.all()),
+        "POZYCJE": faktura_ostatinia.pozycje,
         "ZAPLACONO": faktura_ostatinia.zaplacono,
         "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
         "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
