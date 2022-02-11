@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Faktura, Firma, JednostkaM, Pozycjafaktury
+from .models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
 
 # Register your models here.
 
@@ -13,7 +13,7 @@ class FirmaAdmin(admin.ModelAdmin):
 
 @admin.register(Pozycjafaktury)
 class PozycjaAdmin(admin.ModelAdmin):
-    list_display = ["nazwa", "ilosc", "jednostka", "cena_Netto", "podatek"]
+    list_display = ["nazwa", "faktura", "ilosc", "jednostka", "cena_Netto", "podatek"]
 
 
 @admin.register(JednostkaM)
@@ -27,13 +27,21 @@ class FakturaAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Dane Faktury", {"fields": ("nazwa_faktury", "numer_faktury")}),
         ("Firmy", {"fields": (("firma_sprzedawca", "firma_klient"),)}),
-        ("Pozycje", {"fields": (("data_sprzedazy", "data_wystawienia"), "pozycje")}),
+        ("Pozycje", {"fields": ("data_sprzedazy", "data_wystawienia")}),
         ("Platnosc", {"fields": ("termin_platnosci", "zaplacono", "sposob_platnosci", "termin_platnosci_dni")}),
+        ("Informacje", {"fields": ("fakture_wystawil",)}),
     ]
-    filter_horizontal = ("pozycje",)
+    # filter_horizontal = ("pozycje",)
 
     def nazwa(self, obj):
         return "Faktura-" + obj.nazwa_faktury
 
     def faktura(self, obj):
         return format_html("<a href='/fakturag-{url}/'>Faktura</a>", url=obj.id)
+
+
+@admin.register(SposobPlat)
+class SposobPlatAdmin(admin.ModelAdmin):
+    list_display = [
+        "nazwa",
+    ]

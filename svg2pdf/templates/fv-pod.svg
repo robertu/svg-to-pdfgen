@@ -9276,7 +9276,7 @@
      id="tspan6130"
      x="551.93951"
      y="-624.10968"
-     style="text-align:end;text-anchor:end">{{NAB|nazwa_lt:45}}</tspan><tspan
+     style="text-align:end;text-anchor:end">{{NAB.nazwa|nazwa_lt:45}}</tspan><tspan
      sodipodi:role="line"
      x="551.93951"
      y="-612.85968"
@@ -9294,35 +9294,19 @@
      id="tspan6134"
      x="551.82526"
      y="-610.10968"
-     style="text-align:end;text-anchor:end">{{NABA|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6140"
-   x="552.03619"
-   y="-596.10968"><tspan
+     style="text-align:end;text-anchor:end">{{NAB.ulica|nazwa_lt:45}}</tspan>
+  <tspan
      sodipodi:role="line"
      id="tspan6138"
      x="552.03619"
-     y="-596.10968"
-     style="text-align:end;text-anchor:end">{{NABK|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6144"
-   x="551.75494"
-   y="-582.10968"><tspan
+     dy="1.6em"
+     style="text-align:end;text-anchor:end">{{NAB.adres}}</tspan>
+  <tspan
      sodipodi:role="line"
      id="tspan6142"
      x="551.75494"
-     y="-582.10968"
-     style="text-align:end;text-anchor:end">{{NABNIP}}</tspan></text>
+     dy="1.6em"
+     style="text-align:end;text-anchor:end">{{NAB.nip}}</tspan></text>
 
 
 
@@ -9348,7 +9332,7 @@
      sodipodi:role="line"
      id="tspan6150"
      x="48.447701"
-     y="-624.88678">{{SPR|nazwa_lt:45}}</tspan></text>
+     y="-624.88678">{{SPR.nazwa|nazwa_lt:45}}</tspan></text>
 
 
 
@@ -9361,33 +9345,17 @@
      sodipodi:role="line"
      id="tspan6154"
      x="48.535591"
-     y="-610.88678">{{SPRA|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6160"
-   x="48.816841"
-   y="-596.88678"><tspan
+     y="-610.88678">{{SPR.ulica|nazwa_lt:45}}</tspan>
+  <tspan
      sodipodi:role="line"
      id="tspan6158"
      x="48.816841"
-     y="-596.88678">{{SPRK|nazwa_lt:45}}</tspan></text>
-
-
-
-<text
-   transform="scale(1,-1)"
-   style="font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;font-family:'Open Sans';-inkscape-font-specification:OpenSans;writing-mode:lr-tb;fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
-   id="text6144"
-   x="48.816841"
-   y="-582.10968"><tspan
+     dy="1.6em">{{SPR.adres}}</tspan>
+  <tspan
      sodipodi:role="line"
      id="tspan6142"
      x="48.816841"
-     y="-582.10968">{{NABNIP}}</tspan></text>
+     dy="1.6em">{{SPR.nip}}</tspan></text>
 
 
 
@@ -9570,7 +9538,7 @@
      sodipodi:role="line"
      id="tspan6230"
      x="316.87613"
-     y="-176.68578">Robert Urbańczyk</tspan></text>
+     y="-176.68578">{{FAKTUREWYS}}</tspan></text>
 
 
 
@@ -9661,7 +9629,7 @@
      sodipodi:role="line"
      id="tspan6258"
      x="53.422199"
-     y="-177.06905">{{SPOSPLAT}}</tspan></text>
+     y="-177.06905">{{SPOSPLAT.nazwa}}</tspan></text>
 
 
 
