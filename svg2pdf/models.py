@@ -67,6 +67,7 @@ class Faktura(models.Model):
     zaplacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
     sposob_platnosci = models.ForeignKey(SposobPlat, on_delete=CASCADE)
     termin_platnosci_dni = models.PositiveIntegerField(default=1)
+    fakture_wystawil = models.CharField(max_length=30)
     if "pozycje" not in locals():
         pozycje = []
 
@@ -139,14 +140,8 @@ def name(nazwa):
 def getcontext(faktura_ostatinia):
     context = {
         "FVATNAME": faktura_ostatinia.nazwa_faktury,
-        "NAB": faktura_ostatinia.firma_klient.nazwa,
-        "NABA": faktura_ostatinia.firma_klient.ulica,
-        "NABK": name(faktura_ostatinia.firma_klient.adres)[0],
-        "NABNIP": "NIP: " + str(faktura_ostatinia.firma_klient.nip),
-        "SPR": faktura_ostatinia.firma_sprzedawca.nazwa,
-        "SPRA": faktura_ostatinia.firma_sprzedawca.ulica,
-        "SPRK": name(faktura_ostatinia.firma_sprzedawca.adres)[0],
-        "SPRNIP": "NIP: " + str(faktura_ostatinia.firma_sprzedawca.nip),
+        "NAB": faktura_ostatinia.firma_klient,
+        "SPR": faktura_ostatinia.firma_sprzedawca,
         "VATNAME": faktura_ostatinia.numer_faktury,
         "DATASP": str(faktura_ostatinia.data_sprzedazy),
         "DATAWYS": str(faktura_ostatinia.data_wystawienia),
@@ -155,6 +150,7 @@ def getcontext(faktura_ostatinia):
         "ZAPLACONO": faktura_ostatinia.zaplacono,
         "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
         "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
+        "FAKTUREWYS": faktura_ostatinia.fakture_wystawil,
         "STRGL": True,
         "STRKON": False,
     }

@@ -29,6 +29,7 @@ class FakturaAdmin(admin.ModelAdmin):
         ("Firmy", {"fields": (("firma_sprzedawca", "firma_klient"),)}),
         ("Pozycje", {"fields": ("data_sprzedazy", "data_wystawienia")}),
         ("Platnosc", {"fields": ("termin_platnosci", "zaplacono", "sposob_platnosci", "termin_platnosci_dni")}),
+        ("Informacje", {"fields": ("fakture_wystawil",)}),
     ]
     # filter_horizontal = ("pozycje",)
 
