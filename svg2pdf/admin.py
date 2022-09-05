@@ -7,16 +7,19 @@ from .models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
 
 
 @admin.register(Firma)
-class FirmaAdmin(admin.ModelAdmin): #Firma display on admin page # pylint: disable=too-few-public-methods
+#Firma display on admin page
+class FirmaAdmin(admin.ModelAdmin): # pylint: disable=too-few-public-methods
     list_display = ["nazwa", "nip", "ulica", "adres"]
 
 @admin.register(Pozycjafaktury)
-class PozycjaAdmin(admin.ModelAdmin): #Pozycja display on admin page # pylint: disable=too-few-public-methods
+#Pozycja display on admin page 
+class PozycjaAdmin(admin.ModelAdmin): # pylint: disable=too-few-public-methods
     list_display = ["nazwa", "faktura", "ilosc", "jednostka", "cena_Netto", "podatek"]
 
 
 @admin.register(JednostkaM)
-class JednostkaMAdmin(admin.ModelAdmin): #Jednostka display on admin page # pylint: disable=too-few-public-methods
+#Jednostka display on admin page 
+class JednostkaMAdmin(admin.ModelAdmin): # pylint: disable=too-few-public-methods
     list_display = ["nazwa", "dziesietna"]
 
 
@@ -49,6 +52,7 @@ class FakturaAdmin(admin.ModelAdmin):
 
 
 @admin.register(SposobPlat)
+#Sposob platonsci display on admin page 
 class SposobPlatAdmin(admin.ModelAdmin): # pylint: disable=too-few-public-methods
     list_display = [
         "nazwa",
