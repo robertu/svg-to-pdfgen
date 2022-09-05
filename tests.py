@@ -1,3 +1,4 @@
+from ast import Delete
 import os
 import shutil
 
@@ -6,44 +7,9 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
-from svg2pdf.models import Faktura, Firma, JednostkaM, Pozycjafaktury, context_to_pdf, faktura_context_calc  # noqa
+from svg2pdf.models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat, context_to_pdf, faktura_context_calc, getcontext  # noqa
 
 FOLDER_NA_FAKTURY_TESTOWE = "faktury_testowe"
-
-
-class JednostkaTest:
-    def __init__(self, nazwa, dziesietna):
-        self.nazwa = nazwa
-        self.dziesietna = dziesietna
-
-
-class PozycjaTest:
-    def __init__(self, nazwa, cenaN, ilosc=1, podatek=23, jednostka=JednostkaTest("SZT", False)):
-        self.nazwa = nazwa
-        self.jednostka = jednostka
-        self.cena_Netto = cenaN
-        self.ilosc = ilosc
-        self.podatek = podatek
-
-
-def basic_con():
-    context = {
-        "FVATNAME": "test",
-        "NAB": "test",
-        "NABA": "test",
-        "NABK": "test",
-        "NABNIP": "123 456 78 90",
-        "VATNAME": "test",
-        "DATASP": "01-01-0001",
-        "DATAWYS": "01-01-0001",
-        "TERPLAT": "01-01-0001",
-        "POZYCJE": [PozycjaTest("Poz 1", 10, 10)],
-        "ZAPLACONO": 2,
-        "DAYS": "2",
-        "STRGL": True,
-        "STRKON": False,
-    }
-    return context
 
 
 try:
@@ -51,102 +17,183 @@ try:
 except Exception:
     pass
 
+Firma.objects.filter().delete()
+Firma.objects.create(nazwa = "Firma a",nip = "12345678",ulica = "ul.xyz",adres = "adres 1")
+Firma.objects.create(nazwa = "Firma b",nip = "87654321",ulica = "ul.abc",adres = "adres 2")
+
+JednostkaM.objects.filter().delete()
+JednostkaM.objects.create(nazwa = "Szt",dziesietna = False)
+JednostkaM.objects.create(nazwa = "Kg",dziesietna = True)
+
+SposobPlat.objects.filter().delete()
+SposobPlat.objects.create(nazwa = "Przelew na konto")
+
+Faktura.objects.filter().delete()
+
+def podstawowa_faktura(numer):
+    Faktura.objects.create(
+        nazwa_faktury = f"Test {numer}",
+        firma_sprzedawca = Firma.objects.get(nazwa="Firma a"),
+        firma_klient = Firma.objects.get(nazwa="Firma b"),
+        numer_faktury = f"Test {numer}",
+        data_sprzedazy = "0001-01-01",
+        data_wystawienia = "0001-01-01",
+        termin_platnosci = "0001-01-01",
+        zaplacono = 0,
+        sposob_platnosci = SposobPlat.objects.get(nazwa="Przelew na konto"),
+        termin_platnosci_dni = 1,
+        fakture_wystawil = f"Test {numer}"
+    )
+
+podstawowa_faktura(1)
+
+Pozycjafaktury.objects.filter().delete()
+Pozycjafaktury.objects.create(
+    faktura = Faktura.objects.get(nazwa_faktury = "Test 1"),
+    nazwa = "Pozycja 1.1 test",
+    jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+    ilosc = 1,
+    cena_Netto = 10,
+    podatek = 23,
+)
+Pozycjafaktury.objects.create(
+    faktura = Faktura.objects.get(nazwa_faktury = "Test 1"),
+    nazwa = "Pozycja 1.2 test",
+    jednostka = JednostkaM.objects.get(nazwa = "Kg"),
+    ilosc = 1.20,
+    cena_Netto = 10,
+    podatek = 23,
+)
+
+def factura_gen(nazwa_faktury_do_wygenerowania,nazwa_testu):
+    context = getcontext(Faktura.objects.get(nazwa_faktury = nazwa_faktury_do_wygenerowania))
+    context, pozycje_c, tabelarys = faktura_context_calc(context)
+    context_to_pdf(context, pozycje_c, tabelarys, nazwa_testu, FOLDER_NA_FAKTURY_TESTOWE)
 
 # tests
 def test_podstawowy():
-    context = basic_con()
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_podstawowy", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podstawowy.pdf")
-
+    nazwa_testu = "test_podstawowy"
+    factura_gen("Test 1", nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
 
 def test_pozycje():
-    context = basic_con()
-    TEMP = []
-    for x in range(100):
-        TEMP += [PozycjaTest(f"poz {x}", x)]
-    context.update({"POZYCJE": TEMP})
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_pozycje", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_pozycje.pdf")
-
-
-def test_nazwa_wrap():
-    context = basic_con()
-    TEMP = []
-    TEMPN = ""
-    for x in range(100):
-        TEMPN = "poz" + str(x) + " a" * 4 * x
-        TEMP += [PozycjaTest(TEMPN, x)]
-    context.update({"POZYCJE": TEMP})
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_nazwa_wrap", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_nazwa_wrap.pdf")
-
-
-def test_podatki_pozycje():
-    context = basic_con()
-    TEMP = []
-    for x in range(100):
-        TEMP += [PozycjaTest(f"poz {x}", x, 1, 23)]
-        TEMP += [PozycjaTest(f"poz {x}", x, 2, 8)]
-        TEMP += [PozycjaTest(f"poz {x}", x, 3, 0)]
-    context.update({"POZYCJE": TEMP})
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_podatki_pozycje", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_podatki_pozycje.pdf")
-
-
-def test_vat():
-    context = basic_con()
-    TEMP = []
-    for x in range(10):
-        TEMP += [PozycjaTest(f"poz {x}", x, 1, x)]
-    context.update({"POZYCJE": TEMP})
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_vat", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_vat.pdf")
-
+    podstawowa_faktura(2)
+    for x in range(70):
+        Pozycjafaktury.objects.create(
+            faktura = Faktura.objects.get(nazwa_faktury = "Test 2"),
+            nazwa = f"Pozycja 2.{x} test",
+            jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+            ilosc = x,
+            cena_Netto = 10,
+            podatek = 23,
+        )
+    nazwa_testu = "test_pozycje"
+    factura_gen("Test 2", nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
 
 def test_jednostki():
-    context = basic_con()
-    TEMP = []
-    jednostki = [JednostkaTest("SZT", False), JednostkaTest("KG", True)]
-    for x in range(10):
-        TEMP += [PozycjaTest(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[0])]
-        TEMP += [PozycjaTest(f"poz {x}", x, float(f"{x}.{x}"), 23, jednostki[1])]
-    context.update({"POZYCJE": TEMP})
-    context, pozycje_c, tabelarys = faktura_context_calc(context)
-    context_to_pdf(context, pozycje_c, tabelarys, "test_jednostki", FOLDER_NA_FAKTURY_TESTOWE)
-    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-test_jednostki.pdf")
-
-
-def test_overflow_db():
-    NAZWA = "a"
-    jm1 = JednostkaM(nazwa="testtesttest", dziesietna=False)
-    jm1.save()
-    jm2 = JednostkaM(nazwa="testtesttesttest", dziesietna=True)
-    jm2.save()
-    firma = Firma(nazwa=NAZWA * 50, nip="123456789123456789", ulica=NAZWA * 50, adres=NAZWA * 50)
-    firma.save()
-    faktura = Faktura(
-        nazwa_faktury=NAZWA * 90,
-        firma_sprzedawca=firma,
-        firma_klient=firma,
-        numer_faktury=NAZWA * 90,
-        data_sprzedazy="2000-01-01",
-        data_wystawienia="2000-01-01",
-        termin_platnosci="2000-01-01",
-        zaplacono=-1,
-        sposob_platnosci=NAZWA * 90,
-        termin_platnosci_dni=0,
+    podstawowa_faktura(3)
+    Pozycjafaktury.objects.create(
+        faktura = Faktura.objects.get(nazwa_faktury = "Test 3"),
+        nazwa = f"Pozycja 3.1 test",
+        jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+        ilosc = 1.10,
+        cena_Netto = 10,
+        podatek = 23,
     )
-    faktura.save()
-    for x in range(20):
-        pozycja = Pozycjafaktury(nazwa=NAZWA * 36, jednostka=jm1, ilosc=-1, cena_Netto=1.1, podatek=-1)
-        pozycja.save()
-        faktura.pozycje.add(pozycja)
-        pozycja = Pozycjafaktury(nazwa=(NAZWA + " ") * 36, jednostka=jm2, ilosc=-1, cena_Netto=2.2, podatek=-1)
-        pozycja.save()
-        faktura.pozycje.add(pozycja)
-    assert 1 == 1
+    Pozycjafaktury.objects.create(
+        faktura = Faktura.objects.get(nazwa_faktury = "Test 3"),
+        nazwa = f"Pozycja 3.2 test",
+        jednostka = JednostkaM.objects.get(nazwa = "Kg"),
+        ilosc = 1.0,
+        cena_Netto = 10,
+        podatek = 23,
+    )
+    nazwa_testu = "test_jednostki"
+    factura_gen("Test 3", nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
+
+def test_pozycja_nazwa():
+    podstawowa_faktura(4)
+    for x in range(4):
+        Pozycjafaktury.objects.create(
+            faktura = Faktura.objects.get(nazwa_faktury = "Test 4"),
+            nazwa = f"Pozycja 4.{x} test" + "a "*100*x,
+            jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+            ilosc = 1,
+            cena_Netto = 10,
+            podatek = 23,
+        )
+    nazwa_testu = "test_pozycja_nazwa"
+    factura_gen("Test 4", nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
+
+def test_pozycja_podatek():
+    podstawowa_faktura(5)
+    Pozycjafaktury.objects.create(
+        faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
+        nazwa = f"Pozycja 5.1 test",
+        jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+        ilosc = 1,
+        cena_Netto = 10,
+        podatek = 23,
+    )
+    Pozycjafaktury.objects.create(
+        faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
+        nazwa = f"Pozycja 5.1 test",
+        jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+        ilosc = 1,
+        cena_Netto = 10,
+        podatek = 8,
+    )
+    Pozycjafaktury.objects.create(
+        faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
+        nazwa = f"Pozycja 5.1 test",
+        jednostka = JednostkaM.objects.get(nazwa = "Szt"),
+        ilosc = 1,
+        cena_Netto = 10,
+        podatek = 0,
+    )
+    
+    nazwa_testu = "test_pozycja_podatek"
+    factura_gen("Test 5", nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
+
+def test_overflow():
+    Firma.objects.create(nazwa = "a"*50,nip = "123456789123456789",ulica = "a"*50,adres = "a"*50)
+    JednostkaM.objects.create(nazwa = "a"*16,dziesietna = False)
+    JednostkaM.objects.create(nazwa = "b"*16,dziesietna = True)
+    Faktura.objects.create(
+        nazwa_faktury = "Test 6 " + "a"*90,
+        firma_sprzedawca = Firma.objects.get(nip = "123456789123456789"),
+        firma_klient = Firma.objects.get(nip = "123456789123456789"),
+        numer_faktury = "Test 6 " + "a"*90,
+        data_sprzedazy = "0001-01-01",
+        data_wystawienia = "0001-01-01",
+        termin_platnosci = "0001-01-01",
+        zaplacono = -1,
+        sposob_platnosci = SposobPlat.objects.get(nazwa="Przelew na konto"),
+        termin_platnosci_dni = 0,
+        fakture_wystawil = "Test 6 " + "a"*90
+    )
+    for x in range(50):
+        Pozycjafaktury.objects.create(
+            faktura = Faktura.objects.get(nazwa_faktury = "Test 6 " + "a"*90),
+            nazwa = "a" * 36,
+            jednostka = JednostkaM.objects.get(nazwa = "a"*16),
+            ilosc = -x,
+            cena_Netto = float(f"{x}.{x}"),
+            podatek = -1,
+        )
+        Pozycjafaktury.objects.create(
+            faktura = Faktura.objects.get(nazwa_faktury = "Test 6 " + "a"*90),
+            nazwa = "a " * 36,
+            jednostka = JednostkaM.objects.get(nazwa = "b"*16),
+            ilosc = -x,
+            cena_Netto = float(f"{x}.{x}"),
+            podatek = -1,
+        )
+    
+    nazwa_testu = "test_overflow"
+    factura_gen("Test 6 " + "a"*90, nazwa_testu)
+    assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
