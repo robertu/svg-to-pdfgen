@@ -5,7 +5,7 @@ import cairosvg
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_save
 from django.template import loader
 from PyPDF2 import PdfFileMerger
 
