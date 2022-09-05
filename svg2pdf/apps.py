@@ -1,3 +1,6 @@
+# pylint: disable=too-few-public-methods
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-module-docstring
 from django.apps import AppConfig
 
 

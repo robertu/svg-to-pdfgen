@@ -1,3 +1,6 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-class-docstring
 import os
 from os.path import isdir
 
@@ -5,7 +8,7 @@ import cairosvg
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_save
 from django.template import loader
 from PyPDF2 import PdfFileMerger
 
@@ -87,7 +90,7 @@ class Pozycjafaktury(models.Model):
 # signals
 
 
-def dzies(sender, instance, *args, **kwargs):
+def dzies(sender, instance, *args, **kwargs): # czy ilosc ma zostac zmieniona przez jednostke
     if instance.ilosc != int(instance.ilosc):
         if instance.jednostka.dziesietna is False:
             instance.ilosc = int(instance.ilosc)
@@ -236,7 +239,7 @@ def faktura_context_calc(context):
 # Gen pdf file
 
 
-def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_Wygenerowanej="faktura", dirf="faktura"):
+def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_wygenerowanej="faktura", dirf="faktura"):
     class Tabela:
         def __init__(self, x, kwotavpoz, zaplacono, wys):
             # ((x.wys + 1) * 11.2 )
@@ -275,16 +278,16 @@ def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_Wygenerowanej="f
 
     # gen single page
 
-    for x in pozycje:
+    for i in pozycje:
 
         # final context update
 
         temp += 1
-        if len(x) != 0:
+        if len(i) != 0:
             context.update(
                 {
-                    "pozycje": x,
-                    "TABELA": Tabela(x, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]),
+                    "pozycje": i,
+                    "TABELA": Tabela(i, context["KVAT"], context["ZAPLACONO"], tabelarys[temp - 1]),
                     "TABELARYS": (tabelarys[temp - 1] + 6.65),
                     "STRONA": temp,
                     "STRONY": pozycje_c[1] + 1,
@@ -317,7 +320,7 @@ def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_Wygenerowanej="f
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write(f"{dirf}/fak-{nazwa_faktury_Wygenerowanej}.pdf")
+    merger.write(f"{dirf}/fak-{nazwa_faktury_wygenerowanej}.pdf")
 
-    for x in range(1, temp + 1):
-        os.remove(f"{dirf}/faktura{x}.pdf")
+    for i in range(1, temp + 1):
+        os.remove(f"{dirf}/faktura{i}.pdf")
