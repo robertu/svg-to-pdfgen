@@ -1,5 +1,10 @@
-from django.contrib import admin # import admin 
-from django.utils.html import format_html # import format_html
+# pylint: disable=too-few-public-methods
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-module-docstring
+
+from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
 
@@ -7,16 +12,16 @@ from .models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
 
 
 @admin.register(Firma)
-class FirmaAdmin(admin.ModelAdmin): #Firma display on admin page # pylint: disable=too-few-public-methods
+class FirmaAdmin(admin.ModelAdmin):
     list_display = ["nazwa", "nip", "ulica", "adres"]
 
 @admin.register(Pozycjafaktury)
-class PozycjaAdmin(admin.ModelAdmin): #Pozycja display on admin page  # pylint: disable=too-few-public-methods
+class PozycjaAdmin(admin.ModelAdmin):
     list_display = ["nazwa", "faktura", "ilosc", "jednostka", "cena_Netto", "podatek"]
 
 
 @admin.register(JednostkaM)
-class JednostkaMAdmin(admin.ModelAdmin): #Jednostka display on admin page  # pylint: disable=too-few-public-methods
+class JednostkaMAdmin(admin.ModelAdmin):
     list_display = ["nazwa", "dziesietna"]
 
 
@@ -41,16 +46,14 @@ class FakturaAdmin(admin.ModelAdmin):
         }),
     ]
 
-    def nazwa(self, obj): # zmiana wyswietlania nazwy faktury
+    def nazwa(self, obj):
         return "Faktura-" + obj.nazwa_faktury
 
-    def faktura(self, obj): # link do wygenerowania faktury
-        return format_html("<a href='/fakturag-{url}/'>Faktura</a>", url=obj.id)
-
+    def faktura(self, obj):
+        return format_html("<a href='/fakturag-{url}/'>Faktura</a>",url=obj.id)
 
 @admin.register(SposobPlat)
-
-class SposobPlatAdmin(admin.ModelAdmin): #Sposob Platnosci display on admin page  # pylint: disable=too-few-public-methods
+class SposobPlatAdmin(admin.ModelAdmin):
     list_display = [
         "nazwa",
     ]
