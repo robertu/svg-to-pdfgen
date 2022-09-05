@@ -5,8 +5,7 @@ import cairosvg
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
+from django.db.models.signals import pre_delete, pre_save
 from django.template import loader
 from PyPDF2 import PdfFileMerger
 
@@ -35,7 +34,7 @@ class Firma(models.Model):
     nazwa = models.CharField(max_length=45, primary_key=True)
     nip = models.CharField(max_length=13)
     ulica = models.CharField(max_length=45)
-    adres = models.CharField(max_length=45)
+    adres = models.TextField()
 
     def __str__(self):
         return f"firma {self.nazwa}"
@@ -49,16 +48,12 @@ class JednostkaM(models.Model):
         return f"{self.nazwa}"
 
 
-class Pozycjafaktury(models.Model):
+class SposobPlat(models.Model):
 
-    nazwa = models.TextField()
-    jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
-    ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
-    cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
-    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
+    nazwa = models.CharField(max_length=20, default="Przelew na konto")
 
     def __str__(self):
-        return f">{self.nazwa} x {self.ilosc}"
+        return f"{self.nazwa}"
 
 
 class Faktura(models.Model):
@@ -69,23 +64,57 @@ class Faktura(models.Model):
     data_sprzedazy = models.DateField()
     data_wystawienia = models.DateField()
     termin_platnosci = models.DateField()
-    pozycje = models.ManyToManyField(Pozycjafaktury)
     zaplacono = models.FloatField(default=0, validators=[validate_neg, validate_num])
-    sposob_platnosci = models.CharField(max_length=90, default="Przelew na konto")
+    sposob_platnosci = models.ForeignKey(SposobPlat, on_delete=CASCADE)
     termin_platnosci_dni = models.PositiveIntegerField(default=1)
+    fakture_wystawil = models.CharField(max_length=30)
+    if "pozycje" not in locals():
+        pozycje = []
 
     def __str__(self):
         return f"Faktura {self.numer_faktury}"
 
 
-# pre_save
+class Pozycjafaktury(models.Model):
+    faktura = models.ForeignKey(Faktura, on_delete=CASCADE)
+    nazwa = models.TextField()
+    jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
+    ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
+    cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
+    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
+
+    def __str__(self):
+        return f">{self.nazwa} x {self.ilosc}"
 
 
-@receiver(pre_save, sender=Pozycjafaktury)
+# signals
+
+
 def dzies(sender, instance, *args, **kwargs):
     if instance.ilosc != int(instance.ilosc):
         if instance.jednostka.dziesietna is False:
             instance.ilosc = int(instance.ilosc)
+
+
+def fakturaupdate(sender, instance, using, **kwargs):
+    i = 0
+    found = False
+    for x in instance.faktura.pozycje:
+        if x.id == instance.id:
+            instance.faktura.pozycje[i] = instance
+            found = True
+        i += 1
+    if not found:
+        instance.faktura.pozycje += [instance]
+
+
+def pozdel(sender, instance, using, **kwargs):
+    instance.faktura.pozycje.remove(instance)
+
+
+pre_save.connect(dzies, sender=Pozycjafaktury)
+pre_save.connect(fakturaupdate, sender=Pozycjafaktury)
+pre_delete.connect(pozdel, sender=Pozycjafaktury)
 
 
 # Functions
@@ -93,25 +122,35 @@ def dzies(sender, instance, *args, **kwargs):
 # Get context from faktura
 
 
+def name(nazwa):
+    name = []
+    i = 0
+    lenght = 0
+    for x in nazwa.split():
+        if lenght + len(x) > 40:
+            i += 1
+            lenght = 0
+        if lenght == 0:
+            name += [""]
+        name[i] += f"{x} "
+        lenght += len(x) + 1
+    return name, i
+
+
 def getcontext(faktura_ostatinia):
     context = {
         "FVATNAME": faktura_ostatinia.nazwa_faktury,
-        "NAB": faktura_ostatinia.firma_klient.nazwa,
-        "NABA": faktura_ostatinia.firma_klient.ulica,
-        "NABK": faktura_ostatinia.firma_klient.adres,
-        "NABNIP": "NIP: " + str(faktura_ostatinia.firma_klient.nip),
-        "SPR": faktura_ostatinia.firma_sprzedawca.nazwa,
-        "SPRA": faktura_ostatinia.firma_sprzedawca.ulica,
-        "SPRK": faktura_ostatinia.firma_sprzedawca.adres,
-        "SPRNIP": "NIP: " + str(faktura_ostatinia.firma_sprzedawca.nip),
+        "NAB": faktura_ostatinia.firma_klient,
+        "SPR": faktura_ostatinia.firma_sprzedawca,
         "VATNAME": faktura_ostatinia.numer_faktury,
         "DATASP": str(faktura_ostatinia.data_sprzedazy),
         "DATAWYS": str(faktura_ostatinia.data_wystawienia),
         "TERPLAT": str(faktura_ostatinia.termin_platnosci),
-        "POZYCJE": list(faktura_ostatinia.pozycje.all()),
+        "POZYCJE": faktura_ostatinia.pozycje,
         "ZAPLACONO": faktura_ostatinia.zaplacono,
         "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
         "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
+        "FAKTUREWYS": faktura_ostatinia.fakture_wystawil,
         "STRGL": True,
         "STRKON": False,
     }
@@ -124,20 +163,6 @@ def getcontext(faktura_ostatinia):
 def faktura_context_calc(context):
     class Pozycja:
         def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
-            def name(nazwa):
-                name = []
-                i = 0
-                lenght = 0
-                for x in nazwa.split():
-                    if lenght + len(x) > 40:
-                        i += 1
-                        lenght = 0
-                    if lenght == 0:
-                        name += [""]
-                    name[i] += f"{x} "
-                    lenght += len(x) + 1
-                return name, i
-
             self.nazwa, self.wys = name(nazwa)
             self.jednostka = jednostka
             self.ilosc = abs(ilosc)
