@@ -68,15 +68,12 @@ class Faktura(models.Model):
     sposob_platnosci = models.ForeignKey(SposobPlat, on_delete=CASCADE)
     termin_platnosci_dni = models.PositiveIntegerField(default=1)
     fakture_wystawil = models.CharField(max_length=30)
-    if "pozycje" not in locals():
-        pozycje = []
-
     def __str__(self):
         return f"Faktura {self.numer_faktury}"
 
 
 class Pozycjafaktury(models.Model):
-    faktura = models.ForeignKey(Faktura, on_delete=CASCADE)
+    faktura = models.ForeignKey(Faktura, on_delete=CASCADE, related_name='pozycja_rel')
     nazwa = models.TextField()
     jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
     ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
@@ -96,26 +93,7 @@ def dzies(sender, instance, *args, **kwargs):
             instance.ilosc = int(instance.ilosc)
 
 
-def fakturaupdate(sender, instance, using, **kwargs):
-    i = 0
-    found = False
-    for x in instance.faktura.pozycje:
-        if x.id == instance.id:
-            instance.faktura.pozycje[i] = instance
-            found = True
-        i += 1
-    if not found:
-        instance.faktura.pozycje += [instance]
-
-
-def pozdel(sender, instance, using, **kwargs):
-    instance.faktura.pozycje.remove(instance)
-
-
 pre_save.connect(dzies, sender=Pozycjafaktury)
-pre_save.connect(fakturaupdate, sender=Pozycjafaktury)
-pre_delete.connect(pozdel, sender=Pozycjafaktury)
-
 
 # Functions
 
@@ -146,7 +124,7 @@ def getcontext(faktura_ostatinia):
         "DATASP": str(faktura_ostatinia.data_sprzedazy),
         "DATAWYS": str(faktura_ostatinia.data_wystawienia),
         "TERPLAT": str(faktura_ostatinia.termin_platnosci),
-        "POZYCJE": faktura_ostatinia.pozycje,
+        "POZYCJE": faktura_ostatinia.pozycja_rel.all(),
         "ZAPLACONO": faktura_ostatinia.zaplacono,
         "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
         "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
