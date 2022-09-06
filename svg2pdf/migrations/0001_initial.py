@@ -4,6 +4,7 @@
 # pylint: disable=invalid-name
 # pylint: disable=missing-class-docstring
 # pylint: disable=import-error
+# pylint: disable=too-few-public-methods
 
 from django.db import migrations, models
 import django.db.models.deletion
