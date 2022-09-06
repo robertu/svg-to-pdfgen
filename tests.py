@@ -1,3 +1,8 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=no-member
+# pylint: disable=missing-function-docstring
+# pylint: disable=wrong-import-position
+# pylint: disable=broad-except
 import os
 import shutil
 
@@ -6,7 +11,9 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
-from svg2pdf.models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat, context_to_pdf, faktura_context_calc, getcontext  # noqa
+from svg2pdf.models import Faktura, Firma, JednostkaM, Pozycjafaktury, SposobPlat
+from svg2pdf.models import context_to_pdf, faktura_context_calc, getcontext  # noqa
+
 
 FOLDER_NA_FAKTURY_TESTOWE = "faktury_testowe"
 
@@ -77,12 +84,12 @@ def test_podstawowy():
 
 def test_pozycje():
     podstawowa_faktura(2)
-    for x in range(70):
+    for poz in range(70):
         Pozycjafaktury.objects.create(
             faktura = Faktura.objects.get(nazwa_faktury = "Test 2"),
-            nazwa = f"Pozycja 2.{x} test",
+            nazwa = f"Pozycja 2.{poz} test",
             jednostka = JednostkaM.objects.get(nazwa = "Szt"),
-            ilosc = x,
+            ilosc = poz,
             cena_Netto = 10,
             podatek = 23,
         )
@@ -94,7 +101,7 @@ def test_jednostki():
     podstawowa_faktura(3)
     Pozycjafaktury.objects.create(
         faktura = Faktura.objects.get(nazwa_faktury = "Test 3"),
-        nazwa = f"Pozycja 3.1 test",
+        nazwa = "Pozycja 3.1 test",
         jednostka = JednostkaM.objects.get(nazwa = "Szt"),
         ilosc = 1.10,
         cena_Netto = 10,
@@ -102,7 +109,7 @@ def test_jednostki():
     )
     Pozycjafaktury.objects.create(
         faktura = Faktura.objects.get(nazwa_faktury = "Test 3"),
-        nazwa = f"Pozycja 3.2 test",
+        nazwa = "Pozycja 3.2 test",
         jednostka = JednostkaM.objects.get(nazwa = "Kg"),
         ilosc = 1.0,
         cena_Netto = 10,
@@ -114,10 +121,10 @@ def test_jednostki():
 
 def test_pozycja_nazwa():
     podstawowa_faktura(4)
-    for x in range(4):
+    for poz in range(4):
         Pozycjafaktury.objects.create(
             faktura = Faktura.objects.get(nazwa_faktury = "Test 4"),
-            nazwa = f"Pozycja 4.{x} test" + "a "*100*x,
+            nazwa = f"Pozycja 4.{poz} test" + "a "*100*poz,
             jednostka = JednostkaM.objects.get(nazwa = "Szt"),
             ilosc = 1,
             cena_Netto = 10,
@@ -131,7 +138,7 @@ def test_pozycja_podatek():
     podstawowa_faktura(5)
     Pozycjafaktury.objects.create(
         faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
-        nazwa = f"Pozycja 5.1 test",
+        nazwa = "Pozycja 5.1 test",
         jednostka = JednostkaM.objects.get(nazwa = "Szt"),
         ilosc = 1,
         cena_Netto = 10,
@@ -139,7 +146,7 @@ def test_pozycja_podatek():
     )
     Pozycjafaktury.objects.create(
         faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
-        nazwa = f"Pozycja 5.1 test",
+        nazwa = "Pozycja 5.1 test",
         jednostka = JednostkaM.objects.get(nazwa = "Szt"),
         ilosc = 1,
         cena_Netto = 10,
@@ -147,13 +154,13 @@ def test_pozycja_podatek():
     )
     Pozycjafaktury.objects.create(
         faktura = Faktura.objects.get(nazwa_faktury = "Test 5"),
-        nazwa = f"Pozycja 5.1 test",
+        nazwa = "Pozycja 5.1 test",
         jednostka = JednostkaM.objects.get(nazwa = "Szt"),
         ilosc = 1,
         cena_Netto = 10,
         podatek = 0,
     )
-    
+
     nazwa_testu = "test_pozycja_podatek"
     factura_gen("Test 5", nazwa_testu)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")
@@ -175,24 +182,24 @@ def test_overflow():
         termin_platnosci_dni = 0,
         fakture_wystawil = "Test 6 " + "a"*90
     )
-    for x in range(50):
+    for poz in range(50):
         Pozycjafaktury.objects.create(
             faktura = Faktura.objects.get(nazwa_faktury = "Test 6 " + "a"*90),
             nazwa = "a" * 36,
             jednostka = JednostkaM.objects.get(nazwa = "a"*16),
-            ilosc = -x,
-            cena_Netto = float(f"{x}.{x}"),
+            ilosc = -poz,
+            cena_Netto = float(f"{poz}.{poz}"),
             podatek = -1,
         )
         Pozycjafaktury.objects.create(
             faktura = Faktura.objects.get(nazwa_faktury = "Test 6 " + "a"*90),
             nazwa = "a " * 36,
             jednostka = JednostkaM.objects.get(nazwa = "b"*16),
-            ilosc = -x,
-            cena_Netto = float(f"{x}.{x}"),
+            ilosc = -poz,
+            cena_Netto = float(f"{poz}.{poz}"),
             podatek = -1,
         )
-    
+
     nazwa_testu = "test_overflow"
     factura_gen("Test 6 " + "a"*90, nazwa_testu)
     assert os.path.exists(f"{FOLDER_NA_FAKTURY_TESTOWE}/fak-{nazwa_testu}.pdf")

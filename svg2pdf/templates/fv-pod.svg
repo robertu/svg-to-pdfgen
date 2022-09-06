@@ -9844,13 +9844,13 @@
      sodipodi:role="line"
      id="tspan6454-2-9-1"
      x="458.20523"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{x.cenaN|floatf}} zł</tspan>
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.cena_n|floatf}} zł</tspan>
 
   <tspan
      sodipodi:role="line"
      id="tspan6458-8-7-6"
      x="546.08075"
-     style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartoscN|floatf}} zł</tspan>
+     style="text-align:end;text-anchor:end;stroke-width:1">{{x.wartosc_n|floatf}} zł</tspan>
   <tspan dy='{{x.wys|hight}}em'> </tspan>
   <tspan dy='0.3em'> </tspan>
 {% endfor %}

@@ -1,6 +1,13 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
 # pylint: disable=missing-class-docstring
+# pylint: disable=unused-argument
+# pylint: disable=consider-using-f-string
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-few-public-methods
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-arguments
+# pylint: disable=broad-except
 import os
 from os.path import isdir
 
@@ -104,18 +111,18 @@ pre_save.connect(dzies, sender=Pozycjafaktury)
 
 
 def name(nazwa):
-    name = []
+    name_wrap = []
     i = 0
     lenght = 0
-    for x in nazwa.split():
-        if lenght + len(x) > 40:
+    for linia in nazwa.split():
+        if lenght + len(linia) > 40:
             i += 1
             lenght = 0
         if lenght == 0:
-            name += [""]
-        name[i] += f"{x} "
-        lenght += len(x) + 1
-    return name, i
+            name_wrap += [""]
+        name_wrap[i] += f"{linia} "
+        lenght += len(linia) + 1
+    return name_wrap, i
 
 
 def getcontext(faktura_ostatinia):
@@ -143,18 +150,18 @@ def getcontext(faktura_ostatinia):
 
 def faktura_context_calc(context):
     class Pozycja:
-        def __init__(self, nazwa, jednostka, cenaN, ilosc, podatek):
+        def __init__(self, nazwa, jednostka, cena_n, ilosc, podatek):
             self.nazwa, self.wys = name(nazwa)
             self.jednostka = jednostka
             self.ilosc = abs(ilosc)
-            self.cenaN = abs(cenaN)
+            self.cena_n = abs(cena_n)
             if not jednostka.dziesietna:
                 self.ilosc = int(self.ilosc)
-                self.cenaN = int(self.cenaN)
+                self.cena_n = int(self.cena_n)
             self.podatek = abs(podatek)
-            self.wartoscN = self.cenaN * self.ilosc
-            self.cenaVat = self.cenaN * (self.podatek / 100)
-            self.wartoscVat = self.wartoscN * (self.podatek / 100)
+            self.wartosc_n = self.cena_n * self.ilosc
+            self.cena_vat = self.cena_n * (self.podatek / 100)
+            self.wartosc_vat = self.wartosc_n * (self.podatek / 100)
 
     # Check for number of DAYS
 
@@ -166,36 +173,38 @@ def faktura_context_calc(context):
     # Calc pozycja and update context
     # i = [Pozycje, [Podatki, Kwota Laczna Netto, Razem, Zaplacono]]
 
-    i = [[], [{}, 0.0, 0.0, 0.0]]
-    for x in context["POZYCJE"]:
-        i[0] += [Pozycja(x.nazwa, x.jednostka, x.cena_Netto, x.ilosc, x.podatek)]
+    context_update = [[], [{}, 0.0, 0.0, 0.0]]
+    for poz in context["POZYCJE"]:
+        pozycja = Pozycja(poz.nazwa, poz.jednostka, poz.cena_Netto, poz.ilosc, poz.podatek)
+        context_update[0] += [pozycja]
 
-    for x in i[0]:
+    for poz in context_update[0]:
         try:
-            i[1][0].update({f"{x.podatek}": x.wartoscVat + i[1][0][f"{x.podatek}"]})
+            podatek = {f"{poz.podatek}": poz.wartosc_vat + context_update[1][0][f"{poz.podatek}"]}
+            context_update[1][0].update(podatek)
         except Exception:
-            i[1][0].update({f"{x.podatek}": x.wartoscVat})
-        i[1][1] += x.wartoscN
-        i[1][2] += x.wartoscVat
-    i[1][2] += i[1][1]
-    i[1][3] = i[1][2]
+            context_update[1][0].update({f"{poz.podatek}": poz.wartosc_vat})
+        context_update[1][1] += poz.wartosc_n
+        context_update[1][2] += poz.wartosc_vat
+    context_update[1][2] += context_update[1][1]
+    context_update[1][3] = context_update[1][2]
 
     if context["ZAPLACONO"] > 0:
-        i[1][3] -= context["ZAPLACONO"]
+        context_update[1][3] -= context["ZAPLACONO"]
 
     context.update(
         {
-            "POZYCJE": i[0],
-            "KLN": i[1][1],
-            "KVAT": dict(sorted(i[1][0].items())),
-            "RAZEM": i[1][2],
-            "KDZ": i[1][3],
+            "POZYCJE": context_update[0],
+            "KLN": context_update[1][1],
+            "KVAT": dict(sorted(context_update[1][0].items())),
+            "RAZEM": context_update[1][2],
+            "KDZ": context_update[1][3],
         }
     )
 
     # Calc pozycje on page
 
-    linie = 25 - len(i[1][0].items())
+    linie = 25 - len(context_update[1][0].items())
     liniegl = linie - 20
     linie2 = 36
     linie2gl = 22
@@ -208,46 +217,46 @@ def faktura_context_calc(context):
     # i = [[strona = [pozycje]], nr strony , max linie ,c linie on page , strzalka poz]
 
     tabelarys = [467.6]
-    i = [[[]], 0, linie, 0, 465.8]
-    for x in context["POZYCJE"]:
-        if i[3] + x.wys >= i[2]:
-            i[1] += 1
-            i[3] = 0
-            i[0] += [[]]
-            i[4] = 618.5
-            i[2] = linie2
+    page_update = [[[]], 0, linie, 0, 465.8]
+    for poz in context["POZYCJE"]:
+        if page_update[3] + poz.wys >= page_update[2]:
+            page_update[1] += 1
+            page_update[3] = 0
+            page_update[0] += [[]]
+            page_update[4] = 618.5
+            page_update[2] = linie2
             tabelarys += [620]
-        x.szczalka = i[4]
-        i[4] -= ((x.wys + 1) * 11.2) + 2.4
-        i[3] += x.wys + 1
-        i[0][i[1]] += [x]
+        poz.szczalka = page_update[4]
+        page_update[4] -= ((poz.wys + 1) * 11.2) + 2.4
+        page_update[3] += poz.wys + 1
+        page_update[0][page_update[1]] += [poz]
 
     # page wrap
 
-    if len(i[0]) == 1:
-        if len(i[0][0]) > liniegl:
-            i[1] += 1
-            i[0] += [[]]
+    if len(page_update[0]) == 1:
+        if len(page_update[0][0]) > liniegl:
+            page_update[1] += 1
+            page_update[0] += [[]]
     else:
-        if i[3] > linie2gl:
-            i[1] += 1
-            i[0] += [[]]
+        if page_update[3] > linie2gl:
+            page_update[1] += 1
+            page_update[0] += [[]]
 
-    return context, i, tabelarys
+    return context, page_update, tabelarys
 
 
 # Gen pdf file
 
 
-def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_wygenerowanej="faktura", dirf="faktura"):
+def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury="faktura", dirf="faktura"):
     class Tabela:
-        def __init__(self, x, kwotavpoz, zaplacono, wys):
+        def __init__(self, context, kwotavpoz, zaplacono, wys):
             # ((x.wys + 1) * 11.2 )
             self.wys = 0
             self.cwys = 0
             self.liniah = []
             self.linawys = 0
-            for i in x:
+            for i in context:
                 self.wys += i.wys + 1
                 self.cwys += i.wys
                 self.liniah += [wys + 4 - (self.wys * 13.55) + (self.cwys * 2.3)]
@@ -258,7 +267,7 @@ def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_wygenerowanej="f
             self.kln = self.wys - 15
             self.kwotav = self.kln
             self.kwotavh = []
-            for x in kwotavpoz.items():
+            for _ in kwotavpoz.items():
                 self.kwotav -= 14.38
                 self.kwotavh += [self.kwotav]
             self.kwotavh = self.kwotavh[:-1]
@@ -320,7 +329,7 @@ def context_to_pdf(context, pozycje_c, tabelarys, nazwa_faktury_wygenerowanej="f
     for pdf in pdfs:
         merger.append(pdf)
 
-    merger.write(f"{dirf}/fak-{nazwa_faktury_wygenerowanej}.pdf")
+    merger.write(f"{dirf}/fak-{nazwa_faktury}.pdf")
 
     for i in range(1, temp + 1):
         os.remove(f"{dirf}/faktura{i}.pdf")

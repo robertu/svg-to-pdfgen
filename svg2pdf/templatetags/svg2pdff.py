@@ -1,3 +1,6 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=consider-using-f-string
 from django import template
 
 register = template.Library()
@@ -24,5 +27,5 @@ def kwadrat(value):
 
 
 @register.filter
-def nazwa_lt(value, lt):
-    return value[:lt]
+def nazwa_lt(value, limit):
+    return value[:limit]
