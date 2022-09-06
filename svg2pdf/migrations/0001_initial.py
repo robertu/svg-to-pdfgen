@@ -3,6 +3,7 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=invalid-name
 # pylint: disable=missing-class-docstring
+# pylint: disable=import-error
 
 from django.db import migrations, models
 import django.db.models.deletion

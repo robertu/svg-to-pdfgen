@@ -4,6 +4,8 @@
 # pylint: disable=W0613
 # pylint: disable=C0103
 # pylint: disable=broad-except
+# pylint: disable=import-error
+
 from django.http.response import FileResponse # noqa
 from django.shortcuts import render
 

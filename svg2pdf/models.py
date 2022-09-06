@@ -8,6 +8,8 @@
 # pylint: disable=too-many-statements
 # pylint: disable=too-many-arguments
 # pylint: disable=broad-except
+# pylint: disable=import-error
+
 import os
 from os.path import isdir
 

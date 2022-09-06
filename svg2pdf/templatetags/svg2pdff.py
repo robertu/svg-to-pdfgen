@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
 # pylint: disable=consider-using-f-string
+# pylint: disable=import-error
 from django import template
 
 register = template.Library()

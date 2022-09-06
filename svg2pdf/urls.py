@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring
+# pylint: disable=import-error
+
 from django.urls import path
 
 from . import views

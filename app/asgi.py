@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 """
 ASGI config for svg2pdfgenerator project.
 
