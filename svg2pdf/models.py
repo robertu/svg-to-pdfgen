@@ -73,8 +73,14 @@ class Faktura(models.Model):
     nazwa_faktury = models.CharField(max_length=8)
     firma_sprzedawca = models.ForeignKey(Firma, related_name="sprzedawca", on_delete=CASCADE)
     firma_klient = models.ForeignKey(Firma, related_name="nabywca", on_delete=CASCADE)
-    firma_sprzedawca_save = ["","","",""]
-    firma_klient_save = ["","","",""]
+    firma_sprzedawca_save_nazwa = models.CharField(default="",max_length=45, editable=False)
+    firma_sprzedawca_save_nip = models.CharField(default="",max_length=13, editable=False)
+    firma_sprzedawca_save_ulica = models.CharField(default="",max_length=45, editable=False)
+    firma_sprzedawca_save_adres = models.TextField(default="",editable=False)
+    firma_klient_save_nazwa = models.CharField(default="",max_length=45, editable=False)
+    firma_klient_save_nip = models.CharField(default="",max_length=13, editable=False)
+    firma_klient_save_ulica = models.CharField(default="",max_length=45, editable=False)
+    firma_klient_save_adres = models.TextField(default="",editable=False)
     numer_faktury = models.CharField(max_length=15)
     data_sprzedazy = models.DateField()
     data_wystawienia = models.DateField()
@@ -109,17 +115,17 @@ def dzies(sender, instance, *args, **kwargs): # czy ilosc ma zostac zmieniona pr
 
 @receiver(pre_save, sender=Faktura, weak=False)
 def firma_name(sender, instance, *args, **kwargs):
-    if instance.firma_sprzedawca_save == ["","","",""]:
-        instance.firma_sprzedawca_save[0] = instance.firma_sprzedawca.nazwa
-        instance.firma_sprzedawca_save[1] = instance.firma_sprzedawca.nip
-        instance.firma_sprzedawca_save[2] = instance.firma_sprzedawca.ulica
-        instance.firma_sprzedawca_save[3] = instance.firma_sprzedawca.adres
+    if instance.firma_sprzedawca_save_nazwa == "":
+        instance.firma_sprzedawca_save_nazwa = instance.firma_sprzedawca.nazwa
+        instance.firma_sprzedawca_save_nip = instance.firma_sprzedawca.nip
+        instance.firma_sprzedawca_save_ulica = instance.firma_sprzedawca.ulica
+        instance.firma_sprzedawca_save_adres = instance.firma_sprzedawca.adres
 
-    if instance.firma_klient_save == ["","","",""]:
-        instance.firma_klient_save[0] = instance.firma_klient.nazwa
-        instance.firma_klient_save[1] = instance.firma_klient.nip
-        instance.firma_klient_save[2] = instance.firma_klient.ulica
-        instance.firma_klient_save[3] = instance.firma_klient.adres
+    if instance.firma_klient_save_nazwa == "":
+        instance.firma_klient_save_nazwa = instance.firma_klient.nazwa
+        instance.firma_klient_save_nip = instance.firma_klient.nip
+        instance.firma_klient_save_ulica = instance.firma_klient.ulica
+        instance.firma_klient_save_adres = instance.firma_klient.adres
 
 
 # Functions
@@ -142,21 +148,31 @@ def name(nazwa):
     return name_wrap, i
 
 
-def getcontext(faktura_ostatinia):
+def getcontext(faktura):
     print("===================")
     context = {
-        "FVATNAME": faktura_ostatinia.nazwa_faktury,
-        "NAB": faktura_ostatinia.firma_klient_save,
-        "SPR": faktura_ostatinia.firma_sprzedawca_save,
-        "VATNAME": faktura_ostatinia.numer_faktury,
-        "DATASP": str(faktura_ostatinia.data_sprzedazy),
-        "DATAWYS": str(faktura_ostatinia.data_wystawienia),
-        "TERPLAT": str(faktura_ostatinia.termin_platnosci),
-        "POZYCJE": faktura_ostatinia.pozycja_rel.all(),
-        "ZAPLACONO": faktura_ostatinia.zaplacono,
-        "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
-        "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
-        "FAKTUREWYS": faktura_ostatinia.fakture_wystawil,
+        "FVATNAME": faktura.nazwa_faktury,
+        "NAB": [
+            faktura.firma_klient_save_nazwa,
+            faktura.firma_klient_save_nip,
+            faktura.firma_klient_save_ulica,
+            faktura.firma_klient_save_adres
+        ],
+        "SPR": [
+            faktura.firma_sprzedawca_save_nazwa,
+            faktura.firma_sprzedawca_save_nip,
+            faktura.firma_sprzedawca_save_ulica,
+            faktura.firma_sprzedawca_save_adres
+        ],
+        "VATNAME": faktura.numer_faktury,
+        "DATASP": str(faktura.data_sprzedazy),
+        "DATAWYS": str(faktura.data_wystawienia),
+        "TERPLAT": str(faktura.termin_platnosci),
+        "POZYCJE": faktura.pozycja_rel.all(),
+        "ZAPLACONO": faktura.zaplacono,
+        "DAYS": str(faktura.termin_platnosci_dni),
+        "SPOSPLAT": faktura.sposob_platnosci,
+        "FAKTUREWYS": faktura.fakture_wystawil,
         "STRGL": True,
         "STRKON": False,
     }
