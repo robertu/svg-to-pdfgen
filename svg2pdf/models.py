@@ -18,6 +18,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.template import loader
 from PyPDF2 import PdfFileMerger
 
@@ -72,6 +73,14 @@ class Faktura(models.Model):
     nazwa_faktury = models.CharField(max_length=8)
     firma_sprzedawca = models.ForeignKey(Firma, related_name="sprzedawca", on_delete=CASCADE)
     firma_klient = models.ForeignKey(Firma, related_name="nabywca", on_delete=CASCADE)
+    firma_sprzedawca_save_nazwa = models.CharField(default="",max_length=45, editable=False)
+    firma_sprzedawca_save_nip = models.CharField(default="",max_length=13, editable=False)
+    firma_sprzedawca_save_ulica = models.CharField(default="",max_length=45, editable=False)
+    firma_sprzedawca_save_adres = models.TextField(default="",editable=False)
+    firma_klient_save_nazwa = models.CharField(default="",max_length=45, editable=False)
+    firma_klient_save_nip = models.CharField(default="",max_length=13, editable=False)
+    firma_klient_save_ulica = models.CharField(default="",max_length=45, editable=False)
+    firma_klient_save_adres = models.TextField(default="",editable=False)
     numer_faktury = models.CharField(max_length=15)
     data_sprzedazy = models.DateField()
     data_wystawienia = models.DateField()
@@ -90,7 +99,7 @@ class Pozycjafaktury(models.Model):
     jednostka = models.ForeignKey(JednostkaM, on_delete=CASCADE)
     ilosc = models.FloatField(default=1, validators=[validate_neg, validate_zero])
     cena_Netto = models.FloatField(validators=[validate_neg, validate_num, validate_zero])
-    podatek = models.IntegerField(default=23, validators=[validate_neg, validate_zero])
+    podatek = models.IntegerField(default=23, validators=[validate_neg])
 
     def __str__(self):
         return f">{self.nazwa} x {self.ilosc}"
@@ -98,14 +107,26 @@ class Pozycjafaktury(models.Model):
 
 # signals
 
-
+@receiver(pre_save, sender=Pozycjafaktury)
 def dzies(sender, instance, *args, **kwargs): # czy ilosc ma zostac zmieniona przez jednostke
     if instance.ilosc != int(instance.ilosc):
         if instance.jednostka.dziesietna is False:
             instance.ilosc = int(instance.ilosc)
 
+@receiver(pre_save, sender=Faktura, weak=False)
+def firma_name(sender, instance, *args, **kwargs):
+    if instance.firma_sprzedawca_save_nazwa == "":
+        instance.firma_sprzedawca_save_nazwa = instance.firma_sprzedawca.nazwa
+        instance.firma_sprzedawca_save_nip = instance.firma_sprzedawca.nip
+        instance.firma_sprzedawca_save_ulica = instance.firma_sprzedawca.ulica
+        instance.firma_sprzedawca_save_adres = instance.firma_sprzedawca.adres
 
-pre_save.connect(dzies, sender=Pozycjafaktury)
+    if instance.firma_klient_save_nazwa == "":
+        instance.firma_klient_save_nazwa = instance.firma_klient.nazwa
+        instance.firma_klient_save_nip = instance.firma_klient.nip
+        instance.firma_klient_save_ulica = instance.firma_klient.ulica
+        instance.firma_klient_save_adres = instance.firma_klient.adres
+
 
 # Functions
 
@@ -127,20 +148,31 @@ def name(nazwa):
     return name_wrap, i
 
 
-def getcontext(faktura_ostatinia):
+def getcontext(faktura):
+    print("===================")
     context = {
-        "FVATNAME": faktura_ostatinia.nazwa_faktury,
-        "NAB": faktura_ostatinia.firma_klient,
-        "SPR": faktura_ostatinia.firma_sprzedawca,
-        "VATNAME": faktura_ostatinia.numer_faktury,
-        "DATASP": str(faktura_ostatinia.data_sprzedazy),
-        "DATAWYS": str(faktura_ostatinia.data_wystawienia),
-        "TERPLAT": str(faktura_ostatinia.termin_platnosci),
-        "POZYCJE": faktura_ostatinia.pozycja_rel.all(),
-        "ZAPLACONO": faktura_ostatinia.zaplacono,
-        "DAYS": str(faktura_ostatinia.termin_platnosci_dni),
-        "SPOSPLAT": faktura_ostatinia.sposob_platnosci,
-        "FAKTUREWYS": faktura_ostatinia.fakture_wystawil,
+        "FVATNAME": faktura.nazwa_faktury,
+        "NAB": [
+            faktura.firma_klient_save_nazwa,
+            faktura.firma_klient_save_nip,
+            faktura.firma_klient_save_ulica,
+            faktura.firma_klient_save_adres
+        ],
+        "SPR": [
+            faktura.firma_sprzedawca_save_nazwa,
+            faktura.firma_sprzedawca_save_nip,
+            faktura.firma_sprzedawca_save_ulica,
+            faktura.firma_sprzedawca_save_adres
+        ],
+        "VATNAME": faktura.numer_faktury,
+        "DATASP": str(faktura.data_sprzedazy),
+        "DATAWYS": str(faktura.data_wystawienia),
+        "TERPLAT": str(faktura.termin_platnosci),
+        "POZYCJE": faktura.pozycja_rel.all(),
+        "ZAPLACONO": faktura.zaplacono,
+        "DAYS": str(faktura.termin_platnosci_dni),
+        "SPOSPLAT": faktura.sposob_platnosci,
+        "FAKTUREWYS": faktura.fakture_wystawil,
         "STRGL": True,
         "STRKON": False,
     }
